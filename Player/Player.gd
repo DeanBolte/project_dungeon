@@ -8,11 +8,17 @@ export var MIN_VELOCITY = 20
 export var SHOOT_COOLDOWN = 0.5
 export var SHOT_COUNT = 5
 
+var health = 1
+
 var shot = preload("res://Weapons/Shotgun/Shot.tscn")
 
 var velocity = Vector2.ZERO
 
 var shootCoolDown = SHOOT_COOLDOWN
+
+func _ready():
+	randomize()
+	PlayerStats.connect("no_health", self, "queue_free")
 
 func _physics_process(delta):
 	# attack
@@ -59,3 +65,8 @@ func create_shot():
 	shotInst.global_position = global_position
 	shotInst.direction = shootDirection
 	get_parent().add_child(shotInst)
+
+
+
+func _on_HurtBox_area_entered(area):
+	PlayerStats.decrement_health()
