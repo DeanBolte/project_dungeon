@@ -15,7 +15,7 @@ extents = Vector2( 15, 15 )
 extents = Vector2( 15, 15 )
 
 [sub_resource type="CircleShape2D" id=4]
-radius = 150.0
+radius = 300.0
 
 [node name="Enemy" type="KinematicBody2D"]
 collision_layer = 16
