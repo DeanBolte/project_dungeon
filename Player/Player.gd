@@ -1,6 +1,7 @@
 extends KinematicBody2D
 
 onready var animationPlayer = $AnimationPlayer
+onready var hurtBox = $HurtBox
 
 export var ACCELERATION = 20000
 export var MAX_VELOCITY = 500
@@ -8,6 +9,7 @@ export var FRICTION = 0.1
 export var MIN_VELOCITY = 20
 
 export var DODGE_VELOCITY = 1000
+export var INVINCIBILE_TIME = 0.2
 
 export var RECHARGE_TIME = 1
 export var SHOT_TIME = 0.2
@@ -54,6 +56,7 @@ func calculate_movement(delta):
 	
 	if Input.is_action_just_pressed("player_dodge"):
 		state = DODGE
+		hurtBox.start_invincibility(INVINCIBILE_TIME)
 	
 	# compute controlled player movement
 	velocity.x += hmove * ACCELERATION * delta
