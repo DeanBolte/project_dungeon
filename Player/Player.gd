@@ -5,8 +5,10 @@ export var MAX_VELOCITY = 1000
 export var FRICTION = 0.1
 export var MIN_VELOCITY = 20
 
-export var SHOOT_COOLDOWN = 0.5
+export var RECHARGE_TIME = 1
+export var SHOT_TIME = 0.2
 export var SHOT_COUNT = 5
+export var CLIP_SIZE = 2
 
 var health = 1
 
@@ -14,7 +16,8 @@ var shot = preload("res://Weapons/Shotgun/Shot.tscn")
 
 var velocity = Vector2.ZERO
 
-var shootCoolDown = SHOOT_COOLDOWN
+var shootCoolDown = SHOT_TIME
+var clip = CLIP_SIZE
 
 func _ready():
 	randomize()
@@ -50,7 +53,12 @@ func calculate_attack(delta):
 		for i in range(SHOT_COUNT):
 			create_shot()
 		
-		shootCoolDown = SHOOT_COOLDOWN
+		if clip > 1:
+			shootCoolDown = SHOT_TIME
+			clip -= 1
+		else:
+			shootCoolDown = RECHARGE_TIME
+			clip = CLIP_SIZE
 	elif shootCoolDown > 0:
 		shootCoolDown -= delta
 
