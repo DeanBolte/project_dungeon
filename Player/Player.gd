@@ -1,15 +1,25 @@
 extends KinematicBody2D
 
+onready var animationPlayer = $AnimationPlayer
+
 export var ACCELERATION = 20000
-export var MAX_VELOCITY = 1000
+export var MAX_VELOCITY = 500
 export var FRICTION = 0.1
 export var MIN_VELOCITY = 20
+
+export var DODGE_VELOCITY = 1000
 
 export var RECHARGE_TIME = 1
 export var SHOT_TIME = 0.2
 export var SHOT_COUNT = 5
 export var CLIP_SIZE = 2
 
+enum {
+	MOVE,
+	DODGE
+}
+
+var state = MOVE
 var health = 1
 
 var shot = preload("res://Weapons/Shotgun/Shot.tscn")
@@ -27,8 +37,12 @@ func _physics_process(delta):
 	# attack
 	calculate_attack(delta)
 	
-	# movement
-	calculate_movement(delta)
+	match state:
+		MOVE:
+			# movement
+			calculate_movement(delta)
+		DODGE:
+			calculate_dodge(delta)
 	
 	velocity = move_and_slide(velocity)
 
@@ -37,6 +51,9 @@ func calculate_movement(delta):
 	# get input from player
 	var hmove = Input.get_action_strength("player_right") - Input.get_action_strength("player_left")
 	var vmove = Input.get_action_strength("player_down") - Input.get_action_strength("player_up")
+	
+	if Input.is_action_just_pressed("player_dodge"):
+		state = DODGE
 	
 	# compute controlled player movement
 	velocity.x += hmove * ACCELERATION * delta
@@ -47,6 +64,10 @@ func calculate_movement(delta):
 	velocity = lerp(velocity, Vector2.ZERO, FRICTION)
 	if velocity.length() <= MIN_VELOCITY:
 		velocity = Vector2.ZERO
+
+func calculate_dodge(delta):
+	velocity = velocity.normalized() * DODGE_VELOCITY
+	animationPlayer.play("Dodge")
 
 func calculate_attack(delta):
 	if Input.get_action_strength("player_shoot") and shootCoolDown <= 0:
@@ -74,6 +95,8 @@ func create_shot():
 	shotInst.direction = shootDirection
 	get_parent().add_child(shotInst)
 
+func dodge_ended():
+	state = MOVE
 
 
 func _on_HurtBox_area_entered(area):
