@@ -2,6 +2,12 @@ extends "res://Enemy/EnemyBase.gd"
 
 export var DISTANCE_FROM_PLAYER = 200
 
+export var FIRE_RATE = 1
+
+var fire_cooldown = FIRE_RATE
+
+var shot = preload("res://Enemy/EnemyShot.tscn")
+
 func _ready():
 	# initialise
 	playerDetectionZone = $PlayerDetectionZone
@@ -41,9 +47,30 @@ func chase_player(delta):
 		var target_position = player.global_position - direction.normalized() * DISTANCE_FROM_PLAYER
 		accelerate_towards_point(target_position, MAX_VELOCITY, ACCELERATION * delta)
 		
+		# shoot player
+		calculate_attack(player, delta)
 	else:
+		# if player cannot be found revert to idle
 		state = IDLE
 
+func calculate_attack(player, delta):
+	if fire_cooldown <= 0:
+		create_shot(player)
+		fire_cooldown = FIRE_RATE
+	else:
+		fire_cooldown -= delta
+
+func create_shot(player):
+	var shootDirection = player.global_position - global_position
+	
+	shootDirection = shootDirection.normalized()
+	shootDirection.x += rand_range(-0.2,0.2)
+	shootDirection.y += rand_range(-0.2,0.2)
+	
+	var shotInst = shot.instance()
+	shotInst.global_position = global_position
+	shotInst.direction = shootDirection
+	get_parent().add_child(shotInst)
 
 func _on_HurtBox_body_entered(body):
 	queue_free()
