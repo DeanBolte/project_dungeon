@@ -1,5 +1,7 @@
 extends "res://Enemy/EnemyBase.gd"
 
+export var DISTANCE_FROM_PLAYER = 200
+
 func _ready():
 	# initialise
 	playerDetectionZone = $PlayerDetectionZone
@@ -34,7 +36,11 @@ func idle(delta):
 func chase_player(delta):
 	var player = playerDetectionZone.player
 	if player:
-		accelerate_towards_point(player.global_position, MAX_VELOCITY, ACCELERATION * delta)
+		# get close to player
+		var direction = player.global_position - global_position
+		var target_position = player.global_position - direction.normalized() * DISTANCE_FROM_PLAYER
+		accelerate_towards_point(target_position, MAX_VELOCITY, ACCELERATION * delta)
+		
 	else:
 		state = IDLE
 
