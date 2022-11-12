@@ -22,12 +22,18 @@ enum {
 	MOVE,
 	DODGE
 }
-
 var state = MOVE
+
+enum {
+	STANDARD,
+	SLUG
+}
+var shot_type = STANDARD
+
 var health = 1
 var damage_cooldown = DAMAGE_INVINC_TIME
 
-var shot = preload("res://Weapons/Shotgun/Shot.tscn")
+var StandardShot = preload("res://Weapons/Shotgun/Shot.tscn")
 
 var velocity = Vector2.ZERO
 
@@ -81,8 +87,13 @@ func calculate_dodge(delta):
 
 func calculate_attack(delta):
 	if Input.get_action_strength("player_shoot") and shootCoolDown <= 0:
-		for i in range(SHOT_COUNT):
-			create_shot()
+		match shot_type:
+			STANDARD:
+				for i in range(SHOT_COUNT):
+					create_shot(StandardShot.instance())
+			SLUG:
+				pass
+		
 		
 		if clip > 1:
 			shootCoolDown = SHOT_TIME
@@ -93,14 +104,13 @@ func calculate_attack(delta):
 	elif shootCoolDown > 0:
 		shootCoolDown -= delta
 
-func create_shot():
+func create_shot(shotInst):
 	var shootDirection = get_local_mouse_position()
 	
 	shootDirection = shootDirection.normalized()
-	shootDirection.x += rand_range(-0.2,0.2)
-	shootDirection.y += rand_range(-0.2,0.2)
+	shootDirection.x += rand_range(-shotInst.ACCURACY,shotInst.ACCURACY)
+	shootDirection.y += rand_range(-shotInst.ACCURACY,shotInst.ACCURACY)
 	
-	var shotInst = shot.instance()
 	shotInst.global_position = global_position
 	shotInst.direction = shootDirection
 	get_parent().add_child(shotInst)

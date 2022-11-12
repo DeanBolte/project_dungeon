@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+export var ACCURACY = 0.2
+
 var SPEED = rand_range(1500, 2000)
 var direction = Vector2.ZERO
 
