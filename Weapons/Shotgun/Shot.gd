@@ -2,6 +2,7 @@ extends KinematicBody2D
 
 var ACCURACY = 0.2
 var SPEED = rand_range(1500, 2000)
+var DAMAGE = 1
 
 var direction = Vector2.ZERO
 
