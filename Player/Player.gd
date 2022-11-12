@@ -11,6 +11,8 @@ export var MIN_VELOCITY = 20
 export var DODGE_VELOCITY = 1000
 export var INVINCIBILE_TIME = 0.2
 
+export var DAMAGE_INVINC_TIME = 0.3
+
 export var RECHARGE_TIME = 1
 export var SHOT_TIME = 0.2
 export var SHOT_COUNT = 5
@@ -23,6 +25,7 @@ enum {
 
 var state = MOVE
 var health = 1
+var damage_cooldown = DAMAGE_INVINC_TIME
 
 var shot = preload("res://Weapons/Shotgun/Shot.tscn")
 
@@ -36,6 +39,10 @@ func _ready():
 	PlayerStats.connect("no_health", self, "queue_free")
 
 func _physics_process(delta):
+	# decrement i frame time
+	if damage_cooldown > 0:
+		damage_cooldown -= delta
+	
 	# attack
 	calculate_attack(delta)
 	
@@ -103,4 +110,6 @@ func dodge_ended():
 
 
 func _on_HurtBox_area_entered(area):
-	PlayerStats.decrement_health()
+	if damage_cooldown <= 0:
+		PlayerStats.decrement_health()
+		damage_cooldown = DAMAGE_INVINC_TIME
