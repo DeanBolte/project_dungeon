@@ -61,7 +61,7 @@ position = Vector2( 896, 284 )
 position = Vector2( 786, 467 )
 
 [node name="BurstShotEnemy" parent="Enemies" instance=ExtResource( 7 )]
-position = Vector2( 291, 327 )
+position = Vector2( 937, 363 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

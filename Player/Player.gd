@@ -29,11 +29,13 @@ enum {
 	SLUG
 }
 var shot_type = STANDARD
+var shot_types = 2
 
 var health = 1
 var damage_cooldown = DAMAGE_INVINC_TIME
 
-var StandardShot = preload("res://Weapons/Shotgun/Shot.tscn")
+var StandardShot = preload("res://Weapons/Shotgun/Standard.tscn")
+var SlugShot = preload("res://Weapons/Shotgun/Slug.tscn")
 
 var velocity = Vector2.ZERO
 
@@ -48,6 +50,16 @@ func _physics_process(delta):
 	# decrement i frame time
 	if damage_cooldown > 0:
 		damage_cooldown -= delta
+	
+	# toggle shot type
+	if Input.is_action_just_pressed("toggle_shot"):
+		if shot_type < shot_types - 1:
+			shot_type += 1
+		else:
+			shot_type = 0
+		
+		shootCoolDown = RECHARGE_TIME
+		clip = CLIP_SIZE
 	
 	# attack
 	calculate_attack(delta)
@@ -92,7 +104,7 @@ func calculate_attack(delta):
 				for i in range(SHOT_COUNT):
 					create_shot(StandardShot.instance())
 			SLUG:
-				pass
+				create_shot(SlugShot.instance())
 		
 		
 		if clip > 1:
