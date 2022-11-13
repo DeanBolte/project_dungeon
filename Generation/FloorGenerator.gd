@@ -39,15 +39,6 @@ func create_room(x, y):
 
 		return roomInst
 
-#func generate_next(location):
-#	create_room(location.x+1, location.y)
-#	yield(get_tree(), "physics_frame")
-#	create_room(location.x-1, location.y)
-#	yield(get_tree(), "physics_frame")
-#	create_room(location.x, location.y+1)
-#	yield(get_tree(), "physics_frame")
-#	create_room(location.x, location.y-1)
-
 func generate_next(location):
 	call_deferred("create_room", location.x+1, location.y)
 	call_deferred("create_room", location.x-1, location.y)
