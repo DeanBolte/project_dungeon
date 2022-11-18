@@ -70,7 +70,8 @@ func create_shot(player):
 	shotInst.direction = shootDirection
 	get_parent().add_child(shotInst)
 	
-	recoil(shootDirection)
+	recoil(shootDirection, RECOIL)
 
 func _on_HurtBox_body_entered(body):
 	decrement_health()
+	recoil(-body.direction, 400)

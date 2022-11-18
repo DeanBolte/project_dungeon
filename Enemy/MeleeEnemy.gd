@@ -38,3 +38,4 @@ func chase_player(delta):
 
 func _on_HurtBox_body_entered(body):
 	decrement_health()
+	recoil(-body.direction, 400)

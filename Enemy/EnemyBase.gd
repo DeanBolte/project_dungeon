@@ -59,8 +59,8 @@ func pick_rand_state(state_list):
 	state_list.shuffle()
 	return state_list.pop_front()
 
-func recoil(dir):
-	velocity -= dir.normalized() * RECOIL
+func recoil(dir, value):
+	velocity -= dir.normalized() * value
 
 func set_health(value):
 	health = clamp(value, 0, MAX_HEALTH)
