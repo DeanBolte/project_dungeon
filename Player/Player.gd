@@ -98,21 +98,27 @@ func calculate_dodge(delta):
 	animationPlayer.play("Dodge")
 
 func calculate_attack(delta):
-	if Input.get_action_strength("player_shoot") and shootCoolDown <= 0:
-		match shot_type:
-			STANDARD:
-				for i in range(SHOT_COUNT):
-					create_shot(StandardShot.instance())
-			SLUG:
-				create_shot(SlugShot.instance())
-		
-		
-		if clip > 1:
-			shootCoolDown = SHOT_TIME
-			clip -= 1
-		else:
-			shootCoolDown = RECHARGE_TIME
-			clip = CLIP_SIZE
+	if shootCoolDown <= 0:
+		PlayerStats.set_clip(clip)
+		if Input.get_action_strength("player_shoot"):
+			
+			match shot_type:
+				STANDARD:
+					for i in range(SHOT_COUNT):
+						create_shot(StandardShot.instance())
+				SLUG:
+					create_shot(SlugShot.instance())
+			
+			
+			if clip > 1:
+				shootCoolDown = SHOT_TIME
+				clip -= 1
+			else:
+				shootCoolDown = RECHARGE_TIME
+				clip = CLIP_SIZE
+			
+			# decrement UI ammo count
+			PlayerStats.decrement_clip()
 	elif shootCoolDown > 0:
 		shootCoolDown -= delta
 
