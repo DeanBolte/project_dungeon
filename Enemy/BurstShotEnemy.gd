@@ -80,5 +80,5 @@ func create_shot(player):
 	recoil(shootDirection, RECOIL)
 
 func _on_HurtBox_body_entered(body):
-	decrement_health()
+	decrement_health(body.damage)
 	recoil(-body.direction, 400)
