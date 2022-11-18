@@ -4,5 +4,5 @@
 
 [node name="PlayerStats" type="Node"]
 script = ExtResource( 1 )
-max_health = 4
+max_health = 8
 max_clip = 2

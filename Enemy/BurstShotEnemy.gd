@@ -19,10 +19,16 @@ func _ready():
 	ACCELERATION = 600
 	MAX_VELOCITY = 400
 	FRICTION = 200
+	MAX_HEALTH = 4
+	set_health(MAX_HEALTH)
 	
 	state = pick_rand_state([IDLE, WANDER])
 
 func _physics_process(delta):
+	# check health
+	if health <= 0:
+		queue_free()
+	
 	match state:
 		IDLE:
 			idle(delta)
@@ -32,15 +38,6 @@ func _physics_process(delta):
 			chase_player(delta)
 	
 	velocity = move_and_slide(velocity)
-
-func idle(delta):
-	# check zone for player
-	seek_player(playerDetectionZone)
-	
-	velocity = velocity.move_toward(Vector2.ZERO, FRICTION * delta)
-	
-	if(wandererController.get_time_left() == 0):
-		update_wander()
 
 func chase_player(delta):
 	var player = playerDetectionZone.player
@@ -81,4 +78,4 @@ func create_shot(player):
 	get_parent().add_child(shotInst)
 
 func _on_HurtBox_body_entered(body):
-	queue_free()
+	decrement_health()

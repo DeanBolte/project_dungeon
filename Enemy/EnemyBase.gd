@@ -3,6 +3,8 @@ extends KinematicBody2D
 var ACCELERATION = 500
 var MAX_VELOCITY = 300
 var FRICTION = 200
+var MAX_HEALTH = 1
+var INVINCIBLE_TIME = 0.05
 
 var playerDetectionZone
 var wandererController
@@ -15,6 +17,12 @@ enum {
 
 var velocity = Vector2.ZERO
 var state = IDLE
+var health = MAX_HEALTH
+var invincible = 0
+
+func _process(delta):
+	if invincible > 0:
+		invincible -= delta
 
 func seek_player(playerDetectionZone):
 	if playerDetectionZone.can_see_player():
@@ -49,3 +57,11 @@ func accelerate_towards_point(point, speed, acceleration):
 func pick_rand_state(state_list):
 	state_list.shuffle()
 	return state_list.pop_front()
+
+func set_health(value):
+	health = clamp(value, 0, MAX_HEALTH)
+
+func decrement_health(value = 1):
+	if invincible <= 0:
+		set_health(health - value)
+		invincible = INVINCIBLE_TIME
