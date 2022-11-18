@@ -5,6 +5,7 @@ var MAX_VELOCITY = 300
 var FRICTION = 200
 var MAX_HEALTH = 1
 var INVINCIBLE_TIME = 0.05
+var RECOIL = 40
 
 var playerDetectionZone
 var wandererController
@@ -57,6 +58,9 @@ func accelerate_towards_point(point, speed, acceleration):
 func pick_rand_state(state_list):
 	state_list.shuffle()
 	return state_list.pop_front()
+
+func recoil(dir):
+	velocity -= dir.normalized() * RECOIL
 
 func set_health(value):
 	health = clamp(value, 0, MAX_HEALTH)

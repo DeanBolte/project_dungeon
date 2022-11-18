@@ -18,6 +18,7 @@ func _ready():
 	FRICTION = 200
 	MAX_HEALTH = 2
 	set_health(MAX_HEALTH)
+	RECOIL = 200
 	
 	state = pick_rand_state([IDLE, WANDER])
 
@@ -68,6 +69,8 @@ func create_shot(player):
 	shotInst.global_position = global_position
 	shotInst.direction = shootDirection
 	get_parent().add_child(shotInst)
+	
+	recoil(shootDirection)
 
 func _on_HurtBox_body_entered(body):
 	decrement_health()
