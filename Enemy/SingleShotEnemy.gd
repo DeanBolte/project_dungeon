@@ -2,7 +2,7 @@ extends "res://Enemy/EnemyBase.gd"
 
 export var DISTANCE_FROM_PLAYER = 200
 
-export var FIRE_RATE = 1
+export var FIRE_RATE = 0.8
 
 var fire_cooldown = FIRE_RATE
 
