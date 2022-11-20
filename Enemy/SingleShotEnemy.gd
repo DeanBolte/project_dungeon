@@ -1,6 +1,7 @@
 extends "res://Enemy/EnemyBase.gd"
 
-export var DISTANCE_FROM_PLAYER = 200
+export var MOVE_TO_PLAYER = 210
+export var MOVE_AWAY_PLAYER = 190
 
 export var FIRE_RATE = 0.8
 
@@ -43,10 +44,12 @@ func chase_player(delta):
 		# get close to player
 		if not Agent.is_target_reached():
 			var direction = global_position.direction_to(Agent.get_next_location())
-			if global_position.distance_to(player.global_position) > DISTANCE_FROM_PLAYER:
+			if global_position.distance_to(player.global_position) > MOVE_TO_PLAYER:
 				velocity = velocity.move_toward(direction * MAX_VELOCITY, ACCELERATION)
-			else:
+			elif global_position.distance_to(player.global_position) < MOVE_AWAY_PLAYER:
 				velocity = velocity.move_toward(-direction * MAX_VELOCITY, ACCELERATION)
+			else:
+				velocity = Vector2.ZERO
 		
 		# shoot player
 		calculate_attack(player, delta)
