@@ -13,8 +13,8 @@ func _ready():
 	playerDetectionZone = $PlayerDetectionZone
 	wandererController = $WandererController
 	
-	ACCELERATION = 500
-	MAX_VELOCITY = 300
+	ACCELERATION = 400
+	MAX_VELOCITY = 200
 	FRICTION = 200
 	MAX_HEALTH = 2
 	set_health(MAX_HEALTH)

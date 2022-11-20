@@ -17,7 +17,7 @@ func _ready():
 	wandererController = $WandererController
 	
 	ACCELERATION = 600
-	MAX_VELOCITY = 400
+	MAX_VELOCITY = 250
 	FRICTION = 200
 	MAX_HEALTH = 4
 	set_health(MAX_HEALTH)
@@ -82,7 +82,6 @@ func create_shot(player):
 func _on_HurtBox_body_entered(body):
 	decrement_health(body.damage)
 	recoil(-body.direction, 400)
-
 
 func _on_PlayerDetectionCycle_timeout():
 	if playerDetectionZone.can_see_player():
