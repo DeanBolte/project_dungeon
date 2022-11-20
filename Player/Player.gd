@@ -3,12 +3,12 @@ extends KinematicBody2D
 onready var animationPlayer = $AnimationPlayer
 onready var hurtBox = $HurtBox
 
-export var ACCELERATION = 20000
-export var MAX_VELOCITY = 500
+export var ACCELERATION = 10000
+export var MAX_VELOCITY = 400
 export var FRICTION = 0.1
 export var MIN_VELOCITY = 20
 
-export var DODGE_VELOCITY = 1000
+export var DODGE_VELOCITY = 800
 export var INVINCIBILE_TIME = 0.2
 
 export var DAMAGE_INVINC_TIME = 0.3
