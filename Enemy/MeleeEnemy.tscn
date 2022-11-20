@@ -59,6 +59,8 @@ script = ExtResource( 4 )
 one_shot = true
 autostart = true
 
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+
 [connection signal="body_entered" from="HurtBox" to="." method="_on_HurtBox_body_entered"]
 [connection signal="body_entered" from="PlayerDetectionZone" to="PlayerDetectionZone" method="_on_PlayerDetectionZone_body_entered"]
 [connection signal="body_exited" from="PlayerDetectionZone" to="PlayerDetectionZone" method="_on_PlayerDetectionZone_body_exited"]

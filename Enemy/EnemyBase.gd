@@ -1,5 +1,9 @@
 extends KinematicBody2D
 
+onready var Agent: NavigationAgent2D = $NavigationAgent2D
+
+var THRESHOLD = 16
+
 var ACCELERATION = 500
 var MAX_VELOCITY = 300
 var FRICTION = 200
@@ -7,6 +11,7 @@ var MAX_HEALTH = 1
 var INVINCIBLE_TIME = 0.05
 var RECOIL = 40
 
+var Nav
 var playerDetectionZone
 var wandererController
 
@@ -22,12 +27,15 @@ var health = MAX_HEALTH
 var invincible = 0
 
 func _process(delta):
+	# decay invincibility
 	if invincible > 0:
 		invincible -= delta
 
 func seek_player(playerDetectionZone):
 	if playerDetectionZone.can_see_player():
 		state = CHASE
+		
+		Agent.set_target_location(playerDetectionZone.player.global_position)
 
 func idle(delta):
 	# check zone for player
@@ -69,3 +77,8 @@ func decrement_health(value = 1):
 	if invincible <= 0:
 		set_health(health - value)
 		invincible = INVINCIBLE_TIME
+
+func initialise_nav(nav):
+	Nav = nav
+	Agent.set_navigation(Nav)
+

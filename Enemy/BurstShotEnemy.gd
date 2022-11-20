@@ -43,9 +43,8 @@ func chase_player(delta):
 	var player = playerDetectionZone.player
 	if player:
 		# get close to player
-		var direction = player.global_position - global_position
-		var target_position = player.global_position - direction.normalized() * DISTANCE_FROM_PLAYER
-		accelerate_towards_point(target_position, MAX_VELOCITY, ACCELERATION * delta)
+		var direction = global_position.direction_to(Agent.get_next_location())
+		velocity = velocity.move_toward(direction * MAX_VELOCITY, ACCELERATION)
 		
 		# shoot player
 		calculate_attack(player, delta)
@@ -82,3 +81,8 @@ func create_shot(player):
 func _on_HurtBox_body_entered(body):
 	decrement_health(body.damage)
 	recoil(-body.direction, 400)
+
+
+func _on_PlayerDetectionCycle_timeout():
+	if playerDetectionZone.can_see_player():
+		Agent.set_target_location(playerDetectionZone.player.global_position)
