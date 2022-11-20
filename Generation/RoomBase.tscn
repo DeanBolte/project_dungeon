@@ -53,9 +53,9 @@ polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
 extents = Vector2( 304, 304 )
 
 [sub_resource type="NavigationPolygon" id=6]
-vertices = PoolVector2Array( 555, 277, 645, 277, 644, 367, 556, 366, 275, 557, 85, 555, 88, 372, 90, 280, 95, 93, 269, 91, 368, 90, 558, 93, -10, 370, -10, 281, 553, 559, 370, 559, 362, 643, 280, 646, 274, -4, 367, -2 )
-polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 3, 4, 5, 6, 7, 8, 9, 10, 0 ), PoolIntArray( 10, 11, 0 ), PoolIntArray( 12, 13, 7, 6 ), PoolIntArray( 3, 14, 15, 4 ), PoolIntArray( 16, 17, 4, 15 ), PoolIntArray( 9, 18, 19, 10 ) ]
-outlines = [ PoolVector2Array( 274, -4, 367, -2, 368, 90, 558, 93, 555, 277, 645, 277, 644, 367, 556, 366, 553, 559, 370, 559, 362, 643, 280, 646, 275, 557, 85, 555, 88, 372, -10, 370, -10, 281, 90, 280, 95, 93, 269, 91 ) ]
+vertices = PoolVector2Array( 365, 640, 273, 640, 275, 557, 370, 559, 641, 277, 641, 367, 556, 366, 555, 277, 85, 555, 88, 372, 90, 280, 95, 93, 269, 91, 368, 90, 558, 93, 270, 0, 366, 0, 0, 370, 0, 281, 553, 559 )
+polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 5, 6, 7 ), PoolIntArray( 6, 2, 8, 9, 10, 11, 12, 13, 7 ), PoolIntArray( 13, 14, 7 ), PoolIntArray( 12, 15, 16, 13 ), PoolIntArray( 17, 18, 10, 9 ), PoolIntArray( 6, 19, 3, 2 ) ]
+outlines = [ PoolVector2Array( 270, 0, 366, 0, 368, 90, 558, 93, 555, 277, 641, 277, 641, 367, 556, 366, 553, 559, 370, 559, 365, 640, 273, 640, 275, 557, 85, 555, 88, 372, 0, 370, 0, 281, 90, 280, 95, 93, 269, 91 ) ]
 
 [node name="RoomBase" type="Node2D"]
 script = ExtResource( 3 )
