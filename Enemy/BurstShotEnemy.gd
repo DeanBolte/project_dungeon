@@ -45,7 +45,10 @@ func chase_player(delta):
 		# get close to player
 		if not Agent.is_target_reached():
 			var direction = global_position.direction_to(Agent.get_next_location())
-			velocity = velocity.move_toward(direction * MAX_VELOCITY, ACCELERATION)
+			if global_position.distance_to(player.global_position) > DISTANCE_FROM_PLAYER:
+				velocity = velocity.move_toward(direction * MAX_VELOCITY, ACCELERATION)
+			else:
+				velocity = velocity.move_toward(-direction * MAX_VELOCITY, ACCELERATION)
 		
 		# shoot player
 		calculate_attack(player, delta)
