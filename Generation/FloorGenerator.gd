@@ -1,8 +1,7 @@
 extends Node2D
 
-
-
 export var ROOM_DISTANCE = 640
+export var ROOM_LOAD_DISTANCE = 2400
 
 onready var RoomsActive = $RoomsActive
 onready var EnemiesActive = $EnemiesActive
@@ -31,6 +30,15 @@ func _ready():
 	var startingRoom = create_room(0, 0)
 	Player = spawn_player(320, 320)
 
+func _process(delta):
+	for room in roomMap.keys():
+		if is_a_parent_of(roomMap[room]):
+			if Player.global_position.distance_to(room * ROOM_DISTANCE) > ROOM_LOAD_DISTANCE:
+				RoomsActive.remove_child(roomMap[room])
+		else:
+			if Player.global_position.distance_to(room * ROOM_DISTANCE) <= ROOM_LOAD_DISTANCE:
+				RoomsActive.add_child(roomMap[room])
+
 # instantiate packed player scene and add to heirarchy
 func spawn_player(x, y):
 	var playerInst = PlayerScene.instance()
@@ -42,8 +50,7 @@ func spawn_player(x, y):
 
 # creates a 
 func create_room(x, y):
-	var keyString = "({x}, {y})"
-	var key = keyString.format({"x": x, "y": y})
+	var key = Vector2(x, y)
 	if(not roomMap.has(key)):
 		# instantiate packed room scene
 		var roomInst = BaseRoomScene.instance()
@@ -51,7 +58,7 @@ func create_room(x, y):
 		
 		# set room location
 		roomInst.global_position = Vector2(x*ROOM_DISTANCE, y*ROOM_DISTANCE)
-		roomInst.MAP_LOCATION = Vector2(x, y)
+		roomInst.MAP_LOCATION = key
 		
 		# populate room
 		populate_enemies(roomInst)
