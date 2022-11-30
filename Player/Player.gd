@@ -61,6 +61,10 @@ func _physics_process(delta):
 		shootCoolDown = RECHARGE_TIME
 		clip = CLIP_SIZE
 	
+	if Input.is_action_just_pressed("player_reload") && clip < CLIP_SIZE:
+		shootCoolDown = RECHARGE_TIME
+		clip = CLIP_SIZE
+	
 	# attack
 	calculate_attack(delta)
 	
