@@ -1,5 +1,7 @@
 extends "res://Enemy/Common/EnemyModel.gd"
 
+# --- States ---
+# CHASE
 func chase_player(_delta):
 	var player = playerDetectionZone.player
 	if player:

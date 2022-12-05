@@ -1,5 +1,6 @@
 extends "res://Enemy/Common/MeleeEnemyModel.gd"
 
+# set enemy specific values
 func _ready():
 	# initialise
 	playerDetectionZone = $PlayerDetectionZone

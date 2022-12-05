@@ -9,6 +9,8 @@ var clip_size = CLIP_SIZE
 
 var shot = preload("res://Enemy/Common/Shots/EnemyShot.tscn")
 
+# --- States ---
+# CHASE
 func chase_player(delta):
 	var player = playerDetectionZone.player
 	if player:
@@ -28,6 +30,7 @@ func chase_player(delta):
 		# if player cannot be found revert to idle
 		state = IDLE
 
+# Utility Functions
 func calculate_attack(player, delta):
 	if fire_cooldown <= 0:
 		if clip_size > 0:
