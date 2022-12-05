@@ -9,4 +9,5 @@
 
 [node name="DungeonBacking" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 2 )
+volume_db = -5.0
 autoplay = true
