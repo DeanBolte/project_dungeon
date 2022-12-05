@@ -2,8 +2,8 @@ extends KinematicBody2D
 
 onready var Agent: NavigationAgent2D = $NavigationAgent2D
 
-var THRESHOLD = 16
-
+# enemy stats (modified in ready functions for each individual)
+# static otherwise but not enforced
 var ACCELERATION = 500
 var MAX_VELOCITY = 300
 var FRICTION = 200
@@ -11,32 +11,32 @@ var MAX_HEALTH = 1
 var INVINCIBLE_TIME = 0.05
 var RECOIL = 40
 
+# important nodes
 var Nav
 var playerDetectionZone
 var wandererController
 
+# enum for all possible enemy states
 enum {
 	IDLE,
 	WANDER,
 	CHASE
 }
-
-var velocity = Vector2.ZERO
 var state = IDLE
-var health = MAX_HEALTH
-var invincible = 0
 
-func _process(delta):
+# member data
+var velocity = Vector2.ZERO
+var health = MAX_HEALTH
+var invincible = 0 # seconds of invunrability
+
+# run every physics frame (try to avoid using this)
+func _physics_process(delta):
 	# decay invincibility
 	if invincible > 0:
 		invincible -= delta
 
-func seek_player(playerDetectionZone):
-	if playerDetectionZone.can_see_player():
-		state = CHASE
-		
-		Agent.set_target_location(playerDetectionZone.player.global_position)
-
+# --- States ---
+# IDLE
 func idle(delta):
 	# check zone for player
 	seek_player(playerDetectionZone)
@@ -46,6 +46,14 @@ func idle(delta):
 	if(wandererController.get_time_left() == 0):
 		update_wander()
 
+# a generic player seeking function
+func seek_player(playerDetectionZone):
+	if playerDetectionZone.can_see_player():
+		state = CHASE
+		
+		Agent.set_target_location(playerDetectionZone.player.global_position)
+
+# WANDER
 func wander(delta):
 	# check zone for player
 	seek_player(playerDetectionZone)
@@ -59,6 +67,8 @@ func update_wander():
 	state = pick_rand_state([IDLE, WANDER])
 	wandererController.start_wander_timer(rand_range(0, 1))
 
+
+# --- Utiliy Functions ---
 func accelerate_towards_point(point, speed, acceleration):
 	var direction = global_position.direction_to(point)
 	velocity = velocity.move_toward(direction * speed, acceleration)
