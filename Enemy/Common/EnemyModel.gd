@@ -36,6 +36,20 @@ func _physics_process(delta):
 	# decay invincibility
 	if invincible > 0:
 		invincible -= delta
+	
+	# check health
+	if health <= 0:
+		queue_free()
+	
+	match state:
+		IDLE:
+			idle(delta)
+		WANDER:
+			wander(delta)
+		CHASE:
+			chase_player(delta)
+	
+	velocity = move_and_slide(velocity)
 
 # --- States ---
 # IDLE
@@ -69,6 +83,15 @@ func update_wander():
 	state = pick_rand_state([IDLE, WANDER])
 	wandererController.start_wander_timer(rand_range(0, 1))
 
+# CHASE
+func chase_player(delta):
+	var player = playerDetectionZone.player
+	if player:
+		# get close to player
+		var direction = global_position.direction_to(Agent.get_next_location())
+		velocity = velocity.move_toward(direction * MAX_VELOCITY, ACCELERATION)
+	else:
+		state = IDLE
 
 # --- Utiliy Functions ---
 func accelerate_towards_point(point, speed, acceleration):
