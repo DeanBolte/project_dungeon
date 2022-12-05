@@ -1,4 +1,4 @@
-extends "res://Enemy/Common/EnemyBase.gd"
+extends "res://Enemy/Common/EnemyModel.gd"
 
 export var MOVE_TO_PLAYER = 210
 export var MOVE_AWAY_PLAYER = 190
