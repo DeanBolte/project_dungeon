@@ -6,7 +6,7 @@ export (Vector2) var MAP_LOCATION
 
 var visited = false
 
-func _on_RoomArea_body_entered(body):
+func _on_RoomArea_body_entered(_body):
 	if not visited:
 		emit_signal("first_entered", MAP_LOCATION)
 		visited = true

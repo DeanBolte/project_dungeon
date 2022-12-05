@@ -1,6 +1,6 @@
 extends "res://Enemy/Common/EnemyModel.gd"
 
-func chase_player(delta):
+func chase_player(_delta):
 	var player = playerDetectionZone.player
 	if player:
 		# get close to player

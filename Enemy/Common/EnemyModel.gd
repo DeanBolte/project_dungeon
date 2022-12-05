@@ -53,9 +53,9 @@ func _physics_process(delta):
 
 # --- States ---
 # IDLE
-func idle(delta):
+func idle(_delta):
 	# check zone for player
-	seek_player(playerDetectionZone)
+	seek_player()
 	
 	velocity = Vector2.ZERO
 	
@@ -63,7 +63,7 @@ func idle(delta):
 		update_wander()
 
 # a generic player seeking function
-func seek_player(playerDetectionZone):
+func seek_player():
 	if playerDetectionZone.can_see_player():
 		state = CHASE
 		
@@ -72,7 +72,7 @@ func seek_player(playerDetectionZone):
 # WANDER
 func wander(delta):
 	# check zone for player
-	seek_player(playerDetectionZone)
+	seek_player()
 	
 	if(wandererController.get_time_left() == 0):
 		update_wander()
@@ -84,7 +84,7 @@ func update_wander():
 	wandererController.start_wander_timer(rand_range(0, 1))
 
 # CHASE
-func chase_player(delta):
+func chase_player(_delta):
 	var player = playerDetectionZone.player
 	if player:
 		# get close to player

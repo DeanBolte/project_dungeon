@@ -44,7 +44,7 @@ var clip = CLIP_SIZE
 
 func _ready():
 	randomize()
-	PlayerStats.connect("no_health", self, "queue_free")
+	var _playerStatsError = PlayerStats.connect("no_health", self, "queue_free")
 
 func _physics_process(delta):
 	# decrement i frame time
@@ -90,14 +90,14 @@ func calculate_movement(delta):
 	# compute controlled player movement
 	velocity.x += hmove * ACCELERATION * delta
 	velocity.y += vmove * ACCELERATION * delta
-	velocity = velocity.clamped(MAX_VELOCITY)
+	velocity = velocity.limit_length(MAX_VELOCITY)
 	
 	# friction
 	velocity = lerp(velocity, Vector2.ZERO, FRICTION)
 	if velocity.length() <= MIN_VELOCITY:
 		velocity = Vector2.ZERO
 
-func calculate_dodge(delta):
+func calculate_dodge(_delta):
 	velocity = velocity.normalized() * DODGE_VELOCITY
 	animationPlayer.play("Dodge")
 
@@ -108,7 +108,7 @@ func calculate_attack(delta):
 			
 			match shot_type:
 				STANDARD:
-					for i in range(SHOT_COUNT):
+					for _i in range(SHOT_COUNT):
 						create_shot(StandardShot.instance())
 				SLUG:
 					create_shot(SlugShot.instance())
@@ -141,7 +141,7 @@ func dodge_ended():
 	state = MOVE
 
 
-func _on_HurtBox_area_entered(area):
+func _on_HurtBox_area_entered(_area):
 	if damage_cooldown <= 0:
 		PlayerStats.decrement_health()
 		damage_cooldown = DAMAGE_INVINC_TIME

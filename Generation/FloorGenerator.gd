@@ -27,10 +27,10 @@ var Player
 # initialise first room and player
 func _ready():
 	randomize()
-	var startingRoom = create_room(0, 0)
+	create_room(0, 0)
 	Player = spawn_player(320, 320)
 
-func _process(delta):
+func _process(_delta):
 	for room in roomMap.keys():
 		if is_a_parent_of(roomMap[room]):
 			if Player.global_position.distance_to(room * ROOM_DISTANCE) > ROOM_LOAD_DISTANCE:
@@ -79,7 +79,7 @@ func create_room(x, y):
 func populate_enemies(roomInst):
 	var no_enemies = randi() % 3
 	
-	for e in range(no_enemies):
+	for _e in range(no_enemies):
 		var enemy = get_random_enemy()
 		EnemiesActive.add_child(enemy)
 		enemy.initialise_nav(NavMesh)

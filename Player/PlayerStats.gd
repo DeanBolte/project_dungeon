@@ -10,7 +10,6 @@ signal no_health
 signal health_changed(value)
 signal max_health_changed(value)
 
-signal no_clip
 signal clip_changed(value)
 signal max_clip_changed(value)
 
