@@ -3,12 +3,12 @@ extends KinematicBody2D
 onready var animationPlayer = $AnimationPlayer
 onready var hurtBox = $HurtBox
 
-export var ACCELERATION = 20000
-export var MAX_VELOCITY = 500
+export var ACCELERATION = 10000
+export var MAX_VELOCITY = 400
 export var FRICTION = 0.1
 export var MIN_VELOCITY = 20
 
-export var DODGE_VELOCITY = 1000
+export var DODGE_VELOCITY = 800
 export var INVINCIBILE_TIME = 0.2
 
 export var DAMAGE_INVINC_TIME = 0.3
@@ -44,7 +44,7 @@ var clip = CLIP_SIZE
 
 func _ready():
 	randomize()
-	PlayerStats.connect("no_health", self, "queue_free")
+	var _playerStatsError = PlayerStats.connect("no_health", self, "queue_free")
 
 func _physics_process(delta):
 	# decrement i frame time
@@ -58,6 +58,10 @@ func _physics_process(delta):
 		else:
 			shot_type = 0
 		
+		shootCoolDown = RECHARGE_TIME
+		clip = CLIP_SIZE
+	
+	if Input.is_action_just_pressed("player_reload") && clip < CLIP_SIZE:
 		shootCoolDown = RECHARGE_TIME
 		clip = CLIP_SIZE
 	
@@ -86,33 +90,39 @@ func calculate_movement(delta):
 	# compute controlled player movement
 	velocity.x += hmove * ACCELERATION * delta
 	velocity.y += vmove * ACCELERATION * delta
-	velocity = velocity.clamped(MAX_VELOCITY)
+	velocity = velocity.limit_length(MAX_VELOCITY)
 	
 	# friction
 	velocity = lerp(velocity, Vector2.ZERO, FRICTION)
 	if velocity.length() <= MIN_VELOCITY:
 		velocity = Vector2.ZERO
 
-func calculate_dodge(delta):
+func calculate_dodge(_delta):
 	velocity = velocity.normalized() * DODGE_VELOCITY
 	animationPlayer.play("Dodge")
 
 func calculate_attack(delta):
-	if Input.get_action_strength("player_shoot") and shootCoolDown <= 0:
-		match shot_type:
-			STANDARD:
-				for i in range(SHOT_COUNT):
-					create_shot(StandardShot.instance())
-			SLUG:
-				create_shot(SlugShot.instance())
-		
-		
-		if clip > 1:
-			shootCoolDown = SHOT_TIME
-			clip -= 1
-		else:
-			shootCoolDown = RECHARGE_TIME
-			clip = CLIP_SIZE
+	if shootCoolDown <= 0:
+		PlayerStats.set_clip(clip)
+		if Input.get_action_strength("player_shoot"):
+			
+			match shot_type:
+				STANDARD:
+					for _i in range(SHOT_COUNT):
+						create_shot(StandardShot.instance())
+				SLUG:
+					create_shot(SlugShot.instance())
+			
+			
+			if clip > 1:
+				shootCoolDown = SHOT_TIME
+				clip -= 1
+			else:
+				shootCoolDown = RECHARGE_TIME
+				clip = CLIP_SIZE
+			
+			# decrement UI ammo count
+			PlayerStats.decrement_clip()
 	elif shootCoolDown > 0:
 		shootCoolDown -= delta
 
@@ -131,7 +141,7 @@ func dodge_ended():
 	state = MOVE
 
 
-func _on_HurtBox_area_entered(area):
+func _on_HurtBox_area_entered(_area):
 	if damage_cooldown <= 0:
 		PlayerStats.decrement_health()
 		damage_cooldown = DAMAGE_INVINC_TIME

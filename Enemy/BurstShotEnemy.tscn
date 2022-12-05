@@ -1,8 +1,8 @@
 [gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://Assets/basic_sprites/purple-enemy.png" type="Texture" id=1]
-[ext_resource path="res://Enemy/WandererController.gd" type="Script" id=2]
-[ext_resource path="res://Enemy/PlayerDetectionZone.gd" type="Script" id=3]
+[ext_resource path="res://Basic Sprites/purple-enemy.png" type="Texture" id=1]
+[ext_resource path="res://Enemy/Common/WandererController.gd" type="Script" id=2]
+[ext_resource path="res://Enemy/Common/PlayerDetectionZone.gd" type="Script" id=3]
 [ext_resource path="res://Enemy/BurstShotEnemy.gd" type="Script" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
@@ -19,6 +19,7 @@ radius = 500.0
 
 [node name="BurstShotEnemy" type="KinematicBody2D"]
 collision_layer = 16
+collision_mask = 17
 script = ExtResource( 4 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -58,7 +59,16 @@ script = ExtResource( 2 )
 one_shot = true
 autostart = true
 
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_desired_distance = 16.0
+target_desired_distance = 16.0
+
+[node name="PlayerDetectionCycle" type="Timer" parent="."]
+wait_time = 0.1
+autostart = true
+
 [connection signal="body_entered" from="HurtBox" to="." method="_on_HurtBox_body_entered"]
 [connection signal="body_entered" from="PlayerDetectionZone" to="PlayerDetectionZone" method="_on_PlayerDetectionZone_body_entered"]
 [connection signal="body_exited" from="PlayerDetectionZone" to="PlayerDetectionZone" method="_on_PlayerDetectionZone_body_exited"]
 [connection signal="timeout" from="WandererController/Timer" to="WandererController" method="_on_Timer_timeout"]
+[connection signal="timeout" from="PlayerDetectionCycle" to="." method="_on_PlayerDetectionCycle_timeout"]
