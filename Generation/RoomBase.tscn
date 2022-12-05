@@ -1,8 +1,8 @@
 [gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://Assets/basic_sprites/dungeon-floor-small.png" type="Texture" id=1]
+[ext_resource path="res://Basic Sprites/dungeon-floor-small.png" type="Texture" id=1]
 [ext_resource path="res://Generation/RoomBase.gd" type="Script" id=3]
-[ext_resource path="res://Assets/basic_sprites/dungeon-wall-simple.png" type="Texture" id=4]
+[ext_resource path="res://Basic Sprites/dungeon-wall-simple.png" type="Texture" id=4]
 
 [sub_resource type="ConvexPolygonShape2D" id=4]
 points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
