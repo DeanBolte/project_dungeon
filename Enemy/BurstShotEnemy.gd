@@ -1,4 +1,4 @@
-extends "res://Enemy/EnemyBase.gd"
+extends "res://Enemy/Common/EnemyBase.gd"
 
 export var MOVE_TO_PLAYER = 210
 export var MOVE_AWAY_PLAYER = 190
@@ -10,7 +10,7 @@ export var RELOAD_TIME = 2
 var fire_cooldown = FIRE_RATE
 var clip_size = CLIP_SIZE
 
-var shot = preload("res://Enemy/EnemyShot.tscn")
+var shot = preload("res://Enemy/Common/Shots/EnemyShot.tscn")
 
 func _ready():
 	# initialise
