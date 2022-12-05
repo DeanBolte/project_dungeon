@@ -1,4 +1,4 @@
-extends "res://Enemy/Common/EnemyModel.gd"
+extends "res://Enemy/Common/MeleeEnemyModel.gd"
 
 func _ready():
 	# initialise
@@ -27,15 +27,6 @@ func _physics_process(delta):
 			chase_player(delta)
 	
 	velocity = move_and_slide(velocity)
-
-func chase_player(delta):
-	var player = playerDetectionZone.player
-	if player:
-		# get close to player
-		var direction = global_position.direction_to(Agent.get_next_location())
-		velocity = velocity.move_toward(direction * MAX_VELOCITY, ACCELERATION)
-	else:
-		state = IDLE
 
 func _on_HurtBox_body_entered(body):
 	decrement_health(body.damage)
