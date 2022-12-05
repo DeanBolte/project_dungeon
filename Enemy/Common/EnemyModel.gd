@@ -10,6 +10,8 @@ var FRICTION = 200
 var MAX_HEALTH = 1
 var INVINCIBLE_TIME = 0.05
 var RECOIL = 40
+var MOVE_TO_PLAYER = 210
+var MOVE_AWAY_PLAYER = 190
 
 # important nodes
 var Nav
