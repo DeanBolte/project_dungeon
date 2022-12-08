@@ -1,6 +1,6 @@
 extends Control
 
-onready var Options = $MarginContainer/Menu/Options
+onready var Options = $MarginContainer/VerticalSeperator/Menu/Options
 
 enum {
 	PLAY,
