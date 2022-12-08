@@ -2,7 +2,7 @@
 
 [ext_resource path="res://MainMenu/Text/MenuItemTheme.tres" type="Theme" id=1]
 [ext_resource path="res://MainMenu/Text/MenuTheme.tres" type="Theme" id=2]
-[ext_resource path="res://MainMenu/menu.gd" type="Script" id=3]
+[ext_resource path="res://MainMenu/Menu.gd" type="Script" id=3]
 
 [node name="Control" type="Control"]
 anchor_right = 1.0

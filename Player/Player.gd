@@ -44,7 +44,7 @@ var clip = CLIP_SIZE
 
 func _ready():
 	randomize()
-	var _playerStatsError = PlayerStats.connect("no_health", self, "queue_free")
+	var _playerStatsError = PlayerStats.connect("no_health", self, "player_death")
 
 func _physics_process(delta):
 	# decrement i frame time
@@ -140,6 +140,8 @@ func create_shot(shotInst):
 func dodge_ended():
 	state = MOVE
 
+func player_death():
+	get_tree().change_scene("res://MainMenu/Menu.tscn")
 
 func _on_HurtBox_area_entered(_area):
 	if damage_cooldown <= 0:

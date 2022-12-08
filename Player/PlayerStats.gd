@@ -14,6 +14,9 @@ signal clip_changed(value)
 signal max_clip_changed(value)
 
 func _ready():
+	initialise()
+
+func initialise():
 	self.health = max_health
 	self.clip = max_clip
 

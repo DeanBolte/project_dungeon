@@ -10,7 +10,7 @@ enum {
 var selection = PLAY
 var max_options = 3
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if Input.is_action_just_pressed("ui_accept"):
 		select()
 	
@@ -31,6 +31,7 @@ func move_selection(value):
 func select():
 	match selection:
 		PLAY:
+			PlayerStats.initialise()
 			get_tree().change_scene("res://Scenes/dungeon_scene.tscn")
 		OPTIONS:
 			print("placeholder option, TODO")
