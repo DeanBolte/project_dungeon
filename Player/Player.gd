@@ -1,6 +1,7 @@
 extends KinematicBody2D
 
-onready var animationPlayer = $AnimationPlayer
+onready var animationPlayer = $StateAnimationPlayer
+onready var shotgunAnimationPlayer = $ShotgunAnimationPlayer
 onready var hurtBox = $HurtBox
 onready var shotgunSprite = $ShotgunSprite
 
@@ -43,6 +44,7 @@ var velocity = Vector2.ZERO
 var aimingNormalVector
 
 var shootCoolDown = SHOT_TIME
+var reloading = false
 var clip = CLIP_SIZE
 
 func _ready():
@@ -70,8 +72,7 @@ func _physics_process(delta):
 		clip = CLIP_SIZE
 	
 	if Input.is_action_just_pressed("player_reload") && clip < CLIP_SIZE:
-		shootCoolDown = RECHARGE_TIME
-		clip = CLIP_SIZE
+		reload()
 	
 	# attack
 	calculate_attack(delta)
@@ -110,9 +111,9 @@ func calculate_dodge(_delta):
 	animationPlayer.play("Dodge")
 
 func calculate_attack(delta):
-	if shootCoolDown <= 0:
+	if not reloading:
 		PlayerStats.set_clip(clip)
-		if Input.get_action_strength("player_shoot"):
+		if Input.get_action_strength("player_shoot") && shootCoolDown <= 0:
 			# match shot
 			match shot_type:
 				STANDARD:
@@ -126,23 +127,20 @@ func calculate_attack(delta):
 				shootCoolDown = SHOT_TIME
 				clip -= 1
 			else:
-				shootCoolDown = RECHARGE_TIME
-				clip = CLIP_SIZE
-				# animate shell
-				create_shell()
-				create_shell()
+				reload()
 			
 			# decrement UI ammo count
 			PlayerStats.decrement_clip()
-	elif shootCoolDown > 0:
+	if shootCoolDown > 0:
 		shootCoolDown -= delta
 
-func create_shell():
-	var shellInst = ShotgunShell.instance()
-	var noiseVector = Vector2(rand_range(-1, 1), rand_range(-1, 1)).normalized()
-	shellInst.velocity = aimingNormalVector * -250 + noiseVector * 150
-	shellInst.global_position = global_position + aimingNormalVector * 36
-	get_parent().add_child(shellInst)
+func create_shells():
+	for _s in range(2):
+		var shellInst = ShotgunShell.instance()
+		var noiseVector = Vector2(rand_range(-1, 1), rand_range(-1, 1)).normalized()
+		shellInst.velocity = aimingNormalVector * -250 + noiseVector * 150
+		shellInst.global_position = global_position + aimingNormalVector * 36
+		get_parent().add_child(shellInst)
 
 func create_shot(shotInst):
 	var shootDirection = get_local_mouse_position()
@@ -154,6 +152,14 @@ func create_shot(shotInst):
 	shotInst.global_position = global_position + aimingNormalVector * 40
 	shotInst.direction = shootDirection
 	get_parent().get_parent().add_child(shotInst)
+
+func reload():
+	reloading = true
+	shotgunAnimationPlayer.play("Reload")
+
+func reload_ended():
+	reloading = false
+	clip = CLIP_SIZE
 
 func dodge_ended():
 	state = MOVE
