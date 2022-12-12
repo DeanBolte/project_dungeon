@@ -2,6 +2,7 @@ extends KinematicBody2D
 
 onready var animationPlayer = $AnimationPlayer
 onready var hurtBox = $HurtBox
+onready var shotgunSprite = $ShotgunSprite
 
 export var ACCELERATION = 10000
 export var MAX_VELOCITY = 400
@@ -38,6 +39,7 @@ var StandardShot = preload("res://Weapons/Shotgun/Standard.tscn")
 var SlugShot = preload("res://Weapons/Shotgun/Slug.tscn")
 
 var velocity = Vector2.ZERO
+var aimingNormalVector
 
 var shootCoolDown = SHOT_TIME
 var clip = CLIP_SIZE
@@ -47,6 +49,11 @@ func _ready():
 	var _playerStatsError = PlayerStats.connect("no_health", self, "player_death")
 
 func _physics_process(delta):
+	# aim shotgun
+	aimingNormalVector = (get_global_mouse_position() - global_position).normalized()
+	shotgunSprite.position = aimingNormalVector * 32
+	shotgunSprite.rotation = aimingNormalVector.angle() + PI/2
+	
 	# decrement i frame time
 	if damage_cooldown > 0:
 		damage_cooldown -= delta
@@ -105,7 +112,10 @@ func calculate_attack(delta):
 	if shootCoolDown <= 0:
 		PlayerStats.set_clip(clip)
 		if Input.get_action_strength("player_shoot"):
+			# shot animation
 			
+			
+			# match shot
 			match shot_type:
 				STANDARD:
 					for _i in range(SHOT_COUNT):
@@ -133,7 +143,7 @@ func create_shot(shotInst):
 	shootDirection.x += rand_range(-shotInst.ACCURACY,shotInst.ACCURACY)
 	shootDirection.y += rand_range(-shotInst.ACCURACY,shotInst.ACCURACY)
 	
-	shotInst.global_position = global_position
+	shotInst.global_position = global_position + aimingNormalVector * 40
 	shotInst.direction = shootDirection
 	get_parent().add_child(shotInst)
 
