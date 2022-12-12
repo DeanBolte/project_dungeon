@@ -37,6 +37,7 @@ var damage_cooldown = DAMAGE_INVINC_TIME
 
 var StandardShot = preload("res://Weapons/Shotgun/Standard.tscn")
 var SlugShot = preload("res://Weapons/Shotgun/Slug.tscn")
+var ShotgunShell = preload("res://Weapons/Shotgun/Animations/ShotgunShell.tscn")
 
 var velocity = Vector2.ZERO
 var aimingNormalVector
@@ -112,9 +113,6 @@ func calculate_attack(delta):
 	if shootCoolDown <= 0:
 		PlayerStats.set_clip(clip)
 		if Input.get_action_strength("player_shoot"):
-			# shot animation
-			
-			
 			# match shot
 			match shot_type:
 				STANDARD:
@@ -130,11 +128,21 @@ func calculate_attack(delta):
 			else:
 				shootCoolDown = RECHARGE_TIME
 				clip = CLIP_SIZE
+				# animate shell
+				create_shell()
+				create_shell()
 			
 			# decrement UI ammo count
 			PlayerStats.decrement_clip()
 	elif shootCoolDown > 0:
 		shootCoolDown -= delta
+
+func create_shell():
+	var shellInst = ShotgunShell.instance()
+	var noiseVector = Vector2(rand_range(-1, 1), rand_range(-1, 1)).normalized()
+	shellInst.velocity = aimingNormalVector * -250 + noiseVector * 150
+	shellInst.global_position = global_position + aimingNormalVector * 36
+	get_parent().add_child(shellInst)
 
 func create_shot(shotInst):
 	var shootDirection = get_local_mouse_position()
@@ -145,7 +153,7 @@ func create_shot(shotInst):
 	
 	shotInst.global_position = global_position + aimingNormalVector * 40
 	shotInst.direction = shootDirection
-	get_parent().add_child(shotInst)
+	get_parent().get_parent().add_child(shotInst)
 
 func dodge_ended():
 	state = MOVE

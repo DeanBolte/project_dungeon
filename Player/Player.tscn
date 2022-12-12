@@ -3,8 +3,8 @@
 [ext_resource path="res://Basic Sprites/player.png" type="Texture" id=1]
 [ext_resource path="res://Player/Player.gd" type="Script" id=2]
 [ext_resource path="res://Player/HurtBox.gd" type="Script" id=3]
-[ext_resource path="res://Player/Healthbar.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Player/AmmoBar.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Player/UI/Healthbar.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Player/UI/AmmoBar.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Basic Sprites/backgroundtile.png" type="Texture" id=6]
 
 [sub_resource type="RectangleShape2D" id=3]
