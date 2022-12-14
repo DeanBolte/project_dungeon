@@ -30,7 +30,8 @@ enum {
 	STANDARD,
 	SLUG
 }
-var shot_type = STANDARD
+var loaded_shot_type = STANDARD
+var selected_shot_type = STANDARD
 var shot_types = 2
 
 var health = 1
@@ -65,10 +66,10 @@ func _physics_process(delta):
 	
 	# toggle shot type
 	if Input.is_action_just_pressed("toggle_shot"):
-		if shot_type < shot_types - 1:
-			shot_type += 1
+		if selected_shot_type < shot_types - 1:
+			selected_shot_type += 1
 		else:
-			shot_type = 0
+			selected_shot_type = 0
 	
 	if Input.is_action_just_pressed("player_reload") && clip < CLIP_SIZE:
 		reload()
@@ -112,24 +113,23 @@ func calculate_dodge(_delta):
 func calculate_attack(delta):
 	if not reloading:
 		PlayerStats.set_clip(clip)
-		if Input.get_action_strength("player_shoot") && shootCoolDown <= 0:
+		if Input.get_action_strength("player_shoot") && shootCoolDown <= 0 && clip > 0:
 			# match shot
-			match shot_type:
+			match loaded_shot_type:
 				STANDARD:
 					for _i in range(SHOT_COUNT):
 						create_shot(StandardShot.instance())
 				SLUG:
 					create_shot(SlugShot.instance())
 			
-			
-			if clip > 1:
+			if clip > 0:
 				shootCoolDown = SHOT_TIME
 				clip -= 1
+				# decrement UI ammo count
+				PlayerStats.decrement_clip()
 			else:
-				reload()
-			
-			# decrement UI ammo count
-			PlayerStats.decrement_clip()
+				pass # no ammo
+	
 	if shootCoolDown > 0:
 		shootCoolDown -= delta
 
@@ -154,6 +154,7 @@ func create_shot(shotInst):
 
 func reload():
 	reloading = true
+	loaded_shot_type = selected_shot_type
 	shotgunAnimationPlayer.play("Reload")
 
 func reload_ended():
