@@ -26,7 +26,7 @@ func initialise():
 	self.health = max_health
 	self.clip = max_clip
 	
-	ammo_counts[STANDARD] = 20
+	ammo_counts[STANDARD] = 7
 
 # health related calls
 func set_max_health(value):
@@ -60,4 +60,14 @@ func set_ammo_count(ammo_type: int, value: int):
 	ammo_counts[ammo_type] = value
 
 func decrement_ammo_count(ammo_type: int, value: int = 1):
-	set_ammo_count(ammo_type, ammo_counts[ammo_type] - value)
+	if ammo_counts.has(ammo_type):
+		var ammo_left = ammo_counts[ammo_type] - value
+		if ammo_left >= 0:
+			set_ammo_count(ammo_type, ammo_counts[ammo_type] - value)
+			return value
+		else:
+			var ammo_available = ammo_counts[ammo_type]
+			ammo_counts[ammo_type] = 0
+			return ammo_available
+	else:
+		return 0

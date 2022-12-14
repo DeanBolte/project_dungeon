@@ -167,8 +167,7 @@ func reload():
 
 func reload_ended():
 	reloading = false
-	PlayerStats.decrement_ammo_count(selected_shot_type, 2)
-	clip = CLIP_SIZE
+	clip = PlayerStats.decrement_ammo_count(selected_shot_type, 2)
 
 func dodge_ended():
 	state = MOVE
