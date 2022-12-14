@@ -46,6 +46,10 @@ func set_health(value):
 func decrement_health(value = 1):
 	set_health(self.health - value)
 
+func increment_health(value: int = 1):
+	if health < max_health:
+		set_health(self.health + value)
+
 # ammo related calls
 func set_max_clip(value):
 	max_clip = value

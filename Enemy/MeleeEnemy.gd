@@ -12,6 +12,8 @@ func _ready():
 	MAX_HEALTH = 1
 	set_health(MAX_HEALTH)
 	
+	MAX_DROPS = 2
+	
 	state = pick_rand_state([IDLE, WANDER])
 
 func _on_HurtBox_body_entered(body):

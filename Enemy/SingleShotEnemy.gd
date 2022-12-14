@@ -20,6 +20,8 @@ func _ready():
 	CLIP_SIZE = 1
 	RELOAD_TIME = 1
 	
+	MAX_DROPS = 4
+	
 	state = pick_rand_state([IDLE, WANDER])
 
 func _on_HurtBox_body_entered(body):
