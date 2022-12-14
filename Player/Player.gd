@@ -44,9 +44,12 @@ var ShotgunShell = preload("res://Weapons/Shotgun/Animations/ShotgunShell.tscn")
 var velocity = Vector2.ZERO
 var aimingNormalVector
 
-var shootCoolDown = SHOT_TIME
+var shootCoolDown = 0
 var reloading = false
-var clip = CLIP_SIZE
+var clip: int = CLIP_SIZE setget set_clip
+
+func set_clip(value: int):
+	PlayerStats.set_clip(value)
 
 func _ready():
 	randomize()
@@ -125,8 +128,6 @@ func calculate_attack(delta):
 			if clip > 0:
 				shootCoolDown = SHOT_TIME
 				clip -= 1
-				# decrement UI ammo count
-				PlayerStats.decrement_clip()
 			else:
 				pass # no ammo
 	
