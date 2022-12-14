@@ -108,5 +108,11 @@ margin_top = 45.0
 margin_right = 41.0
 margin_bottom = 85.0
 
+[node name="Label" type="Label" parent="CanvasLayer"]
+margin_top = 85.0
+margin_right = 40.0
+margin_bottom = 99.0
+text = "Ammo Count: "
+
 [connection signal="area_entered" from="HurtBox" to="." method="_on_HurtBox_area_entered"]
 [connection signal="timeout" from="HurtBox/Timer" to="HurtBox" method="_on_Timer_timeout"]

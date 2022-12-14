@@ -122,6 +122,7 @@ func calculate_dodge(_delta):
 func calculate_attack(delta):
 	if not reloading:
 		PlayerStats.set_clip(clip)
+		$CanvasLayer/Label.text = String(PlayerStats.ammo_counts[selected_shot_type])
 		if Input.get_action_strength("player_shoot") && shootCoolDown <= 0 && clip > 0:
 			# match shot
 			match loaded_shot_type:
@@ -166,6 +167,7 @@ func reload():
 
 func reload_ended():
 	reloading = false
+	PlayerStats.decrement_ammo_count(selected_shot_type, 2)
 	clip = CLIP_SIZE
 
 func dodge_ended():

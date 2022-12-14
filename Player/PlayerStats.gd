@@ -1,11 +1,5 @@
 extends Node
 
-export(int) var max_health setget set_max_health
-var health = max_health setget set_health
-
-export(int) var max_clip setget set_max_clip
-var clip = max_clip setget set_clip
-
 signal no_health
 signal health_changed(value)
 signal max_health_changed(value)
@@ -13,12 +7,26 @@ signal max_health_changed(value)
 signal clip_changed(value)
 signal max_clip_changed(value)
 
+export(int) var max_health setget set_max_health
+var health = max_health setget set_health
+
+export(int) var max_clip setget set_max_clip
+var clip = max_clip setget set_clip
+
+enum {
+	STANDARD,
+	SLUG
+}
+var ammo_counts := Dictionary()
+
 func _ready():
 	initialise()
 
 func initialise():
 	self.health = max_health
 	self.clip = max_clip
+	
+	ammo_counts[STANDARD] = 20
 
 # health related calls
 func set_max_health(value):
@@ -47,3 +55,9 @@ func set_clip(value):
 
 func decrement_clip(value = 1):
 	set_clip(self.clip - value)
+
+func set_ammo_count(ammo_type: int, value: int):
+	ammo_counts[ammo_type] = value
+
+func decrement_ammo_count(ammo_type: int, value: int = 1):
+	set_ammo_count(ammo_type, ammo_counts[ammo_type] - value)

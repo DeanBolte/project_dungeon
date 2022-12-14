@@ -21,7 +21,7 @@ enum {
 }
 var enemy_types = 3
 
-var roomMap = Dictionary()
+var roomMap := Dictionary()
 var Player
 
 # initialise first room and player
