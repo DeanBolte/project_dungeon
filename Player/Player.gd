@@ -1,10 +1,17 @@
 extends KinematicBody2D
 
+# accessed member nodes
 onready var animationPlayer = $StateAnimationPlayer
 onready var shotgunAnimationPlayer = $ShotgunAnimationPlayer
 onready var hurtBox = $HurtBox
 onready var shotgunSprite = $ShotgunSprite
 
+# preloaded objects
+var StandardShot = preload("res://Weapons/Shotgun/Standard.tscn")
+var SlugShot = preload("res://Weapons/Shotgun/Slug.tscn")
+var ShotgunShell = preload("res://Weapons/Shotgun/Animations/ShotgunShell.tscn")
+
+# member constants
 export var ACCELERATION = 10000
 export var MAX_VELOCITY = 400
 export var FRICTION = 0.1
@@ -20,6 +27,7 @@ export var SHOT_TIME = 0.2
 export var SHOT_COUNT = 5
 export var CLIP_SIZE = 2
 
+# enums
 enum {
 	MOVE,
 	DODGE
@@ -34,23 +42,21 @@ var loaded_shot_type = STANDARD
 var selected_shot_type = STANDARD
 var shot_types = 2
 
-var health = 1
+# member variables
 var damage_cooldown = DAMAGE_INVINC_TIME
 
-var StandardShot = preload("res://Weapons/Shotgun/Standard.tscn")
-var SlugShot = preload("res://Weapons/Shotgun/Slug.tscn")
-var ShotgunShell = preload("res://Weapons/Shotgun/Animations/ShotgunShell.tscn")
-
-var velocity = Vector2.ZERO
-var aimingNormalVector
+var velocity := Vector2.ZERO
+var aimingNormalVector := Vector2.ZERO
 
 var shootCoolDown = 0
 var reloading = false
 var clip: int = CLIP_SIZE setget set_clip
 
+# member variable setters and getters
 func set_clip(value: int):
 	PlayerStats.set_clip(value)
 
+# built in runtime functions
 func _ready():
 	randomize()
 	Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
