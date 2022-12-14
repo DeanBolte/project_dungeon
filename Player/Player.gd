@@ -34,13 +34,8 @@ enum {
 }
 var state = MOVE
 
-enum {
-	STANDARD,
-	SLUG
-}
-var loaded_shot_type = STANDARD
-var selected_shot_type = STANDARD
-var shot_types = 2
+var AmmoType = PlayerStats.AmmoType
+var loaded_shot_type = AmmoType.STANDARD
 
 # member variables
 var damage_cooldown = DAMAGE_INVINC_TIME
@@ -75,10 +70,7 @@ func _physics_process(delta):
 	
 	# toggle shot type
 	if Input.is_action_just_pressed("toggle_shot"):
-		if selected_shot_type < shot_types - 1:
-			selected_shot_type += 1
-		else:
-			selected_shot_type = 0
+		PlayerStats.increment_ammo_type()
 	
 	if Input.is_action_just_pressed("player_reload") && clip < CLIP_SIZE:
 		reload()
@@ -122,14 +114,14 @@ func calculate_dodge(_delta):
 func calculate_attack(delta):
 	if not reloading:
 		PlayerStats.set_clip(clip)
-		$CanvasLayer/Label.text = String(PlayerStats.ammo_counts[selected_shot_type])
+		PlayerStats.update_ammo_ui()
 		if Input.get_action_strength("player_shoot") && shootCoolDown <= 0 && clip > 0:
 			# match shot
 			match loaded_shot_type:
-				STANDARD:
+				AmmoType.STANDARD:
 					for _i in range(SHOT_COUNT):
 						create_shot(StandardShot.instance())
-				SLUG:
+				AmmoType.SLUG:
 					create_shot(SlugShot.instance())
 			
 			if clip > 0:
@@ -162,12 +154,12 @@ func create_shot(shotInst):
 
 func reload():
 	reloading = true
-	loaded_shot_type = selected_shot_type
+	loaded_shot_type = PlayerStats.selected_shot_type
 	shotgunAnimationPlayer.play("Reload")
 
 func reload_ended():
 	reloading = false
-	clip = PlayerStats.decrement_ammo_count(selected_shot_type, 2)
+	clip = PlayerStats.decrement_ammo_count(PlayerStats.max_clip)
 
 func dodge_ended():
 	state = MOVE
