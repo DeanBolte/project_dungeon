@@ -79,6 +79,9 @@ func decrement_ammo_count(value: int = 1):
 	else:
 		return 0
 
+func increment_ammo_count(ammo_type: int, value: int = 1):
+	ammo_counts[ammo_type] += value
+
 func set_ammo_type(type: int):
 	if type < 0:
 		selected_shot_type = 0
