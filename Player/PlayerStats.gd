@@ -60,11 +60,11 @@ func decrement_clip(value = 1):
 	set_clip(self.clip - value)
 
 func update_ammo_ui():
-	emit_signal("ammo_count_changed", ammo_counts[selected_shot_type])
+	if ammo_counts.has(selected_shot_type):
+		emit_signal("ammo_count_changed", ammo_counts[selected_shot_type])
 
 func set_ammo_count(ammo_type: int, value: int):
 	ammo_counts[ammo_type] = value
-	update_ammo_ui()
 
 func decrement_ammo_count(value: int = 1):
 	if ammo_counts.has(selected_shot_type):
@@ -80,7 +80,8 @@ func decrement_ammo_count(value: int = 1):
 		return 0
 
 func increment_ammo_count(ammo_type: int, value: int = 1):
-	ammo_counts[ammo_type] += value
+	if ammo_counts.has(ammo_type):
+		ammo_counts[ammo_type] += value
 
 func set_ammo_type(type: int):
 	if type < 0:

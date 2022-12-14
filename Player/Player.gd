@@ -112,9 +112,9 @@ func calculate_dodge(_delta):
 	animationPlayer.play("Dodge")
 
 func calculate_attack(delta):
+	PlayerStats.set_clip(clip)
+	PlayerStats.update_ammo_ui()
 	if not reloading:
-		PlayerStats.set_clip(clip)
-		PlayerStats.update_ammo_ui()
 		if Input.get_action_strength("player_shoot") && shootCoolDown <= 0 && clip > 0:
 			# match shot
 			match loaded_shot_type:
