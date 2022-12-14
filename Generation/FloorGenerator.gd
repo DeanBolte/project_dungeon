@@ -102,3 +102,8 @@ func generate_next(location):
 	call_deferred("create_room", location.x-1, location.y)
 	call_deferred("create_room", location.x, location.y+1)
 	call_deferred("create_room", location.x, location.y-1)
+	call_deferred("create_room", location.x+1, location.y+1)
+	call_deferred("create_room", location.x+1, location.y-1)
+	call_deferred("create_room", location.x-1, location.y+1)
+	call_deferred("create_room", location.x-1, location.y-1)
+	
