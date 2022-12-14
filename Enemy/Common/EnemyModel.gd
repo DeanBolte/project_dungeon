@@ -2,6 +2,8 @@ extends KinematicBody2D
 
 onready var Agent: NavigationAgent2D = $NavigationAgent2D
 
+var ammo_drop = preload("res://Enemy/Common/Drops/AmmoDrop.tscn")
+
 # enemy stats (modified in ready functions for each individual)
 # static otherwise but not enforced
 var ACCELERATION = 500
@@ -39,7 +41,7 @@ func _physics_process(delta):
 	
 	# check health
 	if health <= 0:
-		queue_free()
+		death()
 	
 	match state:
 		IDLE:
@@ -117,3 +119,21 @@ func initialise_nav(nav):
 	Nav = nav
 	Agent.set_navigation(Nav)
 
+func death():
+	# spawn loot
+	for _i in range(4):
+		spawn_drop(ammo_drop)
+	
+	# delete enemy instance
+	queue_free()
+
+func spawn_drop(packed_drop):
+	var launch_vector = Vector2.ZERO
+	var max_speed = 500
+	launch_vector.x += rand_range(-max_speed,max_speed)
+	launch_vector.y += rand_range(-max_speed,max_speed)
+	
+	var dropInst = packed_drop.instance()
+	dropInst.global_position = global_position
+	dropInst.velocity = launch_vector
+	get_parent().add_child(dropInst)
