@@ -49,6 +49,8 @@ var clip = CLIP_SIZE
 
 func _ready():
 	randomize()
+	Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
+	
 	var _playerStatsError = PlayerStats.connect("no_health", self, "player_death")
 
 func _physics_process(delta):
@@ -67,9 +69,6 @@ func _physics_process(delta):
 			shot_type += 1
 		else:
 			shot_type = 0
-		
-		shootCoolDown = RECHARGE_TIME
-		clip = CLIP_SIZE
 	
 	if Input.is_action_just_pressed("player_reload") && clip < CLIP_SIZE:
 		reload()
