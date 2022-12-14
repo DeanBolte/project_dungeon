@@ -18,7 +18,6 @@ var MOVE_AWAY_PLAYER = 190
 var MAX_DROPS = 3
 
 # important nodes
-var Nav
 var playerDetectionZone
 var wandererController
 
@@ -92,6 +91,7 @@ func chase_player(_delta):
 	var player = playerDetectionZone.player
 	if player:
 		# get close to player
+		Agent.set_target_location(player.position)
 		var direction = global_position.direction_to(Agent.get_next_location())
 		velocity = velocity.move_toward(direction * MAX_VELOCITY, ACCELERATION)
 	else:
@@ -116,10 +116,6 @@ func decrement_health(value = 1):
 	if invincible <= 0:
 		set_health(health - value)
 		invincible = INVINCIBLE_TIME
-
-func initialise_nav(nav):
-	Nav = nav
-	Agent.set_navigation(Nav)
 
 func death():
 	# spawn loot

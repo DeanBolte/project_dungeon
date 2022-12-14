@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Basic Sprites/dungeon-floor-small.png" type="Texture" id=1]
 [ext_resource path="res://Generation/RoomBase.gd" type="Script" id=3]
@@ -57,6 +57,9 @@ vertices = PoolVector2Array( 365, 640, 273, 640, 275, 557, 370, 559, 641, 277, 6
 polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 5, 6, 7 ), PoolIntArray( 6, 2, 8, 9, 10, 11, 12, 13, 7 ), PoolIntArray( 13, 14, 7 ), PoolIntArray( 12, 15, 16, 13 ), PoolIntArray( 17, 18, 10, 9 ), PoolIntArray( 6, 19, 3, 2 ) ]
 outlines = [ PoolVector2Array( 270, 0, 366, 0, 368, 90, 558, 93, 555, 277, 641, 277, 641, 367, 556, 366, 553, 559, 370, 559, 365, 640, 273, 640, 275, 557, 85, 555, 88, 372, 0, 370, 0, 281, 90, 280, 95, 93, 269, 91 ) ]
 
+[sub_resource type="RectangleShape2D" id=7]
+extents = Vector2( 300, 300 )
+
 [node name="RoomBase" type="Node2D"]
 script = ExtResource( 3 )
 
@@ -79,4 +82,15 @@ shape = SubResource( 3 )
 [node name="NavigationPolygonInstance" type="NavigationPolygonInstance" parent="."]
 navpoly = SubResource( 6 )
 
+[node name="EnemiesActive" type="Node" parent="."]
+
+[node name="EnemyDetectionArea" type="Area2D" parent="."]
+position = Vector2( 320, 320 )
+collision_layer = 0
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyDetectionArea"]
+shape = SubResource( 7 )
+
 [connection signal="body_entered" from="RoomArea" to="." method="_on_RoomArea_body_entered"]
+[connection signal="body_entered" from="EnemyDetectionArea" to="." method="_on_EnemyDetectionArea_body_entered"]

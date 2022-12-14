@@ -4,8 +4,6 @@ export var ROOM_DISTANCE = 640
 export var ROOM_LOAD_DISTANCE = 2400
 
 onready var RoomsActive = $RoomsActive
-onready var EnemiesActive = $EnemiesActive
-onready var NavMesh = $ActiveNavMesh
 onready var PlayerContainer = $PlayerActive
 
 var BaseRoomScene = preload("res://Generation/RoomBase.tscn")
@@ -63,12 +61,6 @@ func create_room(x, y):
 		# populate room
 		populate_enemies(roomInst)
 		
-		# add the rooms nav mesh to the active nav mesh
-		var navMeshInst = roomInst.get_node("NavigationPolygonInstance")
-		roomInst.remove_child(navMeshInst)
-		NavMesh.add_child(navMeshInst)
-		navMeshInst.global_position = roomInst.global_position
-		
 		# connect generation trigger
 		roomInst.connect("first_entered", self, "generate_next")
 		# add room to map
@@ -76,13 +68,12 @@ func create_room(x, y):
 
 		return roomInst
 
-func populate_enemies(roomInst):
+func populate_enemies(roomInst: Node2D):
 	var no_enemies = randi() % 3
 	
 	for _e in range(no_enemies):
 		var enemy = get_random_enemy()
-		EnemiesActive.add_child(enemy)
-		enemy.initialise_nav(NavMesh)
+		roomInst.get_node("EnemiesActive").add_child(enemy)
 		
 		var random_position = Vector2(rand_range(-240, 240), rand_range(-240, 240))
 		enemy.global_position = roomInst.global_position + Vector2(320, 320) + random_position
