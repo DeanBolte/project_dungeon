@@ -13,6 +13,8 @@ radius = 128.0
 radius = 4.0
 
 [node name="HealthDrop" type="KinematicBody2D"]
+z_index = 4
+z_as_relative = false
 collision_layer = 0
 script = ExtResource( 2 )
 

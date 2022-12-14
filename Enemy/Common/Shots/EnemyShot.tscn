@@ -10,6 +10,8 @@ extents = Vector2( 2, 2 )
 extents = Vector2( 3, 3 )
 
 [node name="EnemyShot" type="KinematicBody2D"]
+z_index = 4
+z_as_relative = false
 collision_layer = 0
 script = ExtResource( 2 )
 
