@@ -6,6 +6,10 @@ onready var shotgunAnimationPlayer = $ShotgunAnimationPlayer
 onready var hurtBox = $HurtBox
 onready var shotgunSprite = $ShotgunSprite
 
+# sound effects
+onready var SFX = $SFX
+onready var shotgunBlastSFX = $SFX/ShotgunBlast
+
 # preloaded objects
 var StandardShot = preload("res://Weapons/Shotgun/Standard.tscn")
 var SlugShot = preload("res://Weapons/Shotgun/Slug.tscn")
@@ -116,6 +120,9 @@ func calculate_attack(delta):
 	PlayerStats.update_ammo_ui()
 	if not reloading:
 		if Input.get_action_strength("player_shoot") && shootCoolDown <= 0 && clip > 0:
+			# shot sfx
+			shotgunBlastSFX.play()
+			
 			# match shot
 			match loaded_shot_type:
 				AmmoType.STANDARD:
