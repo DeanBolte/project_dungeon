@@ -172,6 +172,7 @@ func dodge_ended():
 	state = MOVE
 
 func player_death():
+# warning-ignore:return_value_discarded
 	get_tree().change_scene("res://MainMenu/Menu.tscn")
 
 func _on_HurtBox_area_entered(_area):

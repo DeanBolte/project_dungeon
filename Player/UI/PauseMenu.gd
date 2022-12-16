@@ -2,7 +2,7 @@ extends Control
 
 var is_paused: bool = false setget set_is_paused
 
-func _unhandled_input(event):
+func _unhandled_input(_event):
 	if Input.is_action_just_pressed("ui_pause"):
 		self.is_paused = !is_paused
 
