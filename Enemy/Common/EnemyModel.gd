@@ -133,17 +133,25 @@ func set_health(value):
 	health = clamp(value, 0, MAX_HEALTH)
 
 func decrement_health(value = 1):
+	set_health(health - value)
+
+func take_hit(damage: float, direction: Vector2):
+	# check if enemy can take damage
 	if invincible <= 0:
-		set_health(health - value)
+		# take damage and add invicibility frames
+		decrement_health(damage)
 		invincible = INVINCIBLE_TIME
 		state = STUNNED
 		stunned_timer = MAX_STUNNED_TIME
-		if DamageEffects:
-			DamageEffects.restart()
+		
+		# create blood effect
+		var material: ParticlesMaterial = DamageEffects.get_process_material()
+		material.direction = Vector3(direction.x, direction.y, 0)
+		DamageEffects.restart()
 
 func death():
 	# slow down
-	velocity = velocity.move_toward(Vector2.ZERO, FRICTION)
+	velocity = velocity.move_toward(Vector2.ZERO, FRICTION/2)
 	
 	# destroy
 	if DamageEffects and not DamageEffects.is_emitting():

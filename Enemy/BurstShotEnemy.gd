@@ -25,7 +25,7 @@ func _ready():
 	state = pick_rand_state([IDLE, WANDER])
 
 func _on_HurtBox_body_entered(body):
-	decrement_health(body.damage)
+	take_hit(body.damage, body.direction)
 	recoil(-body.direction, RECOIL)
 
 func _on_PlayerDetectionCycle_timeout():
