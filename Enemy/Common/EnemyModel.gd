@@ -1,6 +1,7 @@
 extends KinematicBody2D
 
 onready var Agent: NavigationAgent2D = $NavigationAgent2D
+onready var DamageEffects: Particles2D = $DamageEffects
 
 var ammo_drop = preload("res://Enemy/Common/Drops/AmmoDrop.tscn")
 var health_drop = preload("res://Enemy/Common/Drops/HealthDrop.tscn")
@@ -27,7 +28,8 @@ enum {
 	IDLE,
 	WANDER,
 	STUNNED,
-	CHASE
+	CHASE,
+	DEAD
 }
 var state = IDLE
 var stunned_timer: float = 0.0
@@ -45,7 +47,7 @@ func _physics_process(delta):
 	
 	# check health
 	if health <= 0:
-		death()
+		state = DEAD
 	
 	match state:
 		IDLE:
@@ -56,6 +58,8 @@ func _physics_process(delta):
 			stunned(delta)
 		CHASE:
 			chase_player(delta)
+		DEAD:
+			death()
 	
 	velocity = move_and_slide(velocity)
 
@@ -134,13 +138,20 @@ func decrement_health(value = 1):
 		invincible = INVINCIBLE_TIME
 		state = STUNNED
 		stunned_timer = MAX_STUNNED_TIME
+		if DamageEffects:
+			DamageEffects.restart()
 
 func death():
-	# spawn loot
-	generate_drops()
+	# slow down
+	velocity = velocity.move_toward(Vector2.ZERO, FRICTION)
 	
-	# delete enemy instance
-	queue_free()
+	# destroy
+	if DamageEffects and not DamageEffects.is_emitting():
+		# spawn loot
+		generate_drops()
+		
+		# delete enemy instance
+		queue_free()
 
 func generate_drops():
 	for _i in randi() % MAX_DROPS:
