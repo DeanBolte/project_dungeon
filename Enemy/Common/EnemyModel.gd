@@ -16,6 +16,7 @@ var RECOIL = 40
 var MOVE_TO_PLAYER = 210
 var MOVE_AWAY_PLAYER = 190
 var MAX_DROPS = 3
+var MAX_STUNNED_TIME = 0.8
 
 # important nodes
 var playerDetectionZone
@@ -25,9 +26,11 @@ var wandererController
 enum {
 	IDLE,
 	WANDER,
+	STUNNED,
 	CHASE
 }
 var state = IDLE
+var stunned_timer: float = 0.0
 
 # member data
 var velocity = Vector2.ZERO
@@ -49,6 +52,8 @@ func _physics_process(delta):
 			idle(delta)
 		WANDER:
 			wander(delta)
+		STUNNED:
+			stunned(delta)
 		CHASE:
 			chase_player(delta)
 	
@@ -86,6 +91,17 @@ func update_wander():
 	state = pick_rand_state([IDLE, WANDER])
 	wandererController.start_wander_timer(rand_range(0, 1))
 
+# STUNNED
+func stunned(delta: float):
+	# slow down
+	velocity = velocity.move_toward(Vector2.ZERO, 50)
+	
+	# stunned timer
+	if stunned_timer > 0:
+		stunned_timer -= delta
+	else:
+		state = IDLE
+
 # CHASE
 func chase_player(_delta):
 	var player = playerDetectionZone.player
@@ -116,6 +132,8 @@ func decrement_health(value = 1):
 	if invincible <= 0:
 		set_health(health - value)
 		invincible = INVINCIBLE_TIME
+		state = STUNNED
+		stunned_timer = MAX_STUNNED_TIME
 
 func death():
 	# spawn loot

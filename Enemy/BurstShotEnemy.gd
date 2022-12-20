@@ -11,7 +11,7 @@ func _ready():
 	FRICTION = 200
 	MAX_HEALTH = 4
 	set_health(MAX_HEALTH)
-	RECOIL = 800
+	RECOIL = 400
 	
 	MOVE_TO_PLAYER = 210
 	MOVE_AWAY_PLAYER = 190
