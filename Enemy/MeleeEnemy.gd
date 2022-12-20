@@ -12,13 +12,15 @@ func _ready():
 	MAX_HEALTH = 1
 	set_health(MAX_HEALTH)
 	
+	RECOIL = 600
+	
 	MAX_DROPS = 2
 	
 	state = pick_rand_state([IDLE, WANDER])
 
 func _on_HurtBox_body_entered(body):
 	decrement_health(body.damage)
-	recoil(-body.direction, 400)
+	recoil(-body.direction, RECOIL)
 
 func _on_PlayerDetectionCycle_timeout():
 	if playerDetectionZone.can_see_player():
