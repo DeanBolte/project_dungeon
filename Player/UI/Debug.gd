@@ -1,6 +1,6 @@
 extends Control
 
-onready var FPSCounter := $MarginContainer/FPS/FPSCounter
+onready var FPSCounter := $DebugList/FPS/FPSCounter
 
 func _process(_delta):
 	# reveal fps
