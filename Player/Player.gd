@@ -1,14 +1,14 @@
 extends KinematicBody2D
 
 # accessed member nodes
-onready var animationPlayer = $StateAnimationPlayer
-onready var shotgunAnimationPlayer = $ShotgunAnimationPlayer
-onready var hurtBox = $HurtBox
-onready var shotgunSprite = $ShotgunSprite
+onready var animationPlayer := $StateAnimationPlayer
+onready var shotgunAnimationPlayer := $ShotgunAnimationPlayer
+onready var hurtBox := $HurtBox
+onready var shotgunSprite := $ShotgunSprite
 
 # sound effects
-onready var SFX = $SFX
-onready var shotgunBlastSFX = $SFX/ShotgunBlast
+onready var SFX := $SFX
+onready var shotgunBlastSFX := $SFX/ShotgunBlast
 
 # preloaded objects
 var StandardShot = preload("res://Weapons/Shotgun/Standard.tscn")
@@ -26,10 +26,11 @@ export var INVINCIBILE_TIME = 0.2
 
 export var DAMAGE_INVINC_TIME = 0.3
 
-export var RECHARGE_TIME = 1
+export var RELOAD_TIME = 2
 export var SHOT_TIME = 0.2
 export var SHOT_COUNT = 5
 export var CLIP_SIZE = 2
+export var RELOAD_DECAY = 0.3
 
 # enums
 enum {
@@ -49,6 +50,7 @@ var aimingNormalVector := Vector2.ZERO
 
 var shootCoolDown = 0
 var reloading = false
+var reload_time: float = 0
 var clip: int = CLIP_SIZE setget set_clip
 
 # member variable setters and getters
@@ -160,13 +162,26 @@ func create_shot(shotInst):
 	get_parent().get_parent().add_child(shotInst)
 
 func reload():
-	reloading = true
-	loaded_shot_type = PlayerStats.selected_shot_type
-	shotgunAnimationPlayer.play("Reload")
-	PlayerStats.reload(RECHARGE_TIME)
+	if not reloading:
+		# initiate reload
+		reloading = true
+		reload_time = RELOAD_TIME
+		
+		# run animations
+		PlayerStats.reload(reload_time)
+		var reload_speed: float = 1/reload_time
+		shotgunAnimationPlayer.play("Reload", 0.0, reload_speed)
+	else:
+		PlayerStats.reload(RELOAD_DECAY)
+		shotgunAnimationPlayer.advance(RELOAD_DECAY)
 
 func reload_ended():
+	# finalise reload
 	reloading = false
+	
+	# update shot type
+	loaded_shot_type = PlayerStats.selected_shot_type
+	# reset clip
 	clip = PlayerStats.decrement_ammo_count(PlayerStats.max_clip)
 
 func dodge_ended():
