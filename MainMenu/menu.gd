@@ -32,6 +32,7 @@ func select():
 	match selection:
 		PLAY:
 			PlayerStats.initialise()
+# warning-ignore:return_value_discarded
 			get_tree().change_scene("res://Scenes/dungeon_scene.tscn")
 		OPTIONS:
 			print("placeholder option, TODO")
