@@ -163,6 +163,7 @@ func reload():
 	reloading = true
 	loaded_shot_type = PlayerStats.selected_shot_type
 	shotgunAnimationPlayer.play("Reload")
+	PlayerStats.reload(RECHARGE_TIME)
 
 func reload_ended():
 	reloading = false

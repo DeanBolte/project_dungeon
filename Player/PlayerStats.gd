@@ -8,6 +8,8 @@ signal clip_changed(value)
 signal max_clip_changed(value)
 signal ammo_count_changed(value)
 
+signal reloading(value)
+
 export(int) var max_health setget set_max_health
 var health = max_health setget set_health
 
@@ -100,3 +102,6 @@ func increment_ammo_type(value: int = 1):
 
 func decrement_ammo_type(value: int = 1):
 	set_ammo_type(selected_shot_type - value)
+
+func reload(duration):
+	emit_signal("reloading", duration)
