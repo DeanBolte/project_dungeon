@@ -32,10 +32,10 @@ func _process(_delta):
 	for room in roomMap.keys():
 		if is_a_parent_of(roomMap[room]):
 			if Player.global_position.distance_to(room * ROOM_DISTANCE) > ROOM_LOAD_DISTANCE:
-				RoomsActive.remove_child(roomMap[room])
+				RoomsActive.call_deferred("remove_child", roomMap[room])
 		else:
 			if Player.global_position.distance_to(room * ROOM_DISTANCE) <= ROOM_LOAD_DISTANCE:
-				RoomsActive.add_child(roomMap[room])
+				RoomsActive.call_deferred("add_child", roomMap[room])
 
 # instantiate packed player scene and add to heirarchy
 func spawn_player(x, y):
