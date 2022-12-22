@@ -6,7 +6,7 @@ func _ready():
 # warning-ignore:return_value_discarded
 	PlayerStats.connect("reloading", self, "reload_animation")
 
-func _process(delta):
+func _process(_delta):
 	rect_position = get_global_mouse_position()
 
 func reload_animation(duration):
