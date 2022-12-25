@@ -142,13 +142,12 @@ func calculate_attack(delta):
 	if shootCoolDown > 0:
 		shootCoolDown -= delta
 
-func create_shells():
-	for _s in range(2):
-		var shellInst = ShotgunShell.instance()
-		var noiseVector = Vector2(rand_range(-1, 1), rand_range(-1, 1)).normalized()
-		shellInst.velocity = aimingNormalVector * -250 + noiseVector * 150
-		shellInst.global_position = global_position + aimingNormalVector * 36
-		get_parent().add_child(shellInst)
+func create_shell():
+	var shellInst = ShotgunShell.instance()
+	var noiseVector = Vector2(rand_range(-1, 1), rand_range(-1, 1)).normalized()
+	shellInst.velocity = aimingNormalVector * -250 + noiseVector * 150
+	shellInst.global_position = global_position + aimingNormalVector * 36
+	get_parent().add_child(shellInst)
 
 func create_shot(shotInst):
 	var shootDirection = get_local_mouse_position()
@@ -165,14 +164,16 @@ func reload():
 	if not reloading:
 		# initiate reload
 		reloading = true
-		reload_time = RELOAD_TIME
+		# reload time is based on the clip size
+		reload_time = RELOAD_TIME - (RELOAD_TIME / CLIP_SIZE) * clip
 		
 		# run animations
-		PlayerStats.reload(reload_time)
+		
 		var reload_speed: float = 1/reload_time
+		PlayerStats.reload(reload_time, reload_speed)
 		shotgunAnimationPlayer.play("Reload", 0.0, reload_speed)
 	else:
-		PlayerStats.reload(RELOAD_DECAY)
+		PlayerStats.reload(RELOAD_DECAY, 1)
 		shotgunAnimationPlayer.advance(RELOAD_DECAY)
 
 func reload_ended():

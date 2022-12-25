@@ -42,11 +42,14 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0.2, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "values": [ {
 "args": [  ],
-"method": "create_shells"
+"method": "create_shell"
+}, {
+"args": [  ],
+"method": "create_shell"
 }, {
 "args": [  ],
 "method": "reload_ended"

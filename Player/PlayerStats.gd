@@ -103,5 +103,5 @@ func increment_ammo_type(value: int = 1):
 func decrement_ammo_type(value: int = 1):
 	set_ammo_type(selected_shot_type - value)
 
-func reload(duration: float):
-	emit_signal("reloading", duration)
+func reload(duration: float, reload_speed: float):
+	emit_signal("reloading", duration, reload_speed)
