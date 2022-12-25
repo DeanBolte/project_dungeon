@@ -10,15 +10,19 @@
 
 [node name="Healthbar" parent="." instance=ExtResource( 3 )]
 rect_scale = Vector2( 2, 2 )
+mouse_filter = 1
 
 [node name="AmmoBar" parent="." instance=ExtResource( 4 )]
 margin_left = 16.0
 margin_top = 55.0
 margin_right = 56.0
 margin_bottom = 95.0
+mouse_filter = 1
 
 [node name="Debug" parent="." instance=ExtResource( 2 )]
+mouse_filter = 2
 
 [node name="MouseUI" parent="." instance=ExtResource( 5 )]
+mouse_filter = 2
 
 [node name="PauseMenu" parent="." instance=ExtResource( 1 )]
