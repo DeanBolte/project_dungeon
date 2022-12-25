@@ -26,7 +26,6 @@ func _ready():
 
 func _on_HurtBox_body_entered(body):
 	take_hit(body.damage * body.critical, body.direction)
-	recoil(-body.direction, RECOIL)
 
 func _on_PlayerDetectionCycle_timeout():
 	if playerDetectionZone.can_see_player():

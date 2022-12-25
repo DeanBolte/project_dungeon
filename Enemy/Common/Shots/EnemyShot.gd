@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-var SPEED = rand_range(700, 1000)
+var SPEED = rand_range(500, 700)
 var direction = Vector2.ZERO
 
 func _physics_process(delta):

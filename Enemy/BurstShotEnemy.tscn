@@ -71,8 +71,6 @@ wait_time = 0.1
 autostart = true
 
 [node name="DamageEffects" parent="." instance=ExtResource( 5 )]
-one_shot = true
-explosiveness = 0.9
 
 [connection signal="body_entered" from="HurtBox" to="." method="_on_HurtBox_body_entered"]
 [connection signal="body_entered" from="PlayerDetectionZone" to="PlayerDetectionZone" method="_on_PlayerDetectionZone_body_entered"]

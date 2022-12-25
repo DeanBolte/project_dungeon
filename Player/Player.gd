@@ -3,6 +3,7 @@ extends KinematicBody2D
 # accessed member nodes
 onready var animationPlayer := $StateAnimationPlayer
 onready var shotgunAnimationPlayer := $ShotgunAnimationPlayer
+onready var punchAnimationPlayer := $PunchAnimationPlayer
 onready var hurtBox := $HurtBox
 onready var shotgunSprite := $ShotgunSprite
 
@@ -66,7 +67,8 @@ func _ready():
 
 func _physics_process(delta):
 	# aim shotgun
-	aimingNormalVector = (get_global_mouse_position() - global_position).normalized()
+	aimingNormalVector = get_global_mouse_position() - global_position
+	aimingNormalVector = aimingNormalVector.normalized()
 	shotgunSprite.position = aimingNormalVector * 32
 	shotgunSprite.rotation = aimingNormalVector.angle() + PI/2
 	
@@ -82,7 +84,8 @@ func _physics_process(delta):
 		reload()
 	
 	# attack
-	calculate_attack(delta)
+	calculate_shotgun(delta)
+	calculate_punch(delta)
 	
 	match state:
 		MOVE:
@@ -117,7 +120,15 @@ func calculate_dodge(_delta):
 	velocity = velocity.normalized() * DODGE_VELOCITY
 	animationPlayer.play("Dodge")
 
-func calculate_attack(delta):
+func calculate_punch(delta: float):
+	# perform punch
+	if Input.is_action_just_pressed("player_punch"):
+		punchAnimationPlayer.play("Punch")
+	
+	# aim punch
+	$PunchBox.position = aimingNormalVector * 32
+
+func calculate_shotgun(delta):
 	PlayerStats.set_clip(clip)
 	PlayerStats.update_ammo_ui()
 	if not reloading:
@@ -168,7 +179,6 @@ func reload():
 		reload_time = RELOAD_TIME - (RELOAD_TIME / CLIP_SIZE) * clip
 		
 		# run animations
-		
 		var reload_speed: float = 1/reload_time
 		PlayerStats.reload(reload_time, reload_speed)
 		shotgunAnimationPlayer.play("Reload", 0.0, reload_speed)

@@ -62,6 +62,13 @@ func _physics_process(delta):
 			death()
 	
 	velocity = move_and_slide(velocity)
+	
+	# check for wall slam
+	if get_slide_count() > 0:
+		var collisions = get_slide_collision(0)
+		if collisions:
+			if velocity.length() > MAX_VELOCITY / 2 && state == STUNNED:
+				take_hit(velocity.length(), velocity.normalized())
 
 # --- States ---
 # IDLE
@@ -127,7 +134,7 @@ func pick_rand_state(state_list):
 	return state_list.pop_front()
 
 func recoil(dir: Vector2, value: float):
-	velocity -= dir.normalized() * value
+	velocity -= dir * value
 
 func set_health(value):
 	health = clamp(value, 0, MAX_HEALTH)
@@ -138,6 +145,9 @@ func decrement_health(value = 1):
 func take_hit(damage: float, direction: Vector2):
 	# check if enemy can take damage
 	if invincible <= 0:
+		# recoil enemy
+		recoil(-direction, damage * RECOIL)
+		
 		# take damage and add invicibility frames
 		decrement_health(damage)
 		invincible = INVINCIBLE_TIME
@@ -146,7 +156,7 @@ func take_hit(damage: float, direction: Vector2):
 		
 		# create blood effect
 		var material: ParticlesMaterial = DamageEffects.get_process_material()
-		material.direction = Vector3(direction.x, direction.y, 0)
+		material.direction = Vector3(direction.x, direction.y, 0).normalized()
 		DamageEffects.restart()
 
 func death():
