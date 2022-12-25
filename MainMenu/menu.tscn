@@ -23,16 +23,16 @@ margin_right = -10.0
 margin_bottom = -10.0
 
 [node name="VerticalSeperator" type="VSplitContainer" parent="MarginContainer"]
-margin_right = 940.0
-margin_bottom = 520.0
+margin_right = 620.0
+margin_bottom = 460.0
 split_offset = 440
 
 [node name="Menu" type="VBoxContainer" parent="MarginContainer/VerticalSeperator"]
-margin_right = 940.0
-margin_bottom = 457.0
+margin_right = 620.0
+margin_bottom = 397.0
 
 [node name="Title" type="Label" parent="MarginContainer/VerticalSeperator/Menu"]
-margin_right = 940.0
+margin_right = 620.0
 margin_bottom = 44.0
 theme = ExtResource( 2 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
@@ -40,11 +40,11 @@ text = "Project Dungeon"
 
 [node name="Options" type="VBoxContainer" parent="MarginContainer/VerticalSeperator/Menu"]
 margin_top = 48.0
-margin_right = 940.0
+margin_right = 620.0
 margin_bottom = 143.0
 
 [node name="Play" type="Label" parent="MarginContainer/VerticalSeperator/Menu/Options"]
-margin_right = 940.0
+margin_right = 620.0
 margin_bottom = 29.0
 theme = ExtResource( 1 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
@@ -52,7 +52,7 @@ text = "Play"
 
 [node name="Options" type="Label" parent="MarginContainer/VerticalSeperator/Menu/Options"]
 margin_top = 33.0
-margin_right = 940.0
+margin_right = 620.0
 margin_bottom = 62.0
 theme = ExtResource( 1 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
@@ -60,19 +60,19 @@ text = "Options"
 
 [node name="Exit" type="Label" parent="MarginContainer/VerticalSeperator/Menu/Options"]
 margin_top = 66.0
-margin_right = 940.0
+margin_right = 620.0
 margin_bottom = 95.0
 theme = ExtResource( 1 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Exit"
 
 [node name="Credits" type="VBoxContainer" parent="MarginContainer/VerticalSeperator"]
-margin_top = 469.0
-margin_right = 940.0
-margin_bottom = 520.0
+margin_top = 409.0
+margin_right = 620.0
+margin_bottom = 460.0
 
 [node name="Label" type="Label" parent="MarginContainer/VerticalSeperator/Credits"]
-margin_right = 940.0
+margin_right = 620.0
 margin_bottom = 51.0
 theme = ExtResource( 4 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )

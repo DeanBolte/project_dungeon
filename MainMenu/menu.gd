@@ -10,6 +10,9 @@ enum {
 var selection = PLAY
 var max_options = 3
 
+func _ready():
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+
 func _physics_process(_delta):
 	if Input.is_action_just_pressed("ui_accept"):
 		select()
