@@ -153,6 +153,7 @@ anims/Punch = SubResource( 9 )
 [node name="ShotgunBlast" type="AudioStreamPlayer" parent="SFX"]
 stream = ExtResource( 4 )
 volume_db = -10.0
+bus = "SFX"
 
 [connection signal="area_entered" from="HurtBox" to="." method="_on_HurtBox_area_entered"]
 [connection signal="timeout" from="HurtBox/Timer" to="HurtBox" method="_on_Timer_timeout"]
