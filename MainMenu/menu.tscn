@@ -14,7 +14,7 @@ script = ExtResource( 3 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="CenterContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 10.0
@@ -22,17 +22,18 @@ margin_top = 10.0
 margin_right = -10.0
 margin_bottom = -10.0
 
-[node name="VerticalSeperator" type="VSplitContainer" parent="MarginContainer"]
-margin_right = 620.0
-margin_bottom = 460.0
-split_offset = 440
+[node name="VerticalSeperator" type="VBoxContainer" parent="MarginContainer"]
+margin_left = 100.0
+margin_top = 131.0
+margin_right = 520.0
+margin_bottom = 329.0
 
 [node name="Menu" type="VBoxContainer" parent="MarginContainer/VerticalSeperator"]
-margin_right = 620.0
-margin_bottom = 397.0
+margin_right = 420.0
+margin_bottom = 143.0
 
 [node name="Title" type="Label" parent="MarginContainer/VerticalSeperator/Menu"]
-margin_right = 620.0
+margin_right = 420.0
 margin_bottom = 44.0
 theme = ExtResource( 2 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
@@ -40,11 +41,11 @@ text = "Project Dungeon"
 
 [node name="Options" type="VBoxContainer" parent="MarginContainer/VerticalSeperator/Menu"]
 margin_top = 48.0
-margin_right = 620.0
+margin_right = 420.0
 margin_bottom = 143.0
 
 [node name="Play" type="Label" parent="MarginContainer/VerticalSeperator/Menu/Options"]
-margin_right = 620.0
+margin_right = 420.0
 margin_bottom = 29.0
 mouse_filter = 0
 theme = ExtResource( 1 )
@@ -53,7 +54,7 @@ text = "Play"
 
 [node name="Options" type="Label" parent="MarginContainer/VerticalSeperator/Menu/Options"]
 margin_top = 33.0
-margin_right = 620.0
+margin_right = 420.0
 margin_bottom = 62.0
 mouse_filter = 0
 theme = ExtResource( 1 )
@@ -62,7 +63,7 @@ text = "Options"
 
 [node name="Exit" type="Label" parent="MarginContainer/VerticalSeperator/Menu/Options"]
 margin_top = 66.0
-margin_right = 620.0
+margin_right = 420.0
 margin_bottom = 95.0
 mouse_filter = 0
 theme = ExtResource( 1 )
@@ -70,12 +71,12 @@ custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Exit"
 
 [node name="Credits" type="VBoxContainer" parent="MarginContainer/VerticalSeperator"]
-margin_top = 409.0
-margin_right = 620.0
-margin_bottom = 460.0
+margin_top = 147.0
+margin_right = 420.0
+margin_bottom = 198.0
 
 [node name="Label" type="Label" parent="MarginContainer/VerticalSeperator/Credits"]
-margin_right = 620.0
+margin_right = 420.0
 margin_bottom = 51.0
 theme = ExtResource( 4 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
