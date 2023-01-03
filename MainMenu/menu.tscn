@@ -104,7 +104,7 @@ text = "Options"
 [node name="Options" type="VBoxContainer" parent="OptionMenu"]
 margin_top = 48.0
 margin_right = 620.0
-margin_bottom = 127.0
+margin_bottom = 128.0
 
 [node name="VolumeMixer" type="VBoxContainer" parent="OptionMenu/Options"]
 margin_right = 620.0
@@ -168,8 +168,12 @@ ticks_on_borders = true
 
 [node name="ExitOptions" type="Button" parent="OptionMenu/Options"]
 margin_top = 59.0
-margin_right = 620.0
-margin_bottom = 79.0
+margin_right = 140.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 140, 0 )
+size_flags_horizontal = 0
+theme = ExtResource( 4 )
+text = "Back (esc)"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 6 )
