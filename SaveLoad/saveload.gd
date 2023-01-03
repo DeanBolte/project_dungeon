@@ -54,8 +54,8 @@ func save_room_map():
 
 func save_room(room_inst):
 	var room = {
-		"x" : room_inst.x,
-		"y" : room_inst.y,
+		"x" : room_inst.MAP_LOCATION.x,
+		"y" : room_inst.MAP_LOCATION.y,
 		"enemies" : save_enemies()
 	}
 	return room
@@ -74,7 +74,7 @@ func load_data():
 	# load player data
 	load_player_stats(file.get_var())
 	load_player_position(file.get_var())
-	load_word(file.get_var())
+	load_world(file.get_var())
 	
 	file.close()
 
@@ -97,13 +97,12 @@ func load_world(world_data):
 	load_room_map(world_data.room_map)
 
 func load_room_map(room_map):
-	var room_data = get_tree().root.find_node("FloorGenerator", true, false)
+	var floor_generator = get_tree().root.find_node("FloorGenerator", true, false)
 	for room in room_map:
-		var positon := Vector2(room_map[room].x, room_map[room].y)
-		room_data.roomMap[positon] = load_room(room_map[room])
+		load_room(room_map[room], floor_generator)
 
-func load_room(room_data):
-	var room_inst = 
+func load_room(room_data, floor_generator):
+	var room_inst = floor_generator.create_room(room_data.x, room_data.y, false)
 
 func continue_save():
 	init_game()
