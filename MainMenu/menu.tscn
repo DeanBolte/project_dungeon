@@ -27,25 +27,24 @@ margin_right = -10.0
 margin_bottom = -5.0
 script = ExtResource( 8 )
 
-[node name="Menu" type="VBoxContainer" parent="TitleMenu"]
+[node name="MenuItems" type="VBoxContainer" parent="TitleMenu"]
 margin_right = 620.0
 margin_bottom = 415.0
 size_flags_vertical = 3
-script = ExtResource( 3 )
 
-[node name="Title" type="Label" parent="TitleMenu/Menu"]
+[node name="Title" type="Label" parent="TitleMenu/MenuItems"]
 margin_right = 620.0
 margin_bottom = 44.0
 theme = ExtResource( 2 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Project Dungeon"
 
-[node name="Options" type="VBoxContainer" parent="TitleMenu/Menu"]
+[node name="Options" type="VBoxContainer" parent="TitleMenu/MenuItems"]
 margin_top = 48.0
 margin_right = 620.0
 margin_bottom = 143.0
 
-[node name="Play" type="Label" parent="TitleMenu/Menu/Options"]
+[node name="Play" type="Label" parent="TitleMenu/MenuItems/Options"]
 margin_right = 620.0
 margin_bottom = 29.0
 mouse_filter = 0
@@ -53,7 +52,7 @@ theme = ExtResource( 1 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Play"
 
-[node name="Options" type="Label" parent="TitleMenu/Menu/Options"]
+[node name="Options" type="Label" parent="TitleMenu/MenuItems/Options"]
 margin_top = 33.0
 margin_right = 620.0
 margin_bottom = 62.0
@@ -62,7 +61,7 @@ theme = ExtResource( 1 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Options"
 
-[node name="Exit" type="Label" parent="TitleMenu/Menu/Options"]
+[node name="Exit" type="Label" parent="TitleMenu/MenuItems/Options"]
 margin_top = 66.0
 margin_right = 620.0
 margin_bottom = 95.0
@@ -177,6 +176,9 @@ stream = ExtResource( 6 )
 autoplay = true
 bus = "Music"
 
+[connection signal="mouse_entered" from="TitleMenu/MenuItems/Options/Play" to="TitleMenu" method="_on_Play_mouse_entered"]
+[connection signal="mouse_entered" from="TitleMenu/MenuItems/Options/Options" to="TitleMenu" method="_on_Options_mouse_entered"]
+[connection signal="mouse_entered" from="TitleMenu/MenuItems/Options/Exit" to="TitleMenu" method="_on_Exit_mouse_entered"]
 [connection signal="value_changed" from="OptionMenu/Options/VolumeMixer/SFX/SFXSlider" to="OptionMenu/Options/VolumeMixer" method="_on_SFXSlider_value_changed"]
 [connection signal="value_changed" from="OptionMenu/Options/VolumeMixer/Music/MusicSlider" to="OptionMenu/Options/VolumeMixer" method="_on_MusicSlider_value_changed"]
 [connection signal="pressed" from="OptionMenu/Options/ExitOptions" to="." method="_on_ExitOptions_pressed"]

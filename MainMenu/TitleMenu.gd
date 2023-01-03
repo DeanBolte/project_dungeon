@@ -1,18 +1,19 @@
 extends VBoxContainer
 
 onready var Menu = get_parent()
-onready var Options = $Menu/Options
+onready var Options = $MenuItems/Options
 
 enum {
 	PLAY,
 	OPTIONS,
 	EXIT
 }
-var selection = PLAY
+var selection = PLAY setget set_selection
 var max_options = 3
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	update()
 
 func _physics_process(_delta):
 	if Input.is_action_just_pressed("ui_accept"):
@@ -22,15 +23,17 @@ func _physics_process(_delta):
 		move_selection(1)
 	if Input.is_action_just_pressed("ui_up"):
 		move_selection(-1)
-	
-	update()
 
-func move_selection(value):
-	selection += value
+func move_selection(value: int):
+	self.selection += value
 	if selection > max_options - 1:
-		selection = 0
+		self.selection = 0
 	elif selection < 0:
-		selection = max_options - 1
+		self.selection = max_options - 1
+
+func set_selection(value: int):
+	selection = value
+	update()
 
 func select():
 	match selection:
@@ -53,3 +56,13 @@ func update():
 			Options.get_node("Options").margin_left = 20
 		EXIT:
 			Options.get_node("Exit").margin_left = 20
+
+
+func _on_Play_mouse_entered():
+	self.selection = PLAY
+
+func _on_Options_mouse_entered():
+	self.selection = OPTIONS
+
+func _on_Exit_mouse_entered():
+	self.selection = EXIT
