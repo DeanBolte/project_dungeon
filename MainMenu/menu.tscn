@@ -168,5 +168,5 @@ stream = ExtResource( 6 )
 autoplay = true
 bus = "Music"
 
-[connection signal="value_changed" from="OptionMenu/Options/VolumeMixer/SFX/SFXSlider" to="OptionMenu/Options/VolumeMixer" method="_on_HSlider_value_changed"]
-[connection signal="value_changed" from="OptionMenu/Options/VolumeMixer/Music/MusicSlider" to="OptionMenu/Options/VolumeMixer" method="_on_HSlider_value_changed"]
+[connection signal="value_changed" from="OptionMenu/Options/VolumeMixer/SFX/SFXSlider" to="OptionMenu/Options/VolumeMixer" method="_on_SFXSlider_value_changed"]
+[connection signal="value_changed" from="OptionMenu/Options/VolumeMixer/Music/MusicSlider" to="OptionMenu/Options/VolumeMixer" method="_on_MusicSlider_value_changed"]
