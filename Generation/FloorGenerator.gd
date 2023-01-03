@@ -60,7 +60,7 @@ func create_room(x: float, y: float, enemies: bool):
 		
 		return room_inst
 
-func instantiate_room_inst(key):
+func instantiate_room_inst(key: Vector2):
 	if(not roomMap.has(key)):
 		# instantiate packed room scene
 		var roomInst = BaseRoomScene.instance()
@@ -78,24 +78,28 @@ func instantiate_room_inst(key):
 func flush_room_map():
 	roomMap = Dictionary()
 
-func populate_enemies(roomInst: Node2D):
-	var no_enemies = randi() % 3
+func populate_enemies(room_inst: Node2D, enemy_count: int = 3):
+	var no_enemies = randi() % enemy_count
 	
 	for _e in range(no_enemies):
-		var enemy = get_random_enemy()
-		roomInst.get_node("EnemiesActive").add_child(enemy)
-		
+		var enemy_type = get_random_enemy()
 		var random_position = Vector2(rand_range(-240, 240), rand_range(-240, 240))
-		enemy.global_position = roomInst.global_position + Vector2(320, 320) + random_position
+		instanstiate_enemy(room_inst, random_position, enemy_type)
+
+func instanstiate_enemy(room_inst, position: Vector2, enemy_scene):
+	var enemy = enemy_scene.instance()
+	room_inst.get_node("EnemiesActive").add_child(enemy)
+	enemy.global_position = room_inst.global_position + Vector2(320, 320) + position
+	return enemy
 
 func get_random_enemy():
 	match randi() % enemy_types:
 		SINGLESHOT:
-			return SingleShotEnemyScene.instance()
+			return SingleShotEnemyScene
 		BURSTSHOT:
-			return BurstShotEnemyScene.instance()
+			return BurstShotEnemyScene
 		MELEE:
-			return MeleeEnemyScene.instance()
+			return MeleeEnemyScene
 
 # generate all adjacent rooms
 func generate_next(location):
