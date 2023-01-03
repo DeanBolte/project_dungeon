@@ -25,7 +25,7 @@ var Player
 # initialise first room and player
 func _ready():
 	randomize()
-	create_room(0, 0)
+	create_room(0, 0, false)
 	Player = spawn_player(320, 320)
 
 func _process(_delta):
@@ -46,27 +46,37 @@ func spawn_player(x, y):
 	
 	return playerInst
 
-# creates a room
-func create_room(x, y):
+# room creation
+func create_room(x: float, y: float, enemies: bool):
 	var key = Vector2(x, y)
+	var room_inst = instantiate_room_inst(key)
+	
+	if room_inst:
+		if enemies:
+			populate_enemies(room_inst)
+		
+		# add room to map
+		roomMap[key] = room_inst
+		
+		return room_inst
+
+func instantiate_room_inst(key):
 	if(not roomMap.has(key)):
 		# instantiate packed room scene
 		var roomInst = BaseRoomScene.instance()
 		RoomsActive.add_child(roomInst)
 		
 		# set room location
-		roomInst.global_position = Vector2(x*ROOM_DISTANCE, y*ROOM_DISTANCE)
+		roomInst.global_position = Vector2(key.x*ROOM_DISTANCE, key.y*ROOM_DISTANCE)
 		roomInst.MAP_LOCATION = key
-		
-		# populate room
-		populate_enemies(roomInst)
 		
 		# connect generation trigger
 		roomInst.connect("first_entered", self, "generate_next")
-		# add room to map
-		roomMap[key] = roomInst
-
+		
 		return roomInst
+
+func flush_room_map():
+	roomMap = Dictionary()
 
 func populate_enemies(roomInst: Node2D):
 	var no_enemies = randi() % 3
@@ -89,12 +99,12 @@ func get_random_enemy():
 
 # generate all adjacent rooms
 func generate_next(location):
-	call_deferred("create_room", location.x+1, location.y)
-	call_deferred("create_room", location.x-1, location.y)
-	call_deferred("create_room", location.x, location.y+1)
-	call_deferred("create_room", location.x, location.y-1)
-	call_deferred("create_room", location.x+1, location.y+1)
-	call_deferred("create_room", location.x+1, location.y-1)
-	call_deferred("create_room", location.x-1, location.y+1)
-	call_deferred("create_room", location.x-1, location.y-1)
+	call_deferred("create_room", location.x+1, location.y, true)
+	call_deferred("create_room", location.x-1, location.y, true)
+	call_deferred("create_room", location.x, location.y+1, true)
+	call_deferred("create_room", location.x, location.y-1, true)
+	call_deferred("create_room", location.x+1, location.y+1, true)
+	call_deferred("create_room", location.x+1, location.y-1, true)
+	call_deferred("create_room", location.x-1, location.y+1, true)
+	call_deferred("create_room", location.x-1, location.y-1, true)
 	
