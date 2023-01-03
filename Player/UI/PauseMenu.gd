@@ -22,6 +22,9 @@ func _on_ResumeButton_pressed():
 func _on_QuitButton_pressed():
 	get_tree().quit()
 
-
 func _on_SaveButton_pressed():
 	Saveload.save_data()
+
+func _on_MenuButton_pressed():
+	self.is_paused = false
+	get_tree().change_scene("res://MainMenu/Menu.tscn")
