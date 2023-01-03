@@ -101,6 +101,15 @@ func get_random_enemy():
 		MELEE:
 			return MeleeEnemyScene
 
+func enemy_scene_to_enum(enemy_scene):
+	match enemy_scene:
+		MeleeEnemyScene:
+			return MELEE
+		SingleShotEnemyScene:
+			return SINGLESHOT
+		BurstShotEnemyScene:
+			return BURSTSHOT
+
 # generate all adjacent rooms
 func generate_next(location):
 	call_deferred("create_room", location.x+1, location.y, true)

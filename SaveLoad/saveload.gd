@@ -34,8 +34,8 @@ func save_player_stats():
 func save_player_position():
 	var player = get_tree().root.find_node("Player", true, false)
 	var player_position = {
-		"x" : player.position.x,
-		"y" : player.position.y
+		"x" : player.global_position.x,
+		"y" : player.global_position.y
 	}
 	return player_position
 
@@ -46,22 +46,31 @@ func save_world():
 	return world_data
 
 func save_room_map():
-	var room_data = get_tree().root.find_node("FloorGenerator", true, false)
+	var floor_generator = get_tree().root.find_node("FloorGenerator", true, false)
 	var room_map := Dictionary()
-	for room in room_data.roomMap:
-		room_map[room] = save_room(room_data.roomMap[room])
+	for room in floor_generator.roomMap:
+		room_map[room] = save_room(floor_generator.roomMap[room])
 	return room_map
 
 func save_room(room_inst):
 	var room = {
 		"x" : room_inst.MAP_LOCATION.x,
 		"y" : room_inst.MAP_LOCATION.y,
-		"enemies" : save_enemies()
+		"enemies" : save_enemies(room_inst)
 	}
 	return room
 
-func save_enemies():
-	pass
+func save_enemies(room_inst: Node2D):
+	var enemies_active := room_inst.find_node("EnemiesActive").get_children()
+	var enemies = Dictionary()
+	for e in enemies_active:
+		if e.has_method("set_health"):
+			enemies[e.get_index()] = {
+				"enemy_type" : e.get_filename(),
+				"position" : e.global_position,
+				"health" : e.health
+			}
+	return enemies
 
 func load_data():
 	var file := File.new()
@@ -89,8 +98,8 @@ func load_player_stats(player_stats):
 
 func load_player_position(player_position):
 	var player = get_tree().root.find_node("Player", true, false)
-	player.position.x = player_position.x
-	player.position.y = player_position.y
+	player.global_position.x = player_position.x
+	player.global_position.y = player_position.y
 
 # place holder function for when the world gets more complex
 func load_world(world_data):
@@ -103,6 +112,11 @@ func load_room_map(room_map):
 
 func load_room(room_data, floor_generator):
 	var room_inst = floor_generator.create_room(room_data.x, room_data.y, false)
+	load_enemies(room_inst, room_data.enemies, floor_generator)
+
+func load_enemies(room_inst, enemies, floor_generator):
+	for e in enemies:
+		floor_generator.instanstiate_enemy(room_inst, enemies[e].position, floor_generator.enemy_scene_to_enum(enemies[e].enemy_type))
 
 func continue_save():
 	init_game()
