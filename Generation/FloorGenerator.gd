@@ -46,7 +46,7 @@ func spawn_player(x, y):
 	
 	return playerInst
 
-# creates a 
+# creates a room
 func create_room(x, y):
 	var key = Vector2(x, y)
 	if(not roomMap.has(key)):

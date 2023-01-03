@@ -11,7 +11,7 @@ config_version=4
 [application]
 
 config/name="project_dungeon"
-run/main_scene="res://Scenes/dungeon_scene.tscn"
+run/main_scene="res://MainMenu/Menu.tscn"
 config/icon="res://icon.png"
 
 [autoload]

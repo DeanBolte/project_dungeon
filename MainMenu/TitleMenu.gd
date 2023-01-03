@@ -17,6 +17,7 @@ func _ready():
 	update()
 
 func _physics_process(_delta):
+	# Player inputs
 	if Input.is_action_just_pressed("ui_accept"):
 		select()
 	
@@ -39,14 +40,9 @@ func set_selection(value: int):
 func select():
 	match selection:
 		CONTINUE:
-			PlayerStats.initialise()
-			Saveload.load_data()
-# warning-ignore:return_value_discarded
-			get_tree().change_scene("res://Scenes/dungeon_scene.tscn")
+			Saveload.continue_save()
 		PLAY:
-			PlayerStats.initialise()
-# warning-ignore:return_value_discarded
-			get_tree().change_scene("res://Scenes/dungeon_scene.tscn")
+			Saveload.init_game()
 		OPTIONS:
 			Menu.set_active_menu(Menu.OPTIONS)
 		EXIT:
