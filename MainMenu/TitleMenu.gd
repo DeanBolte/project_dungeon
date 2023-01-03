@@ -4,6 +4,7 @@ onready var Menu = get_parent()
 onready var Options = $MenuItems/Options
 
 enum {
+	CONTINUE,
 	PLAY,
 	OPTIONS,
 	EXIT
@@ -26,10 +27,10 @@ func _physics_process(_delta):
 
 func move_selection(value: int):
 	self.selection += value
-	if selection > max_options - 1:
+	if selection > max_options:
 		self.selection = 0
 	elif selection < 0:
-		self.selection = max_options - 1
+		self.selection = max_options
 
 func set_selection(value: int):
 	selection = value
@@ -37,6 +38,11 @@ func set_selection(value: int):
 
 func select():
 	match selection:
+		CONTINUE:
+			PlayerStats.initialise()
+			Saveload.load_data()
+# warning-ignore:return_value_discarded
+			get_tree().change_scene("res://Scenes/dungeon_scene.tscn")
 		PLAY:
 			PlayerStats.initialise()
 # warning-ignore:return_value_discarded
@@ -50,6 +56,8 @@ func update():
 	for o in Options.get_children():
 		o.margin_left = 0
 	match selection:
+		CONTINUE:
+			Options.get_node("Continue").margin_left = 20
 		PLAY:
 			Options.get_node("Play").margin_left = 20
 		OPTIONS:
@@ -57,6 +65,8 @@ func update():
 		EXIT:
 			Options.get_node("Exit").margin_left = 20
 
+func _on_Continue_mouse_entered():
+	self.selection = CONTINUE
 
 func _on_Play_mouse_entered():
 	self.selection = PLAY

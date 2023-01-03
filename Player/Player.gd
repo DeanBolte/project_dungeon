@@ -132,7 +132,7 @@ func calculate_shotgun(delta):
 	PlayerStats.set_clip(clip)
 	PlayerStats.update_ammo_ui()
 	if not reloading:
-		if Input.get_action_strength("player_shoot") && shootCoolDown <= 0 && clip > 0:
+		if Input.is_action_just_pressed("player_shoot") && shootCoolDown <= 0 && clip > 0:
 			# shot sfx
 			shotgunBlastSFX.play()
 			

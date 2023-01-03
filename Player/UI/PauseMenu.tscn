@@ -21,9 +21,9 @@ anchor_bottom = 1.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
 margin_left = 192.0
-margin_top = 181.0
+margin_top = 155.0
 margin_right = 448.0
-margin_bottom = 299.0
+margin_bottom = 325.0
 custom_constants/separation = 20
 
 [node name="PauseMenuTitle" type="Label" parent="CenterContainer/VBoxContainer"]
@@ -39,15 +39,24 @@ margin_right = 256.0
 margin_bottom = 66.0
 rect_min_size = Vector2( 256, 32 )
 mouse_filter = 1
-text = "Resumer Gane"
+text = "Resume Game"
 
-[node name="QuitButton" type="Button" parent="CenterContainer/VBoxContainer"]
+[node name="SaveButton" type="Button" parent="CenterContainer/VBoxContainer"]
 margin_top = 86.0
 margin_right = 256.0
 margin_bottom = 118.0
 rect_min_size = Vector2( 256, 32 )
 mouse_filter = 1
+text = "Save Game"
+
+[node name="QuitButton" type="Button" parent="CenterContainer/VBoxContainer"]
+margin_top = 138.0
+margin_right = 256.0
+margin_bottom = 170.0
+rect_min_size = Vector2( 256, 32 )
+mouse_filter = 1
 text = "Quit"
 
 [connection signal="pressed" from="CenterContainer/VBoxContainer/ResumeButton" to="." method="_on_ResumeButton_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/SaveButton" to="." method="_on_SaveButton_pressed"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/QuitButton" to="." method="_on_QuitButton_pressed"]
