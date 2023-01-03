@@ -1,54 +1,38 @@
 extends Control
 
-onready var Options = $TitleMenu/Menu/Options
+onready var TitleMenu = $TitleMenu
+onready var OptionMenu = $OptionMenu
 
 enum {
-	PLAY,
-	OPTIONS,
-	EXIT
+	MAINMENU,
+	OPTIONS
 }
-var selection = PLAY
-var max_options = 3
+var active_menu: int = MAINMENU setget set_active_menu
 
 func _ready():
-	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	remove_child(TitleMenu)
+	remove_child(OptionMenu)
+	set_active_menu(active_menu)
 
-func _physics_process(_delta):
-	if Input.is_action_just_pressed("ui_accept"):
-		select()
+func set_active_menu(menu_enum: int):
+	# disable current active menu
+	var active = menu_id_to_inst(active_menu)
+	if is_a_parent_of(active):
+		remove_child(active)
 	
-	if Input.is_action_just_pressed("ui_down"):
-		move_selection(1)
-	if Input.is_action_just_pressed("ui_up"):
-		move_selection(-1)
-	
-	update()
+	# activate new menu
+	active_menu = menu_enum
+	active = menu_id_to_inst(active_menu)
+	add_child(active)
 
-func move_selection(value):
-	selection += value
-	if selection > max_options - 1:
-		selection = 0
-	elif selection < 0:
-		selection = max_options - 1
-
-func select():
-	match selection:
-		PLAY:
-			PlayerStats.initialise()
-# warning-ignore:return_value_discarded
-			get_tree().change_scene("res://Scenes/dungeon_scene.tscn")
+func menu_id_to_inst(menu_index: int):
+	var menuInst
+	match menu_index:
+		MAINMENU:
+			menuInst = TitleMenu
 		OPTIONS:
-			print("placeholder option, TODO")
-		EXIT:
-			get_tree().quit()
+			menuInst = OptionMenu
+	return menuInst
 
-func update():
-	for o in Options.get_children():
-		o.margin_left = 0
-	match selection:
-		PLAY:
-			Options.get_node("Play").margin_left = 20
-		OPTIONS:
-			Options.get_node("Options").margin_left = 20
-		EXIT:
-			Options.get_node("Exit").margin_left = 20
+func _on_ExitOptions_pressed():
+	self.active_menu = MAINMENU

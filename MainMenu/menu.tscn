@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://MainMenu/Text/MenuItemTheme.tres" type="Theme" id=1]
 [ext_resource path="res://MainMenu/Text/MenuTitleTheme.tres" type="Theme" id=2]
@@ -6,6 +6,8 @@
 [ext_resource path="res://MainMenu/Text/MenuCreditTheme.tres" type="Theme" id=4]
 [ext_resource path="res://MainMenu/VolumeMixer.gd" type="Script" id=5]
 [ext_resource path="res://Soundtrack/holy moley.wav" type="AudioStream" id=6]
+[ext_resource path="res://MainMenu/OptionMenu.gd" type="Script" id=7]
+[ext_resource path="res://MainMenu/TitleMenu.gd" type="Script" id=8]
 
 [node name="Menu" type="Control"]
 anchor_right = 1.0
@@ -17,18 +19,19 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="TitleMenu" type="VBoxContainer" parent="."]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 10.0
 margin_top = 5.0
 margin_right = -10.0
 margin_bottom = -5.0
+script = ExtResource( 8 )
 
 [node name="Menu" type="VBoxContainer" parent="TitleMenu"]
 margin_right = 620.0
 margin_bottom = 415.0
 size_flags_vertical = 3
+script = ExtResource( 3 )
 
 [node name="Title" type="Label" parent="TitleMenu/Menu"]
 margin_right = 620.0
@@ -90,6 +93,7 @@ margin_left = 10.0
 margin_top = 5.0
 margin_right = -10.0
 margin_bottom = -5.0
+script = ExtResource( 7 )
 
 [node name="Title" type="Label" parent="OptionMenu"]
 margin_right = 620.0
@@ -101,7 +105,7 @@ text = "Options"
 [node name="Options" type="VBoxContainer" parent="OptionMenu"]
 margin_top = 48.0
 margin_right = 620.0
-margin_bottom = 103.0
+margin_bottom = 127.0
 
 [node name="VolumeMixer" type="VBoxContainer" parent="OptionMenu/Options"]
 margin_right = 620.0
@@ -163,6 +167,11 @@ max_value = 0.0
 tick_count = 10
 ticks_on_borders = true
 
+[node name="ExitOptions" type="Button" parent="OptionMenu/Options"]
+margin_top = 59.0
+margin_right = 620.0
+margin_bottom = 79.0
+
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 6 )
 autoplay = true
@@ -170,3 +179,4 @@ bus = "Music"
 
 [connection signal="value_changed" from="OptionMenu/Options/VolumeMixer/SFX/SFXSlider" to="OptionMenu/Options/VolumeMixer" method="_on_SFXSlider_value_changed"]
 [connection signal="value_changed" from="OptionMenu/Options/VolumeMixer/Music/MusicSlider" to="OptionMenu/Options/VolumeMixer" method="_on_MusicSlider_value_changed"]
+[connection signal="pressed" from="OptionMenu/Options/ExitOptions" to="." method="_on_ExitOptions_pressed"]
