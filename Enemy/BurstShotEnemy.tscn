@@ -36,7 +36,6 @@ collision_layer = 64
 collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
-visible = false
 shape = SubResource( 2 )
 
 [node name="HitBox" type="Area2D" parent="."]
@@ -71,6 +70,7 @@ wait_time = 0.1
 autostart = true
 
 [node name="DamageEffects" parent="." instance=ExtResource( 5 )]
+visibility_rect = Rect2( -500, -500, 1000, 1000 )
 
 [connection signal="body_entered" from="HurtBox" to="." method="_on_HurtBox_body_entered"]
 [connection signal="body_entered" from="PlayerDetectionZone" to="PlayerDetectionZone" method="_on_PlayerDetectionZone_body_entered"]
