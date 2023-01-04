@@ -10,6 +10,7 @@ func _ready():
 
 func save_data():
 	var file := File.new()
+# warning-ignore:return_value_discarded
 	file.open(SAVE_FILE_PATH, File.WRITE)
 	
 	# save player details
@@ -78,7 +79,7 @@ func load_data():
 	if not file.file_exists(SAVE_FILE_PATH):
 		return # no save file to load
 	
-	#var save_nodes = get_tree().get_nodes_in_group("Persist")
+# warning-ignore:return_value_discarded
 	file.open(SAVE_FILE_PATH, File.READ)
 	
 	# load player data

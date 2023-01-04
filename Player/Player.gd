@@ -120,7 +120,7 @@ func calculate_dodge(_delta):
 	velocity = velocity.normalized() * DODGE_VELOCITY
 	animationPlayer.play("Dodge")
 
-func calculate_punch(delta: float):
+func calculate_punch(_delta: float):
 	# perform punch
 	if Input.is_action_just_pressed("player_punch"):
 		punchAnimationPlayer.play("Punch")
