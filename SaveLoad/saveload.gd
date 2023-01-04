@@ -56,6 +56,7 @@ func save_room(room_inst):
 	var room = {
 		"x" : room_inst.MAP_LOCATION.x,
 		"y" : room_inst.MAP_LOCATION.y,
+		"visited" : room_inst.visited,
 		"enemies" : save_enemies(room_inst)
 	}
 	return room
@@ -107,16 +108,18 @@ func load_world(world_data):
 
 func load_room_map(room_map):
 	var floor_generator = get_tree().root.find_node("FloorGenerator", true, false)
+	floor_generator.flush_room_map()
 	for room in room_map:
 		load_room(room_map[room], floor_generator)
 
 func load_room(room_data, floor_generator):
 	var room_inst = floor_generator.create_room(room_data.x, room_data.y, false)
+	room_inst.visited = room_data.visited
 	load_enemies(room_inst, room_data.enemies, floor_generator)
 
 func load_enemies(room_inst, enemies, floor_generator):
 	for e in enemies:
-		floor_generator.instanstiate_enemy(room_inst, enemies[e].position, floor_generator.enemy_scene_to_enum(enemies[e].enemy_type))
+		floor_generator.instanstiate_enemy(room_inst, enemies[e].position, load(enemies[e].enemy_type))
 
 func continue_save():
 	init_game()

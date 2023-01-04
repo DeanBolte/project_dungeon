@@ -83,13 +83,13 @@ func populate_enemies(room_inst: Node2D, enemy_count: int = 3):
 	
 	for _e in range(no_enemies):
 		var enemy_type = get_random_enemy()
-		var random_position = Vector2(rand_range(-240, 240), rand_range(-240, 240))
+		var random_position = room_inst.global_position + Vector2(320, 320) + Vector2(rand_range(-240, 240), rand_range(-240, 240))
 		instanstiate_enemy(room_inst, random_position, enemy_type)
 
 func instanstiate_enemy(room_inst, position: Vector2, enemy_scene):
 	var enemy = enemy_scene.instance()
 	room_inst.get_node("EnemiesActive").add_child(enemy)
-	enemy.global_position = room_inst.global_position + Vector2(320, 320) + position
+	enemy.global_position = position
 	return enemy
 
 func get_random_enemy():
