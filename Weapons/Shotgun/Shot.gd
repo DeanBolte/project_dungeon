@@ -1,18 +1,27 @@
 extends KinematicBody2D
 
 var ACCURACY = 0.2
-var SPEED = rand_range(1500, 2000)
+var SPEED = rand_range(1000, 1500)
 var MAX_DAMAGE = 1
 var MIN_DAMAGE = 1
 var DAMAGE_LOSS = 1 # damage loss per second
 var CRIT_TIME = 0.05
+var MAX_LIFETIME = 5 # seconds
 
 var direction = Vector2.ZERO
 var damage = MAX_DAMAGE
 var crit_timer = CRIT_TIME
 var critical = 2
 
+var lifetime = MAX_LIFETIME
+
 func _physics_process(delta):
+	# decay lifetime
+	lifetime -= delta
+	if lifetime < 0:
+		collision_event()
+	
+	# decay crit
 	if crit_timer <= 0:
 		critical = 1
 	else:
@@ -23,10 +32,9 @@ func _physics_process(delta):
 		damage = max(damage - delta * DAMAGE_LOSS, MIN_DAMAGE)
 	
 	# move bullet and check for collisions
-	var collision = move_and_collide(direction * SPEED * delta)
-	
-	if collision:
-		collision_event(collision)
+	var _velocity = move_and_slide(direction * SPEED)
+	if get_slide_count() > 0:
+		collision_event()
 
-func collision_event(_collision):
+func collision_event():
 	queue_free()
