@@ -101,6 +101,10 @@ player_punch={
 2d_physics/layer_7="EnemyHurtBox"
 2d_physics/layer_8="Room"
 
+[navigation]
+
+2d/default_edge_connection_margin=5.0
+
 [physics]
 
 common/enable_pause_aware_picking=true

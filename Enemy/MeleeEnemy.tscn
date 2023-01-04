@@ -64,8 +64,7 @@ autostart = true
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 path_desired_distance = 16.0
-target_desired_distance = 16.0
-navigation_layers = 17
+target_desired_distance = 24.0
 
 [node name="PlayerDetectionCycle" type="Timer" parent="."]
 wait_time = 0.1
