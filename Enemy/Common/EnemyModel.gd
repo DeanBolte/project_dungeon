@@ -18,7 +18,7 @@ var MOVE_TO_PLAYER = 210
 var MOVE_AWAY_PLAYER = 190
 var MAX_DROPS = 3
 var MAX_STUNNED_TIME = 0.8
-var WALL_SLAM_DAMAGE = 4
+var WALL_SLAM_DAMAGE = 2
 
 # important nodes
 var playerDetectionZone
@@ -71,7 +71,7 @@ func wall_slam():
 	for i in range(get_slide_count()):
 		var collision: KinematicCollision2D = get_slide_collision(i)
 		if velocity.length() > MAX_VELOCITY / 2 && state == STUNNED:
-			take_hit(WALL_SLAM_DAMAGE, velocity.normalized() * -collision.normal)
+			take_hit(WALL_SLAM_DAMAGE, velocity.normalized() + collision.normal)
 
 # --- States ---
 # IDLE

@@ -18,7 +18,7 @@ func _ready():
 	
 	FIRE_RATE = 0.8
 	CLIP_SIZE = 1
-	RELOAD_TIME = 32
+	RELOAD_TIME = 1
 	
 	MAX_DROPS = 4
 	

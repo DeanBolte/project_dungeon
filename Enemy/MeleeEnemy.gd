@@ -12,7 +12,7 @@ func _ready():
 	MAX_HEALTH = 1
 	set_health(MAX_HEALTH)
 	
-	RECOIL = 600
+	RECOIL = 300
 	
 	MAX_DROPS = 2
 	
