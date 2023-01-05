@@ -1,0 +1,143 @@
+extends Node
+
+const SAVE_FILE_PATH = "user://save_file.save"
+var game_data = {}
+
+var packed_baseroom = load("res://Generation/RoomBase.tscn")
+
+func _ready():
+	pass
+
+func save_data():
+	var file := File.new()
+# warning-ignore:return_value_discarded
+	file.open(SAVE_FILE_PATH, File.WRITE)
+	
+	# save player details
+	file.store_var(save_player_stats())
+	file.store_var(save_player_position())
+	file.store_var(save_world())
+	
+	file.close()
+
+func save_player_stats():
+	var player_stats = {
+		"max_health" : PlayerStats.max_health,
+		"health" : PlayerStats.health,
+		"max_clip" : PlayerStats.max_clip,
+		"clip" : PlayerStats.clip,
+		"selected_shot_type" : PlayerStats.selected_shot_type,
+		"shot_types" : PlayerStats.shot_types,
+		"ammo_counts" : PlayerStats.ammo_counts
+	}
+	return player_stats
+
+func save_player_position():
+	var player = get_tree().root.find_node("Player", true, false)
+	var player_position = {
+		"x" : player.global_position.x,
+		"y" : player.global_position.y
+	}
+	return player_position
+
+func save_world():
+	var world_data = {
+		"room_map" : save_room_map()
+	}
+	return world_data
+
+func save_room_map():
+	var floor_generator = get_tree().root.find_node("FloorGenerator", true, false)
+	var room_map := Dictionary()
+	for room in floor_generator.roomMap:
+		room_map[room] = save_room(floor_generator.roomMap[room])
+	return room_map
+
+func save_room(room_inst):
+	var room = {
+		"x" : room_inst.MAP_LOCATION.x,
+		"y" : room_inst.MAP_LOCATION.y,
+		"visited" : room_inst.visited,
+		"enemies" : save_enemies(room_inst)
+	}
+	return room
+
+func save_enemies(room_inst: Node2D):
+	var enemies_active := room_inst.find_node("EnemiesActive").get_children()
+	var enemies = Dictionary()
+	for e in enemies_active:
+		if e.has_method("set_health"):
+			enemies[e.get_index()] = {
+				"enemy_type" : e.get_filename(),
+				"position" : e.global_position,
+				"health" : e.health
+			}
+	return enemies
+
+func load_data():
+	var file := File.new()
+	if not file.file_exists(SAVE_FILE_PATH):
+		return # no save file to load
+	
+# warning-ignore:return_value_discarded
+	file.open(SAVE_FILE_PATH, File.READ)
+	
+	# load player data
+	load_player_stats(file.get_var())
+	load_player_position(file.get_var())
+	load_world(file.get_var())
+	
+	file.close()
+
+func load_player_stats(player_stats):
+	PlayerStats.max_health = player_stats.max_health
+	PlayerStats.health = player_stats.health
+	PlayerStats.max_clip = player_stats.max_clip
+	PlayerStats.clip = player_stats.clip
+	PlayerStats.selected_shot_type = player_stats.selected_shot_type
+	PlayerStats.shot_types = player_stats.shot_types
+	PlayerStats.ammo_counts = player_stats.ammo_counts
+
+func load_player_position(player_position):
+	var player = get_tree().root.find_node("Player", true, false)
+	player.global_position.x = player_position.x
+	player.global_position.y = player_position.y
+	
+	# update camera position
+	var camera = player.find_node("Camera2D")
+	camera.set_enable_follow_smoothing(false)
+	camera.global_position = player.global_position
+	yield(get_tree(), "idle_frame")
+	camera.set_enable_follow_smoothing(true)
+
+# place holder function for when the world gets more complex
+func load_world(world_data):
+	load_room_map(world_data.room_map)
+
+func load_room_map(room_map):
+	var floor_generator = get_tree().root.find_node("FloorGenerator", true, false)
+	floor_generator.flush_room_map()
+	for room in room_map:
+		load_room(room_map[room], floor_generator)
+
+func load_room(room_data, floor_generator):
+	var room_inst = floor_generator.create_room(room_data.x, room_data.y, false)
+	room_inst.visited = room_data.visited
+	load_enemies(room_inst, room_data.enemies, floor_generator)
+
+func load_enemies(room_inst, enemies, floor_generator):
+	for e in enemies:
+		floor_generator.instanstiate_enemy(room_inst, enemies[e].position, load(enemies[e].enemy_type))
+
+func continue_save():
+	init_game()
+	call_deferred("load_data")
+
+func init_game():
+# warning-ignore:return_value_discarded
+	get_tree().change_scene("res://Scenes/dungeon_scene.tscn")
+	PlayerStats.initialise()
+
+func save_exists():
+	var file := File.new()
+	return file.file_exists(SAVE_FILE_PATH)

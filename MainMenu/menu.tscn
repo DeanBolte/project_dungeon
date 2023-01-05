@@ -1,0 +1,198 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://MainMenu/Text/MenuItemTheme.tres" type="Theme" id=1]
+[ext_resource path="res://MainMenu/Text/MenuTitleTheme.tres" type="Theme" id=2]
+[ext_resource path="res://MainMenu/Menu.gd" type="Script" id=3]
+[ext_resource path="res://MainMenu/Text/MenuCreditTheme.tres" type="Theme" id=4]
+[ext_resource path="res://MainMenu/VolumeMixer.gd" type="Script" id=5]
+[ext_resource path="res://Soundtrack/holy moley.wav" type="AudioStream" id=6]
+[ext_resource path="res://MainMenu/OptionMenu.gd" type="Script" id=7]
+[ext_resource path="res://MainMenu/TitleMenu.gd" type="Script" id=8]
+
+[node name="Menu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 3 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="TitleMenu" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 5.0
+margin_right = -10.0
+margin_bottom = -5.0
+script = ExtResource( 8 )
+
+[node name="MenuItems" type="VBoxContainer" parent="TitleMenu"]
+margin_right = 620.0
+margin_bottom = 415.0
+size_flags_vertical = 3
+
+[node name="Title" type="Label" parent="TitleMenu/MenuItems"]
+margin_right = 620.0
+margin_bottom = 44.0
+theme = ExtResource( 2 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Project Dungeon"
+
+[node name="Options" type="VBoxContainer" parent="TitleMenu/MenuItems"]
+margin_top = 48.0
+margin_right = 620.0
+margin_bottom = 176.0
+
+[node name="Continue" type="Label" parent="TitleMenu/MenuItems/Options"]
+margin_right = 620.0
+margin_bottom = 29.0
+mouse_filter = 0
+theme = ExtResource( 1 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Continue"
+
+[node name="Play" type="Label" parent="TitleMenu/MenuItems/Options"]
+margin_top = 33.0
+margin_right = 620.0
+margin_bottom = 62.0
+mouse_filter = 0
+theme = ExtResource( 1 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Play"
+
+[node name="Options" type="Label" parent="TitleMenu/MenuItems/Options"]
+margin_top = 66.0
+margin_right = 620.0
+margin_bottom = 95.0
+mouse_filter = 0
+theme = ExtResource( 1 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Options"
+
+[node name="Exit" type="Label" parent="TitleMenu/MenuItems/Options"]
+margin_top = 99.0
+margin_right = 620.0
+margin_bottom = 128.0
+mouse_filter = 0
+theme = ExtResource( 1 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Exit"
+
+[node name="Credits" type="VBoxContainer" parent="TitleMenu"]
+margin_top = 419.0
+margin_right = 620.0
+margin_bottom = 470.0
+
+[node name="Label" type="Label" parent="TitleMenu/Credits"]
+margin_right = 620.0
+margin_bottom = 51.0
+theme = ExtResource( 4 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Programming - Dean Bolte
+Sound Track - Joshua Burt
+Sound Design - Morgan Gerlach"
+align = 2
+
+[node name="OptionMenu" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 5.0
+margin_right = -10.0
+margin_bottom = -5.0
+script = ExtResource( 7 )
+
+[node name="Title" type="Label" parent="OptionMenu"]
+margin_right = 620.0
+margin_bottom = 44.0
+theme = ExtResource( 2 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Options"
+
+[node name="Options" type="VBoxContainer" parent="OptionMenu"]
+margin_top = 48.0
+margin_right = 620.0
+margin_bottom = 128.0
+
+[node name="VolumeMixer" type="VBoxContainer" parent="OptionMenu/Options"]
+margin_right = 620.0
+margin_bottom = 55.0
+script = ExtResource( 5 )
+
+[node name="Title" type="Label" parent="OptionMenu/Options/VolumeMixer"]
+margin_right = 620.0
+margin_bottom = 15.0
+theme = ExtResource( 4 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Audio"
+
+[node name="SFX" type="HBoxContainer" parent="OptionMenu/Options/VolumeMixer"]
+margin_top = 19.0
+margin_right = 620.0
+margin_bottom = 35.0
+
+[node name="Title" type="Label" parent="OptionMenu/Options/VolumeMixer/SFX"]
+margin_right = 501.0
+margin_bottom = 15.0
+size_flags_horizontal = 3
+theme = ExtResource( 4 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "SFX"
+
+[node name="SFXSlider" type="HSlider" parent="OptionMenu/Options/VolumeMixer/SFX"]
+margin_left = 505.0
+margin_right = 620.0
+margin_bottom = 16.0
+rect_min_size = Vector2( 115, 0 )
+rect_clip_content = true
+min_value = -30.0
+max_value = 0.0
+tick_count = 10
+ticks_on_borders = true
+
+[node name="Music" type="HBoxContainer" parent="OptionMenu/Options/VolumeMixer"]
+margin_top = 39.0
+margin_right = 620.0
+margin_bottom = 55.0
+
+[node name="Title" type="Label" parent="OptionMenu/Options/VolumeMixer/Music"]
+margin_right = 501.0
+margin_bottom = 15.0
+size_flags_horizontal = 3
+theme = ExtResource( 4 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Music"
+
+[node name="MusicSlider" type="HSlider" parent="OptionMenu/Options/VolumeMixer/Music"]
+margin_left = 505.0
+margin_right = 620.0
+margin_bottom = 16.0
+rect_min_size = Vector2( 115, 0 )
+rect_clip_content = true
+min_value = -30.0
+max_value = 0.0
+tick_count = 10
+ticks_on_borders = true
+
+[node name="ExitOptions" type="Button" parent="OptionMenu/Options"]
+margin_top = 59.0
+margin_right = 140.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 140, 0 )
+size_flags_horizontal = 0
+theme = ExtResource( 4 )
+text = "Back (esc)"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 6 )
+autoplay = true
+bus = "Music"
+
+[connection signal="mouse_entered" from="TitleMenu/MenuItems/Options/Continue" to="TitleMenu" method="_on_Continue_mouse_entered"]
+[connection signal="mouse_entered" from="TitleMenu/MenuItems/Options/Play" to="TitleMenu" method="_on_Play_mouse_entered"]
+[connection signal="mouse_entered" from="TitleMenu/MenuItems/Options/Options" to="TitleMenu" method="_on_Options_mouse_entered"]
+[connection signal="mouse_entered" from="TitleMenu/MenuItems/Options/Exit" to="TitleMenu" method="_on_Exit_mouse_entered"]
+[connection signal="value_changed" from="OptionMenu/Options/VolumeMixer/SFX/SFXSlider" to="OptionMenu/Options/VolumeMixer" method="_on_SFXSlider_value_changed"]
+[connection signal="value_changed" from="OptionMenu/Options/VolumeMixer/Music/MusicSlider" to="OptionMenu/Options/VolumeMixer" method="_on_MusicSlider_value_changed"]
+[connection signal="pressed" from="OptionMenu/Options/ExitOptions" to="." method="_on_ExitOptions_pressed"]

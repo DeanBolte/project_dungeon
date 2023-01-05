@@ -7,9 +7,4 @@ script = ExtResource( 1 )
 
 [node name="RoomsActive" type="Node" parent="."]
 
-[node name="ActiveNavMesh" type="Navigation2D" parent="."]
-edge_connection_margin = 10.0
-
 [node name="PlayerActive" type="Node" parent="."]
-
-[node name="EnemiesActive" type="Node" parent="."]

@@ -3,7 +3,6 @@
 [ext_resource path="res://Basic Sprites/red32x32.png" type="Texture" id=1]
 [ext_resource path="res://Weapons/Shotgun/Slug.gd" type="Script" id=2]
 
-
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 6, 6 )
 
