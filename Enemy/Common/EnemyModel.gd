@@ -18,6 +18,7 @@ var MOVE_TO_PLAYER = 210
 var MOVE_AWAY_PLAYER = 190
 var MAX_DROPS = 3
 var MAX_STUNNED_TIME = 0.8
+var WALL_SLAM_DAMAGE = 4
 
 # important nodes
 var playerDetectionZone
@@ -64,11 +65,13 @@ func _physics_process(delta):
 	velocity = move_and_slide(velocity)
 	
 	# check for wall slam
-	if get_slide_count() > 0:
-		var collisions = get_slide_collision(0)
-		if collisions:
-			if velocity.length() > MAX_VELOCITY / 2 && state == STUNNED:
-				take_hit(velocity.length(), velocity.normalized())
+	wall_slam()
+
+func wall_slam():
+	for i in range(get_slide_count()):
+		var collision: KinematicCollision2D = get_slide_collision(i)
+		if velocity.length() > MAX_VELOCITY / 2 && state == STUNNED:
+			take_hit(WALL_SLAM_DAMAGE, velocity.normalized() * -collision.normal)
 
 # --- States ---
 # IDLE
@@ -146,7 +149,7 @@ func take_hit(damage: float, direction: Vector2):
 	# check if enemy can take damage
 	if invincible <= 0:
 		# recoil enemy
-		recoil(-direction, damage * RECOIL)
+		recoil(-direction, min(damage, 6) * RECOIL)
 		
 		# take damage and add invicibility frames
 		decrement_health(damage)
