@@ -17,6 +17,7 @@ script = ExtResource( 3 )
 [node name="ColorRect" type="ColorRect" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+color = Color( 0.960784, 0.984314, 0.937255, 1 )
 
 [node name="TitleMenu" type="VBoxContainer" parent="."]
 anchor_right = 1.0
@@ -36,7 +37,7 @@ size_flags_vertical = 3
 margin_right = 620.0
 margin_bottom = 44.0
 theme = ExtResource( 2 )
-custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_color = Color( 0.454902, 0.545098, 0.458824, 1 )
 text = "Project Dungeon"
 
 [node name="Options" type="VBoxContainer" parent="TitleMenu/MenuItems"]
@@ -49,7 +50,7 @@ margin_right = 620.0
 margin_bottom = 29.0
 mouse_filter = 0
 theme = ExtResource( 1 )
-custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_color = Color( 0.454902, 0.545098, 0.458824, 1 )
 text = "Continue"
 
 [node name="Play" type="Label" parent="TitleMenu/MenuItems/Options"]
@@ -58,7 +59,7 @@ margin_right = 620.0
 margin_bottom = 62.0
 mouse_filter = 0
 theme = ExtResource( 1 )
-custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_color = Color( 0.454902, 0.545098, 0.458824, 1 )
 text = "Play"
 
 [node name="Options" type="Label" parent="TitleMenu/MenuItems/Options"]
@@ -67,7 +68,7 @@ margin_right = 620.0
 margin_bottom = 95.0
 mouse_filter = 0
 theme = ExtResource( 1 )
-custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_color = Color( 0.454902, 0.545098, 0.458824, 1 )
 text = "Options"
 
 [node name="Exit" type="Label" parent="TitleMenu/MenuItems/Options"]
@@ -76,7 +77,7 @@ margin_right = 620.0
 margin_bottom = 128.0
 mouse_filter = 0
 theme = ExtResource( 1 )
-custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_color = Color( 0.454902, 0.545098, 0.458824, 1 )
 text = "Exit"
 
 [node name="Credits" type="VBoxContainer" parent="TitleMenu"]
@@ -88,7 +89,7 @@ margin_bottom = 470.0
 margin_right = 620.0
 margin_bottom = 51.0
 theme = ExtResource( 4 )
-custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_color = Color( 0.454902, 0.545098, 0.458824, 1 )
 text = "Programming - Dean Bolte
 Sound Track - Joshua Burt
 Sound Design - Morgan Gerlach"
@@ -107,7 +108,7 @@ script = ExtResource( 7 )
 margin_right = 620.0
 margin_bottom = 44.0
 theme = ExtResource( 2 )
-custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_color = Color( 0.454902, 0.545098, 0.458824, 1 )
 text = "Options"
 
 [node name="Options" type="VBoxContainer" parent="OptionMenu"]
@@ -124,7 +125,7 @@ script = ExtResource( 5 )
 margin_right = 620.0
 margin_bottom = 15.0
 theme = ExtResource( 4 )
-custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_color = Color( 0.454902, 0.545098, 0.458824, 1 )
 text = "Audio"
 
 [node name="SFX" type="HBoxContainer" parent="OptionMenu/Options/VolumeMixer"]
@@ -137,7 +138,7 @@ margin_right = 501.0
 margin_bottom = 15.0
 size_flags_horizontal = 3
 theme = ExtResource( 4 )
-custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_color = Color( 0.454902, 0.545098, 0.458824, 1 )
 text = "SFX"
 
 [node name="SFXSlider" type="HSlider" parent="OptionMenu/Options/VolumeMixer/SFX"]
@@ -161,7 +162,7 @@ margin_right = 501.0
 margin_bottom = 15.0
 size_flags_horizontal = 3
 theme = ExtResource( 4 )
-custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_color = Color( 0.454902, 0.545098, 0.458824, 1 )
 text = "Music"
 
 [node name="MusicSlider" type="HSlider" parent="OptionMenu/Options/VolumeMixer/Music"]
