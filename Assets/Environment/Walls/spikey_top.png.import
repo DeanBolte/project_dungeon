@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/spikey_mid_tileset.png-488fe50a39c3dcc226ceb4414d631424.stex"
+path="res://.import/spikey_top.png-47593a293e542e427df4d4206aa7aaac.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Environment/spikey_mid_tileset.png"
-dest_files=[ "res://.import/spikey_mid_tileset.png-488fe50a39c3dcc226ceb4414d631424.stex" ]
+source_file="res://Assets/Environment/Walls/spikey_top.png"
+dest_files=[ "res://.import/spikey_top.png-47593a293e542e427df4d4206aa7aaac.stex" ]
 
 [params]
 
