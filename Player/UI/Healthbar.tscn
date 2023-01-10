@@ -1,8 +1,9 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://Basic Sprites/green16x16.png" type="Texture" id=1]
+[ext_resource path="res://Assets/BasicSprites/green16x16.png" type="Texture" id=1]
 [ext_resource path="res://Player/UI/Healthbar.gd" type="Script" id=2]
-[ext_resource path="res://Basic Sprites/red16x16.png" type="Texture" id=3]
+[ext_resource path="res://Assets/BasicSprites/red16x16.png" type="Texture" id=3]
+
 
 [node name="Healthbar" type="Control"]
 margin_right = 8.0
