@@ -1,0 +1,10 @@
+[gd_resource type="Theme" load_steps=3 format=2]
+
+[ext_resource path="res://MainMenu/Text/MenuCreditFont.tres" type="DynamicFont" id=1]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.760784, 0.164706, 0.639216, 1 )
+
+[resource]
+default_font = ExtResource( 1 )
+HSlider/styles/slider = SubResource( 1 )
