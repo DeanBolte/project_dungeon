@@ -52,6 +52,8 @@ func create_room(x: float, y: float, enemies: bool):
 	var room_inst = instantiate_room_inst(key)
 	
 	if room_inst:
+		room_inst.generate_objects()
+		
 		if enemies:
 			populate_enemies(room_inst)
 		

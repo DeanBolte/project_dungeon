@@ -27,11 +27,10 @@ export var INVINCIBILE_TIME = 0.2
 
 export var DAMAGE_INVINC_TIME = 0.3
 
-export var RELOAD_TIME = 2
+export var RELOAD_TIME = 1
 export var SHOT_TIME = 0.2
 export var SHOT_COUNT = 5
 export var CLIP_SIZE = 2
-export var RELOAD_DECAY = 0.3
 
 # enums
 enum {
@@ -182,9 +181,6 @@ func reload():
 		var reload_speed: float = 1/reload_time
 		PlayerStats.reload(reload_time, reload_speed)
 		shotgunAnimationPlayer.play("Reload", 0.0, reload_speed)
-	else:
-		PlayerStats.reload(RELOAD_DECAY, 1)
-		shotgunAnimationPlayer.advance(RELOAD_DECAY)
 
 func reload_ended():
 	# finalise reload
