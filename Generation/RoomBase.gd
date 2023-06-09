@@ -2,8 +2,10 @@ extends Node2D
 
 onready var EnemiesActive: Node = $EnemiesActive
 onready var FlowerTileMap: TileMap = $FlowerTileMap
+onready var WallTileMap: TileMap = $WallTileMap
 
 var BoxPileScene = preload("res://Generation/Obstacles/BoxPile.tscn")
+var ShrubScene = preload("res://Generation/Obstacles/Shrub.tscn")
 
 signal first_entered(location)
 
@@ -19,12 +21,35 @@ var visited = false
 func generate_objects():
 	generate_flowers()
 	generate_obstacles()
+	generate_walls(randi() % 100)
+
+func create_given_tiles(topLeft: Vector2, bottomRight: Vector2, tileMap: TileMap):
+	for x in range (bottomRight.x - topLeft.x + 1):
+		for y in range (bottomRight.y - topLeft.y + 1):
+			tileMap.set_cell(topLeft.x + x, topLeft.y + y, 0)
+
+func generate_walls(wall_rand: int):
+	if(wall_rand < 15):
+		create_given_tiles(Vector2(-2,8), Vector2(1,11), WallTileMap)
+	elif(wall_rand < 30):
+		create_given_tiles(Vector2(8,-2), Vector2(11,1), WallTileMap)
+	elif(wall_rand < 45):
+		create_given_tiles(Vector2(18,8), Vector2(21,11), WallTileMap)
+	elif(wall_rand < 60):
+		create_given_tiles(Vector2(8,18), Vector2(11,21), WallTileMap)
 
 func generate_obstacles():
+	# crates
 	for i in range(randi() % 4):
 		var boxpileinst = BoxPileScene.instance()
 		add_child(boxpileinst)
 		boxpileinst.global_position = global_position + ROOM_CENTRE + Vector2(rand_range(-OBSTACLE_SPREAD, OBSTACLE_SPREAD), rand_range(-OBSTACLE_SPREAD, OBSTACLE_SPREAD))
+	
+	#shrubs
+	for i in range(randi() % 8):
+		var shrubinst = ShrubScene.instance()
+		add_child(shrubinst)
+		shrubinst.global_position = global_position + ROOM_CENTRE + Vector2(rand_range(-OBSTACLE_SPREAD, OBSTACLE_SPREAD), rand_range(-OBSTACLE_SPREAD, OBSTACLE_SPREAD))
 
 func generate_flowers():
 	for i in range(FLOWER_TILE_COUNT):
