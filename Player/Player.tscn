@@ -129,14 +129,12 @@ autostart = true
 position = Vector2( 0, -24 )
 collision_layer = 0
 collision_mask = 64
-monitoring = false
 script = ExtResource( 5 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PunchBox"]
 shape = SubResource( 8 )
 
 [node name="Sprite" type="Sprite" parent="PunchBox"]
-visible = false
 modulate = Color( 1, 1, 1, 0.490196 )
 texture = ExtResource( 6 )
 

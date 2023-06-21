@@ -79,7 +79,7 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("toggle_shot"):
 		PlayerStats.increment_ammo_type()
 	
-	if (Input.is_action_just_pressed("player_reload") && clip < CLIP_SIZE) || clip <= 0:
+	if Input.is_action_just_pressed("player_reload") || clip <= 0:
 		reload()
 	
 	# attack
@@ -189,7 +189,7 @@ func reload_ended():
 	# update shot type
 	loaded_shot_type = PlayerStats.selected_shot_type
 	# reset clip
-	clip = PlayerStats.decrement_ammo_count(PlayerStats.max_clip)
+	clip = PlayerStats.decrement_ammo_count(PlayerStats.max_clip - clip)
 
 func dodge_ended():
 	state = MOVE

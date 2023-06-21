@@ -72,16 +72,11 @@ func update_ammo_ui():
 func set_ammo_count(ammo_type: int, value: int):
 	ammo_counts[ammo_type] = value
 
-func decrement_ammo_count(value: int = 1):
+func decrement_ammo_count(consumedShots: int = 1):
 	if ammo_counts.has(selected_shot_type):
-		var ammo_left = ammo_counts[selected_shot_type] - value
-		if ammo_left >= 0:
-			set_ammo_count(selected_shot_type, ammo_counts[selected_shot_type] - value)
-			return value
-		else:
-			var ammo_available = ammo_counts[selected_shot_type]
-			ammo_counts[selected_shot_type] = 0
-			return ammo_available
+		var leftoverAmmo = ammo_counts[selected_shot_type] - consumedShots
+		set_ammo_count(selected_shot_type, max(leftoverAmmo, 0))
+		return max_clip - min(leftoverAmmo, 0)
 	else:
 		return 0
 
