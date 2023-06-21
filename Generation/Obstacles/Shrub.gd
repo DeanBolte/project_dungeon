@@ -1,8 +1,16 @@
 extends StaticBody2D
 
+onready var ShrubCollision = $CollisionShape2D
+
 var broken = false
 
+func breakShrub():
+	$AnimationPlayer.play("destruction")
+	ShrubCollision.set_deferred("disabled", true)
+	broken = true
+
 func _on_Area2D_area_entered(area):
-	if (!broken):
-		$AnimationPlayer.play("destruction")
-		broken = true
+	if (!broken): breakShrub()
+
+func _on_Area2D_body_entered(body: Node) -> void:
+	if (!broken): breakShrub()
