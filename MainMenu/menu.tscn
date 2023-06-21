@@ -150,6 +150,7 @@ rect_min_size = Vector2( 115, 0 )
 rect_clip_content = true
 min_value = -30.0
 max_value = 0.0
+value = -10.0
 tick_count = 10
 ticks_on_borders = true
 
@@ -174,6 +175,7 @@ rect_min_size = Vector2( 115, 0 )
 rect_clip_content = true
 min_value = -30.0
 max_value = 0.0
+value = -10.0
 tick_count = 10
 ticks_on_borders = true
 
@@ -188,6 +190,7 @@ text = "Back (esc)"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 6 )
+volume_db = -20.0
 autoplay = true
 bus = "Music"
 
