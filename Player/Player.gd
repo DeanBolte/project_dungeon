@@ -32,6 +32,10 @@ export var SHOT_TIME = 0.2
 export var SHOT_COUNT = 5
 export var CLIP_SIZE = 2
 
+export var ACCURATE_SHOT_FREQUENCY = 2
+export var ACCURATE_SHOT_BOOST = 4
+export var SHOT_CREATION_PLAYER_OFFSET = 40
+
 # enums
 enum {
 	MOVE,
@@ -138,8 +142,8 @@ func calculate_shotgun(delta):
 			# match shot
 			match loaded_shot_type:
 				AmmoType.STANDARD:
-					for _i in range(SHOT_COUNT):
-						create_shot(StandardShot.instance())
+					for index in range(SHOT_COUNT):
+						create_shot(StandardShot.instance(), index)
 				AmmoType.SLUG:
 					create_shot(SlugShot.instance())
 			
@@ -159,14 +163,15 @@ func create_shell():
 	shellInst.global_position = global_position + aimingNormalVector * 36
 	get_parent().add_child(shellInst)
 
-func create_shot(shotInst):
-	var shootDirection = get_local_mouse_position()
+func create_shot(shotInst: Node, shotIndex: int = 0):
+	if shotIndex % ACCURATE_SHOT_FREQUENCY == 0:
+		shotInst.ACCURACY = shotInst.ACCURACY / ACCURATE_SHOT_BOOST
 	
-	shootDirection = shootDirection.normalized()
-	shootDirection.x += rand_range(-shotInst.ACCURACY,shotInst.ACCURACY)
-	shootDirection.y += rand_range(-shotInst.ACCURACY,shotInst.ACCURACY)
+	var shootDirection = get_local_mouse_position().normalized()
+	shootDirection.x += rand_range(-shotInst.ACCURACY, shotInst.ACCURACY)
+	shootDirection.y += rand_range(-shotInst.ACCURACY, shotInst.ACCURACY)
 	
-	shotInst.global_position = global_position + aimingNormalVector * 40
+	shotInst.global_position = global_position + aimingNormalVector * SHOT_CREATION_PLAYER_OFFSET
 	shotInst.direction = shootDirection
 	get_parent().get_parent().add_child(shotInst)
 

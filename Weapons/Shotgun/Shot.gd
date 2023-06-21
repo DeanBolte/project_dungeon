@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-var ACCURACY = 0.2
+var ACCURACY = 0.15
 var SPEED = rand_range(1000, 1500)
 var MAX_DAMAGE = 1
 var MIN_DAMAGE = 1
