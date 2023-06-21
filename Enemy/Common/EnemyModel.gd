@@ -87,9 +87,10 @@ func idle(_delta):
 # a generic player seeking function
 func seek_player():
 	if playerDetectionZone.can_see_player():
-		state = CHASE
-		
-		Agent.set_target_location(playerDetectionZone.player.global_position)
+		var vectorToPlayer = playerDetectionZone.player.global_position - global_position
+		if not test_move(global_transform, vectorToPlayer):
+			state = CHASE
+			Agent.set_target_location(playerDetectionZone.player.global_position)
 
 # WANDER
 func wander(delta):
