@@ -4,26 +4,24 @@
 [ext_resource path="res://Assets/BasicSprites/forewall.png" type="Texture" id=2]
 
 [node name="BoxPile" type="StaticBody2D"]
+z_index = 1
 
 [node name="CrateShadow2" type="Sprite" parent="."]
 modulate = Color( 1, 1, 1, 0.470588 )
 position = Vector2( 9, -5 )
 rotation = 0.0860656
-scale = Vector2( 1, 1 )
 texture = ExtResource( 2 )
 
 [node name="CrateShadow3" type="Sprite" parent="."]
 modulate = Color( 1, 1, 1, 0.470588 )
 position = Vector2( 10, 35 )
 rotation = 0.388995
-scale = Vector2( 1, 1 )
 texture = ExtResource( 2 )
 
 [node name="CrateShadow4" type="Sprite" parent="."]
 modulate = Color( 1, 1, 1, 0.470588 )
 position = Vector2( -29, 9 )
 rotation = -0.289298
-scale = Vector2( 1, 1 )
 texture = ExtResource( 2 )
 
 [node name="Crate1" type="Sprite" parent="."]
@@ -45,7 +43,6 @@ texture = ExtResource( 1 )
 modulate = Color( 1, 1, 1, 0.470588 )
 position = Vector2( -1, 11 )
 rotation = 0.0860656
-scale = Vector2( 1, 1 )
 texture = ExtResource( 2 )
 
 [node name="Crate4" type="Sprite" parent="."]

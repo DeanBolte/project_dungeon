@@ -26,7 +26,7 @@ func generate_objects():
 func create_given_tiles(topLeft: Vector2, bottomRight: Vector2, tileMap: TileMap):
 	for x in range (bottomRight.x - topLeft.x + 1):
 		for y in range (bottomRight.y - topLeft.y + 1):
-			tileMap.set_cell(topLeft.x + x, topLeft.y + y, 0)
+			tileMap.set_cell(int(topLeft.x + x), int(topLeft.y + y), 0)
 
 func generate_walls(wall_rand: int):
 	if(wall_rand < 15):
@@ -40,19 +40,19 @@ func generate_walls(wall_rand: int):
 
 func generate_obstacles():
 	# crates
-	for i in range(randi() % 4):
+	for _i in range(randi() % 4):
 		var boxpileinst = BoxPileScene.instance()
 		add_child(boxpileinst)
 		boxpileinst.global_position = global_position + ROOM_CENTRE + Vector2(rand_range(-OBSTACLE_SPREAD, OBSTACLE_SPREAD), rand_range(-OBSTACLE_SPREAD, OBSTACLE_SPREAD))
 	
 	#shrubs
-	for i in range(randi() % 8):
+	for _i in range(randi() % 8):
 		var shrubinst = ShrubScene.instance()
 		add_child(shrubinst)
 		shrubinst.global_position = global_position + ROOM_CENTRE + Vector2(rand_range(-OBSTACLE_SPREAD, OBSTACLE_SPREAD), rand_range(-OBSTACLE_SPREAD, OBSTACLE_SPREAD))
 
 func generate_flowers():
-	for i in range(FLOWER_TILE_COUNT):
+	for _i in range(FLOWER_TILE_COUNT):
 		FlowerTileMap.set_cell(
 			TILES_TO_CENTRE + rand_range(-TILE_SPREAD,TILE_SPREAD), 
 			TILES_TO_CENTRE + rand_range(-TILE_SPREAD,TILE_SPREAD), 

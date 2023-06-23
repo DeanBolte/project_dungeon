@@ -74,8 +74,8 @@ func set_ammo_count(ammo_type: int, value: int):
 
 func decrement_ammo_count(consumedShots: int = 1):
 	if ammo_counts.has(selected_shot_type):
-		var leftoverAmmo = ammo_counts[selected_shot_type] - consumedShots
-		set_ammo_count(selected_shot_type, max(leftoverAmmo, 0))
+		var leftoverAmmo: int = ammo_counts[selected_shot_type] - consumedShots
+		set_ammo_count(selected_shot_type, int(max(leftoverAmmo, 0)))
 		return max_clip - min(leftoverAmmo, 0)
 	else:
 		return 0

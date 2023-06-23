@@ -9,8 +9,8 @@ func breakShrub():
 	ShrubCollision.set_deferred("disabled", true)
 	broken = true
 
-func _on_Area2D_area_entered(area):
+func _on_Area2D_area_entered(_area):
 	if (!broken): breakShrub()
 
-func _on_Area2D_body_entered(body: Node) -> void:
+func _on_Area2D_body_entered(_body: Node) -> void:
 	if (!broken): breakShrub()
