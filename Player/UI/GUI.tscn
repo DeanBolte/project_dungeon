@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://Player/UI/PauseMenu.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Player/UI/Debug.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Player/UI/Healthbar.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Player/UI/AmmoBar.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Player/UI/MouseUI.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Player/UI/Menu/PauseMenu.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Player/UI/Metrics/Debug.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Player/UI/PlayerInfo/Healthbar.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Player/UI/PlayerInfo/AmmoBar.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Player/UI/PlayerInteraction/MouseUI.tscn" type="PackedScene" id=5]
 
 [node name="GUI" type="CanvasLayer"]
 
