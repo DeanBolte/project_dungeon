@@ -40,6 +40,7 @@ resource_name = "Reload"
 
 [sub_resource type="Animation" id=7]
 resource_name = "Reload"
+step = 0.05
 tracks/0/type = "method"
 tracks/0/path = NodePath(".")
 tracks/0/interp = 1
@@ -47,7 +48,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0.2, 0.5, 1 ),
+"times": PoolRealArray( 0.2, 0.25, 1 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "values": [ {
 "args": [  ],

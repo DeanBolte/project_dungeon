@@ -27,7 +27,8 @@ export var INVINCIBILE_TIME = 0.2
 
 export var DAMAGE_INVINC_TIME = 0.3
 
-export var RELOAD_TIME = 1
+export var RELOAD_TIME = 0.5
+export var MINIMUM_RELOAD_TIME = 0.1
 export var SHOT_TIME = 0.2
 export var SHOT_COUNT = 5
 export var CLIP_SIZE = 2
@@ -35,6 +36,7 @@ export var CLIP_SIZE = 2
 export var ACCURATE_SHOT_FREQUENCY = 2
 export var ACCURATE_SHOT_BOOST = 4
 export var SHOT_CREATION_PLAYER_OFFSET = 40
+export var SHELL_EJECTION_VELOCITY = -150
 
 # enums
 enum {
@@ -159,7 +161,7 @@ func calculate_shotgun(delta):
 func create_shell():
 	var shellInst = ShotgunShell.instance()
 	var noiseVector = Vector2(rand_range(-1, 1), rand_range(-1, 1)).normalized()
-	shellInst.velocity = aimingNormalVector * -250 + noiseVector * 150
+	shellInst.velocity = (aimingNormalVector + noiseVector) * SHELL_EJECTION_VELOCITY
 	shellInst.global_position = global_position + aimingNormalVector * 36
 	get_parent().add_child(shellInst)
 
@@ -176,14 +178,14 @@ func create_shot(shotInst: Node, shotIndex: int = 0):
 	get_parent().get_parent().add_child(shotInst)
 
 func reload():
-	if not reloading:
+	if not reloading && clip < CLIP_SIZE:
 		# initiate reload
 		reloading = true
 		# reload time is based on the clip size
 		reload_time = RELOAD_TIME - (RELOAD_TIME / CLIP_SIZE) * clip
 		
 		# run animations
-		var reload_speed: float = 1/reload_time
+		var reload_speed: float = 1/max(reload_time, MINIMUM_RELOAD_TIME)
 		PlayerStats.reload(reload_time, reload_speed)
 		shotgunAnimationPlayer.play("Reload", 0.0, reload_speed)
 
