@@ -27,7 +27,7 @@ export var INVINCIBILE_TIME = 0.2
 
 export var DAMAGE_INVINC_TIME = 0.3
 
-export var RELOAD_TIME = 0.5
+export var RELOAD_TIME = 0.8
 export var MINIMUM_RELOAD_TIME = 0.1
 export var SHOT_TIME = 0.2
 export var SHOT_COUNT = 5
