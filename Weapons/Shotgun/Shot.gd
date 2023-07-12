@@ -1,6 +1,5 @@
 extends KinematicBody2D
 
-onready var DestructionAnimation := $DestructionAnimation
 
 var DestructionSoundPlayer = preload("res://Weapons/Shotgun/Animations/DestructionSoundPlayer.tscn")
 
