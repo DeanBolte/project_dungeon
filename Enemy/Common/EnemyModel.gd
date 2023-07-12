@@ -2,6 +2,7 @@ extends KinematicBody2D
 
 onready var Agent: NavigationAgent2D = $NavigationAgent2D
 onready var DamageEffects: Particles2D = $DamageEffects
+onready var DamageAnimation := $DamageAnimation
 
 var ammo_drop = preload("res://Enemy/Common/Drops/AmmoDrop.tscn")
 var health_drop = preload("res://Enemy/Common/Drops/HealthDrop.tscn")
@@ -151,6 +152,9 @@ func take_hit(damage: float, direction: Vector2):
 	if invincible <= 0:
 		# recoil enemy
 		recoil(-direction, min(damage, 6) * RECOIL)
+		
+		# play damage animation
+		DamageAnimation.play("TakesDamage")
 		
 		# take damage and add invicibility frames
 		decrement_health(damage)

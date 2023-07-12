@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Assets/BasicSprites/player.png" type="Texture" id=1]
 [ext_resource path="res://Player/Player.gd" type="Script" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://Player/PunchBox.gd" type="Script" id=5]
 [ext_resource path="res://Assets/BasicSprites/backgroundtile.png" type="Texture" id=6]
 [ext_resource path="res://Player/Camera2D.gd" type="Script" id=7]
+[ext_resource path="res://Sound/woosh.wav" type="AudioStream" id=8]
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 15, 15 )
@@ -33,6 +34,18 @@ tracks/0/keys = {
 "args": [  ],
 "method": "dodge_ended"
 } ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("SFX/Dodge:playing")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
 }
 
 [sub_resource type="Animation" id=6]
@@ -156,6 +169,11 @@ anims/Punch = SubResource( 9 )
 [node name="ShotgunBlast" type="AudioStreamPlayer" parent="SFX"]
 stream = ExtResource( 4 )
 volume_db = -20.0
+bus = "SFX"
+
+[node name="Dodge" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource( 8 )
+volume_db = -5.0
 bus = "SFX"
 
 [connection signal="area_entered" from="HurtBox" to="." method="_on_HurtBox_area_entered"]

@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Assets/BasicSprites/enemy.png" type="Texture" id=1]
 [ext_resource path="res://Enemy/MeleeEnemy.gd" type="Script" id=2]
 [ext_resource path="res://Enemy/Common/PlayerDetectionZone.gd" type="Script" id=3]
 [ext_resource path="res://Enemy/Common/WandererController.gd" type="Script" id=4]
 [ext_resource path="res://Special Effects/DamageEffects.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Sound/enemyImpact.wav" type="AudioStream" id=6]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 15, 15 )
@@ -17,6 +18,34 @@ extents = Vector2( 15, 15 )
 
 [sub_resource type="CircleShape2D" id=4]
 radius = 300.0
+
+[sub_resource type="Animation" id=5]
+resource_name = "TakesDamage"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("SFX/TakesDamage:playing")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 7.72748, 9.51364 ),
+"update": 0,
+"values": [ Color( 1, 0, 0, 1 ), Color( 1, 1, 1, 1 ) ]
+}
 
 [node name="Enemy" type="KinematicBody2D"]
 z_index = 5
@@ -72,6 +101,16 @@ autostart = true
 
 [node name="DamageEffects" parent="." instance=ExtResource( 5 )]
 visibility_rect = Rect2( -500, -500, 1000, 1000 )
+
+[node name="SFX" type="Node" parent="."]
+
+[node name="TakesDamage" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource( 6 )
+volume_db = -10.0
+bus = "SFX"
+
+[node name="DamageAnimation" type="AnimationPlayer" parent="."]
+anims/TakesDamage = SubResource( 5 )
 
 [connection signal="body_entered" from="HurtBox" to="." method="_on_HurtBox_body_entered"]
 [connection signal="body_entered" from="PlayerDetectionZone" to="PlayerDetectionZone" method="_on_PlayerDetectionZone_body_entered"]
