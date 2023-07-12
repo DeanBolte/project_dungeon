@@ -1,0 +1,46 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Sound/wallImpact.wav" type="AudioStream" id=1]
+[ext_resource path="res://Weapons/Shotgun/Animations/DestructionSoundPlayer.gd" type="Script" id=2]
+
+[sub_resource type="Animation" id=1]
+resource_name = "DestroyBullet"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("Destruction:playing")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.4 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "queue_free"
+} ]
+}
+
+[node name="DestructionSoundPlayer" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="Destruction" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 1 )
+volume_db = -20.0
+pitch_scale = 1.5
+bus = "SFX"
+
+[node name="DestructionAnimation" type="AnimationPlayer" parent="."]
+anims/DestroyBullet = SubResource( 1 )

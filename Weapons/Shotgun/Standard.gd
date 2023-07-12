@@ -7,3 +7,4 @@ func _ready():
 	damage = MAX_DAMAGE
 	MIN_DAMAGE = 1
 	DAMAGE_LOSS = 20
+

@@ -1,5 +1,9 @@
 extends KinematicBody2D
 
+onready var DestructionAnimation := $DestructionAnimation
+
+var DestructionSoundPlayer = preload("res://Weapons/Shotgun/Animations/DestructionSoundPlayer.tscn")
+
 var ACCURACY = 0.15
 var SPEED = rand_range(1000, 1500)
 var MAX_DAMAGE = 1
@@ -37,4 +41,5 @@ func _physics_process(delta):
 		collision_event()
 
 func collision_event():
+	get_parent().add_child(DestructionSoundPlayer.instance())
 	queue_free()
