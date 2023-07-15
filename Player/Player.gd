@@ -16,6 +16,8 @@ var StandardShot = preload("res://Weapons/Shotgun/Standard.tscn")
 var SlugShot = preload("res://Weapons/Shotgun/Slug.tscn")
 var ShotgunShell = preload("res://Weapons/Shotgun/Animations/ShotgunShell.tscn")
 
+var DeathCardScene = "res://Scenes/death_card.tscn"
+
 # member constants
 export var ACCELERATION = 10000
 export var MAX_VELOCITY = 400
@@ -203,7 +205,7 @@ func dodge_ended():
 
 func player_death():
 # warning-ignore:return_value_discarded
-	get_tree().change_scene("res://MainMenu/Menu.tscn")
+	get_tree().change_scene(DeathCardScene)
 
 func _on_HurtBox_area_entered(_area):
 	if damage_cooldown <= 0:

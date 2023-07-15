@@ -1,0 +1,35 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://MainMenu/Text/MenuTitleTheme.tres" type="Theme" id=1]
+[ext_resource path="res://MainMenu/Text/MenuCreditTheme.tres" type="Theme" id=2]
+[ext_resource path="res://Scenes/death_card.gd" type="Script" id=3]
+
+[node name="DeathCard" type="Control"]
+script = ExtResource( 3 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_right = 640.0
+margin_bottom = 480.0
+color = Color( 0.145098, 0.172549, 0.145098, 1 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_right = 640.0
+margin_bottom = 480.0
+alignment = 1
+
+[node name="DeathText" type="Label" parent="VBoxContainer"]
+margin_top = 208.0
+margin_right = 640.0
+margin_bottom = 252.0
+theme = ExtResource( 1 )
+text = "You Died"
+align = 1
+valign = 1
+
+[node name="Subtext" type="Label" parent="VBoxContainer"]
+margin_top = 256.0
+margin_right = 640.0
+margin_bottom = 271.0
+theme = ExtResource( 2 )
+text = "Press any key to return to the main menu."
+align = 1
