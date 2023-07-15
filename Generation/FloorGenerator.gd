@@ -84,17 +84,42 @@ func populate_enemies(room_inst: Node2D, enemy_count: int = 3):
 	var no_enemies = randi() % enemy_count
 	
 	for _e in range(no_enemies):
-		var enemy_type = get_random_enemy()
-		var random_position = room_inst.global_position + Vector2(320, 320) + Vector2(rand_range(-240, 240), rand_range(-240, 240))
-		instanstiate_enemy(room_inst, random_position, enemy_type)
+		spawn_enemy(room_inst)
 
-func instanstiate_enemy(room_inst, position: Vector2, enemy_scene):
-	var enemy = enemy_scene.instance()
+func spawn_enemy(room_inst):
+	# create instance
+	var enemy: KinematicBody2D = get_random_enemy_type().instance()
+	
+	# check spawn is good
+	var spawn_is_unsafe = true
+	while spawn_is_unsafe:
+		# generate spawn location
+		var random_position = room_inst.global_position + Vector2(320, 320) + Vector2(rand_range(-240, 240), rand_range(-240, 240))
+		enemy.global_position = random_position
+		
+		# query spawn location
+		var query = Physics2DShapeQueryParameters.new()
+		query.set_transform(enemy.global_transform)
+		query.set_shape(enemy.shape_owner_get_shape(0,0))
+		
+		var space_state = get_world_2d().get_direct_space_state()
+		var result = space_state.get_rest_info(query) 
+		
+		# if query result exists than spawn is unsafe
+		if not result:
+			spawn_is_unsafe = false
+		
 	room_inst.get_node("EnemiesActive").add_child(enemy)
-	enemy.global_position = position
 	return enemy
 
-func get_random_enemy():
+func instanstiate_enemy(room_inst, spawn_position, enemy_scene):
+	# create instance
+	var enemy: KinematicBody2D = enemy_scene.instance()
+	enemy.global_position = spawn_position
+	room_inst.get_node("EnemiesActive").add_child(enemy)
+	return enemy
+
+func get_random_enemy_type():
 	match randi() % enemy_types:
 		SINGLESHOT:
 			return SingleShotEnemyScene
