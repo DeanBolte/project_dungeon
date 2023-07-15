@@ -127,7 +127,7 @@ func load_room(room_data, floor_generator):
 
 func load_enemies(room_inst, enemies, floor_generator):
 	for e in enemies:
-		floor_generator.instanstiate_enemy(room_inst, enemies[e].position, load(enemies[e].enemy_type))
+		floor_generator.instanstiate_entity(room_inst, enemies[e].position, load(enemies[e].enemy_type))
 
 func continue_save():
 	init_game()

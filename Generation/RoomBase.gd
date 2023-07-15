@@ -7,6 +7,17 @@ onready var WallTileMap: TileMap = $WallTileMap
 var BoxPileScene = preload("res://Generation/Obstacles/BoxPile.tscn")
 var ShrubScene = preload("res://Generation/Obstacles/Shrub.tscn")
 
+var MeleeEnemyScene = preload("res://Enemy/MeleeEnemy.tscn")
+var SingleShotEnemyScene = preload("res://Enemy/SingleShotEnemy.tscn")
+var BurstShotEnemyScene = preload("res://Enemy/BurstShotEnemy.tscn")
+
+enum {
+	SINGLESHOT,
+	BURSTSHOT,
+	MELEE
+}
+var enemy_types = 3
+
 signal first_entered(location)
 
 export (Vector2) var MAP_LOCATION
@@ -16,12 +27,19 @@ export var FLOWER_TILE_COUNT = 40
 export var TILES_TO_CENTRE = 10
 export var TILE_SPREAD = 10
 
+
+var spawnEnemies = true
 var visited = false
 
 func generate_objects():
+	# walls and obstacles
+	generate_walls(randi() % 100)
 	generate_flowers()
 	generate_obstacles()
-	generate_walls(randi() % 100)
+	
+	# generate enemies and items
+	if spawnEnemies:
+		generate_enemies()
 
 func create_given_tiles(topLeft: Vector2, bottomRight: Vector2, tileMap: TileMap):
 	for x in range (bottomRight.x - topLeft.x + 1):
@@ -71,6 +89,47 @@ func get_subtile_without_priority(id, tilemap: TileMap):
 	var rand_x = randi() % size_x 
 	var rand_y = randi() % size_y
 	return Vector2(rand_x, rand_y)
+
+func generate_enemies(maxEnemies: int = 3):
+	var no_enemies = randi() % maxEnemies
+	
+	for _e in range(no_enemies):
+		spawn_entity(get_random_enemy_type())
+
+func get_random_enemy_type():
+	match randi() % enemy_types:
+		SINGLESHOT:
+			return SingleShotEnemyScene
+		BURSTSHOT:
+			return BurstShotEnemyScene
+		MELEE:
+			return MeleeEnemyScene
+
+func spawn_entity(scene):
+	# create instance
+	var entity: KinematicBody2D = scene.instance()
+	
+	# check spawn is good
+	var spawn_is_unsafe = true
+	while spawn_is_unsafe:
+		# generate spawn location
+		var random_position = global_position + Vector2(320, 320) + Vector2(rand_range(-240, 240), rand_range(-240, 240))
+		entity.global_position = random_position
+		
+		# query spawn location
+		var query = Physics2DShapeQueryParameters.new()
+		query.set_transform(entity.global_transform)
+		query.set_shape(entity.shape_owner_get_shape(0,0))
+		
+		var space_state = get_world_2d().get_direct_space_state()
+		var result = space_state.get_rest_info(query) 
+		
+		# if query result exists than spawn is unsafe
+		if not result:
+			spawn_is_unsafe = false
+		
+	get_node("EnemiesActive").add_child(entity)
+	return entity
 
 func migrate_enemy(enemy):
 	enemy.get_parent().remove_child(enemy)
