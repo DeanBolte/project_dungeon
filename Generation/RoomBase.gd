@@ -22,10 +22,15 @@ signal first_entered(location)
 
 export (Vector2) var MAP_LOCATION
 export var ROOM_CENTRE = Vector2(320, 320)
-export var OBSTACLE_SPREAD = 200
+export var SPAWN_SPREAD = 200
 export var FLOWER_TILE_COUNT = 40
 export var TILES_TO_CENTRE = 10
 export var TILE_SPREAD = 10
+
+export var MAX_SHRUB_COUNT = 8
+export var MAX_BOX_COUNT = 6
+export var ENTITY_SPAWN_ROTATION = 2 * PI
+export var MAX_SPAWN_ATTEMPTS = 5
 
 
 var spawnEnemies = true
@@ -58,16 +63,12 @@ func generate_walls(wall_rand: int):
 
 func generate_obstacles():
 	# crates
-	for _i in range(randi() % 4):
-		var boxpileinst = BoxPileScene.instance()
-		add_child(boxpileinst)
-		boxpileinst.global_position = global_position + ROOM_CENTRE + Vector2(rand_range(-OBSTACLE_SPREAD, OBSTACLE_SPREAD), rand_range(-OBSTACLE_SPREAD, OBSTACLE_SPREAD))
+	for _i in range(randi() % MAX_BOX_COUNT):
+		instance_room_object(BoxPileScene, randf() * ENTITY_SPAWN_ROTATION)
 	
 	#shrubs
-	for _i in range(randi() % 8):
-		var shrubinst = ShrubScene.instance()
-		add_child(shrubinst)
-		shrubinst.global_position = global_position + ROOM_CENTRE + Vector2(rand_range(-OBSTACLE_SPREAD, OBSTACLE_SPREAD), rand_range(-OBSTACLE_SPREAD, OBSTACLE_SPREAD))
+	for _i in range(randi() % MAX_SHRUB_COUNT):
+		instance_room_object(ShrubScene, randf() * ENTITY_SPAWN_ROTATION)
 
 func generate_flowers():
 	for _i in range(FLOWER_TILE_COUNT):
@@ -94,7 +95,7 @@ func generate_enemies(maxEnemies: int = 3):
 	var no_enemies = randi() % maxEnemies
 	
 	for _e in range(no_enemies):
-		spawn_entity(get_random_enemy_type())
+		instance_kinematic(get_random_enemy_type())
 
 func get_random_enemy_type():
 	match randi() % enemy_types:
@@ -105,31 +106,37 @@ func get_random_enemy_type():
 		MELEE:
 			return MeleeEnemyScene
 
-func spawn_entity(scene):
-	# create instance
+func instance_kinematic(scene):
 	var entity: KinematicBody2D = scene.instance()
+	spawn_entity(entity, entity.shape_owner_get_shape(0,0), "EnemiesActive") # will need to add a more general spawn node
+
+func instance_room_object(scene, spawnRotation: int):
+	var entity: CollisionObject2D = scene.instance()
+	entity.rotate(spawnRotation)
+	spawn_entity(entity, entity.find_node("SpawnCollision").shape_owner_get_shape(0,0), "EnemiesActive") # will need to add a more general spawn node
+
+func spawn_entity(instance: Node2D, shape: Shape2D, spawnNode: String, attempt: int = 0):
+	# too many tries for finding safe position
+	if attempt > MAX_SPAWN_ATTEMPTS:
+		return
 	
-	# check spawn is good
-	var spawn_is_unsafe = true
-	while spawn_is_unsafe:
-		# generate spawn location
-		var random_position = global_position + Vector2(320, 320) + Vector2(rand_range(-240, 240), rand_range(-240, 240))
-		entity.global_position = random_position
-		
-		# query spawn location
-		var query = Physics2DShapeQueryParameters.new()
-		query.set_transform(entity.global_transform)
-		query.set_shape(entity.shape_owner_get_shape(0,0))
-		
-		var space_state = get_world_2d().get_direct_space_state()
-		var result = space_state.get_rest_info(query) 
-		
-		# if query result exists than spawn is unsafe
-		if not result:
-			spawn_is_unsafe = false
-		
-	get_node("EnemiesActive").add_child(entity)
-	return entity
+	# generate spawn location
+	var random_position = global_position + Vector2(320, 320) + Vector2(rand_range(-SPAWN_SPREAD, SPAWN_SPREAD), rand_range(-SPAWN_SPREAD, SPAWN_SPREAD))
+	instance.global_position = random_position
+	
+	# query spawn location
+	var query = Physics2DShapeQueryParameters.new()
+	query.set_transform(instance.global_transform)
+	query.set_shape(shape)
+	
+	var space_state = get_world_2d().get_direct_space_state()
+	var result = space_state.get_rest_info(query) 
+	
+	# if query result exists than spawn is unsafe
+	if not result:
+		get_node(spawnNode).add_child(instance)
+	else:
+		spawn_entity(instance, shape, spawnNode, attempt + 1)
 
 func migrate_enemy(enemy):
 	enemy.get_parent().remove_child(enemy)
