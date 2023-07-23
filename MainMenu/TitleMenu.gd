@@ -9,7 +9,7 @@ enum {
 	OPTIONS,
 	EXIT
 }
-var selection = PLAY setget set_selection
+var selection setget set_selection
 var max_options = 3
 
 func _ready():

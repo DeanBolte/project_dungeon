@@ -138,20 +138,20 @@ func pick_rand_state(state_list):
 	state_list.shuffle()
 	return state_list.pop_front()
 
-func recoil(dir: Vector2, value: float):
-	velocity -= dir * value
-
 func set_health(value):
 	health = clamp(value, 0, MAX_HEALTH)
 
 func decrement_health(value = 1):
 	set_health(health - value)
 
+func recoil(dir: Vector2, value: float):
+	velocity -= dir * (min(value, 6 * RECOIL))
+
 func take_hit(damage: float, direction: Vector2):
 	# check if enemy can take damage
 	if invincible <= 0:
 		# recoil enemy
-		recoil(-direction, min(damage, 6) * RECOIL)
+		recoil(-direction, damage)
 		
 		# play damage animation
 		DamageAnimation.play("TakesDamage")
