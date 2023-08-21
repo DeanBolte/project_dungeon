@@ -14,3 +14,6 @@ res://Player/UI/Menu/PauseMenu.tscn
 res://Enemy/BurstShotEnemy.tscn
 res://Enemy/MeleeEnemy.tscn
 res://Enemy/SingleShotEnemy.tscn
+res://Weapons/Shotgun/Slug.tscn
+res://Weapons/Shotgun/Standard.tscn
+res://Enemy/Common/Shots/EnemyShot.tscn
