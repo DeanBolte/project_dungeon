@@ -1,8 +1,8 @@
 ea4bc82a6ad023ab7ee23ee620429895
-::res://::1692609179
+::res://::1692610112
 COPYING.txt::TextFile::-1::1668387210::0::1::::<><>::
 default_bus_layout.tres::AudioBusLayout::-1::1690367480::0::1::::<><>::
-default_env.tres::Environment::1455512731915349997::1692609205::0::1::::<><>::
+default_env.tres::Environment::1455512731915349997::1692610122::0::1::::<><>::
 export_presets.cfg::TextFile::-1::1686307611::0::1::::<><>::
 icon.png::CompressedTexture2D::1230544361602028118::1667129228::1690367496::1::::<><>::
 README.md::TextFile::-1::1670229581::0::1::::<><>::
@@ -21,7 +21,7 @@ forewall.png::CompressedTexture2D::1163152375390948552::1670229581::1690367496::
 green16x16.png::CompressedTexture2D::2626722288721504804::1670229581::1690367496::1::::<><>::
 green-player.png::CompressedTexture2D::9082282444430770428::1670229581::1690367496::1::::<><>::
 heart.png::CompressedTexture2D::8589224569980700466::1670229581::1690367496::1::::<><>::
-player.png::CompressedTexture2D::2776138785413676574::1670229581::1690367496::1::::<><>::
+player.png::CompressedTexture2D::2776138785413676574::1670229581::1692610198::1::::<><>::
 purple16x16.png::CompressedTexture2D::5501439417924485367::1670229581::1690367496::1::::<><>::
 purple-enemy.png::CompressedTexture2D::1744575657582604655::1670229581::1690367496::1::::<><>::
 red16x16.png::CompressedTexture2D::6828715524863485376::1670229581::1690367496::1::::<><>::
@@ -78,54 +78,54 @@ HealthDrop.tscn::PackedScene::-1::1690367481::0::1::::<><>::res://Assets/BasicSp
 ::res://Enemy/Common/Shots/::1690367406
 EnemyShot.gd::GDScript::-1::1690367481::0::1::::<>CharacterBody2D<>::
 EnemyShot.tscn::PackedScene::-1::1690367481::0::1::::<><>::res://Assets/BasicSprites/red32x32.png<>res://Enemy/Common/Shots/EnemyShot.gd
-::res://Generation/::1692609127
+::res://Generation/::1692610112
 FloorGenerator.gd::GDScript::-1::1690367481::0::1::::<>Node2D<>::
 FloorGenerator.tscn::PackedScene::-1::1690367481::0::1::::<><>::res://Generation/FloorGenerator.gd<>res://Soundtrack/holy moley.wav
 RoomBase.gd::GDScript::-1::1692444040::0::1::::<>Node2D<>::
-RoomBase.tscn::PackedScene::1943780494948152058::1692609127::0::1::::<><>::uid://by2d4t652syid::::res://Assets/Environment/Walls/base_dark.png<>uid://bqt7g12hfohwm::::res://Assets/Environment/Walls/base.png<>res://Generation/RoomBase.gd<>uid://dapurk6esrsaj::::res://Assets/Environment/Walls/spikey_mid_tileset.png<>uid://c0vnnot8f4fqg::::res://Assets/Environment/Walls/flower_tile_sheet.png
+RoomBase.tscn::PackedScene::1943780494948152058::1692610122::0::1::::<><>::uid://by2d4t652syid::::res://Assets/Environment/Walls/base_dark.png<>uid://bqt7g12hfohwm::::res://Assets/Environment/Walls/base.png<>res://Generation/RoomBase.gd<>uid://dapurk6esrsaj::::res://Assets/Environment/Walls/spikey_mid_tileset.png<>uid://c0vnnot8f4fqg::::res://Assets/Environment/Walls/flower_tile_sheet.png
 ::res://Generation/Obstacles/::1690367406
 BoxPile.tscn::PackedScene::-1::1690367481::0::1::::<><>::res://Assets/Environment/Obstacles/box.png<>res://Assets/BasicSprites/forewall.png
 Shrub.gd::GDScript::-1::1690367481::0::1::::<>StaticBody2D<>::
 Shrub.tscn::PackedScene::-1::1690367481::0::1::::<><>::res://Assets/Environment/Obstacles/shrub_decay.png<>res://Generation/Obstacles/Shrub.gd
-::res://MainMenu/::1692609179
+::res://MainMenu/::1692610111
 Menu.gd::GDScript::-1::1690367481::0::1::::<>Control<>::
-Menu.tscn::PackedScene::3959989080937680276::1692609205::0::1::::<><>::uid://owdoed1e38su::::res://MainMenu/Text/MenuTitleTheme.tres<>res://MainMenu/Menu.gd<>uid://brv6tvljhxrhr::::res://MainMenu/Text/MenuCreditTheme.tres<>uid://d3n5fcwlohxk5::::res://Player/UI/PlayerInfo/MenuItemTheme.tres<>res://MainMenu/VolumeMixer.gd<>uid://rk0qu4ev20vt::::res://Soundtrack/holy moley.wav<>res://MainMenu/OptionMenu.gd<>res://MainMenu/TitleMenu.gd<>uid://dxc3s5sdaxcmc::::res://MainMenu/GUIStyles/ButtonMenu.tres
+Menu.tscn::PackedScene::3959989080937680276::1692610111::0::1::::<><>::uid://d3n5fcwlohxk5::::res://MainMenu/Text/MenuItemTheme.tres<>uid://owdoed1e38su::::res://MainMenu/Text/MenuTitleTheme.tres<>res://MainMenu/Menu.gd<>uid://brv6tvljhxrhr::::res://MainMenu/Text/MenuCreditTheme.tres<>res://MainMenu/VolumeMixer.gd<>uid://rk0qu4ev20vt::::res://Soundtrack/holy moley.wav<>res://MainMenu/OptionMenu.gd<>res://MainMenu/TitleMenu.gd<>uid://dxc3s5sdaxcmc::::res://MainMenu/GUIStyles/ButtonMenu.tres
 OptionMenu.gd::GDScript::-1::1690367481::0::1::::<>VBoxContainer<>::
 TitleMenu.gd::GDScript::-1::1690367481::0::1::::<>VBoxContainer<>::
 VolumeMixer.gd::GDScript::-1::1690367481::0::1::::<>VBoxContainer<>::
-::res://MainMenu/GUIStyles/::1692608673
-ButtonMenu.tres::Theme::8779468033994113466::1692609205::0::1::::<><>::uid://cwq1u7kkssvcb::::res://MainMenu/Text/MenuCreditFont.tres
+::res://MainMenu/GUIStyles/::1692609325
+ButtonMenu.tres::Theme::8779468033994113466::1692609325::0::1::::<><>::uid://cwq1u7kkssvcb::::res://MainMenu/Text/MenuCreditFont.tres
 SliderMenu.tres::Theme::-1::1690367481::0::1::::<><>::res://MainMenu/Text/MenuCreditFont.tres
-::res://MainMenu/Text/::1692609179
+::res://MainMenu/Text/::1692609205
 MenuCreditFont.tres::FontFile::6351642025852285833::1692608976::0::1::::<><>::uid://dfu2o5tft6rg0::::res://MainMenu/Text/upheavtt.ttf
 MenuCreditTheme.tres::Theme::3624900235637258955::1692608976::0::1::::<><>::uid://cwq1u7kkssvcb::::res://MainMenu/Text/MenuCreditFont.tres
 MenuItemFont.tres::FontFile::-1::1690367481::0::1::::<><>::res://MainMenu/Text/upheavtt.ttf
+MenuItemTheme.tres::Theme::9153217162050703302::1692608976::0::1::::<><>::res://MainMenu/Text/MenuItemFont.tres
 MenuTheme.tres::Theme::736140898372978761::1692609205::0::1::::<><>::uid://r5miykmhkw13::::res://MainMenu/Text/MenuTitleFont.tres
 MenuTitleFont.tres::FontFile::1255885841296226984::1692608783::0::1::::<><>::uid://dfu2o5tft6rg0::::res://MainMenu/Text/upheavtt.ttf
 MenuTitleTheme.tres::Theme::1028267489530355868::1692608976::0::1::::<><>::uid://r5miykmhkw13::::res://MainMenu/Text/MenuTitleFont.tres
 upheavtt.ttf::FontFile::7553159789575617713::1672908853::1690367496::1::::<><>::
-::res://Player/::1692609127
+::res://Player/::1692610111
 Camera2D.gd::GDScript::-1::1690367481::0::1::::<>Camera2D<>::
 HurtBox.gd::GDScript::-1::1690367481::0::1::::<>Area2D<>::
 Player.gd::GDScript::-1::1690368172::0::1::::<>CharacterBody2D<>::
-Player.tscn::PackedScene::8363441814134356104::1692609127::0::1::::<><>::uid://bfs1un3eutsdy::::res://Assets/BasicSprites/player.png<>res://Player/Player.gd<>res://Player/HurtBox.gd<>uid://cnefuud2557v5::::res://Sound/dean shotgun.wav<>res://Player/PunchBox.gd<>uid://bdbs8w6bbuq0r::::res://Assets/BasicSprites/backgroundtile.png<>res://Player/Camera2D.gd<>uid://bae8e4qnk6kcl::::res://Sound/woosh.wav
+Player.tscn::PackedScene::8363441814134356104::1692610111::0::1::::<><>::uid://bfs1un3eutsdy::::res://Assets/BasicSprites/player.png<>res://Player/Player.gd<>res://Player/HurtBox.gd<>uid://cnefuud2557v5::::res://Sound/dean shotgun.wav<>res://Player/PunchBox.gd<>uid://bdbs8w6bbuq0r::::res://Assets/BasicSprites/backgroundtile.png<>res://Player/Camera2D.gd<>uid://bae8e4qnk6kcl::::res://Sound/woosh.wav
 PlayerStats.gd::GDScript::-1::1692445171::0::1::::<>Node<>::
 PlayerStats.tscn::PackedScene::-1::1690367481::0::1::::<><>::res://Player/PlayerStats.gd
 PunchBox.gd::GDScript::-1::1690367481::0::1::::<>Area2D<>::
 ::res://Player/UI/::1690367406
 GUI.tscn::PackedScene::-1::1690367481::0::1::::<><>::res://Player/UI/Menu/PauseMenu.tscn<>res://Player/UI/Metrics/Debug.tscn<>res://Player/UI/PlayerInfo/Healthbar.tscn<>res://Player/UI/PlayerInfo/AmmoBar.tscn<>res://Player/UI/PlayerInteraction/MouseUI.tscn
-::res://Player/UI/Menu/::1692609179
+::res://Player/UI/Menu/::1692610112
 PauseMenu.gd::GDScript::-1::1690367481::0::1::::<>Control<>::
-PauseMenu.tscn::PackedScene::5192913548151102111::1692609205::0::1::::<><>::res://Player/UI/Menu/PauseMenu.gd<>uid://d3n5fcwlohxk5::::res://Player/UI/PlayerInfo/MenuItemTheme.tres
+PauseMenu.tscn::PackedScene::5192913548151102111::1692610112::0::1::::<><>::res://Player/UI/Menu/PauseMenu.gd<>uid://d3n5fcwlohxk5::::res://MainMenu/Text/MenuItemTheme.tres
 ::res://Player/UI/Metrics/::1690368221
 Debug.gd::GDScript::-1::1690368221::0::1::::<>Control<>::
 Debug.tscn::PackedScene::-1::1690367481::0::1::::<><>::res://Player/UI/Metrics/Debug.gd
-::res://Player/UI/PlayerInfo/::1692609179
+::res://Player/UI/PlayerInfo/::1692609205
 AmmoBar.gd::GDScript::-1::1690368267::0::1::::<>Control<>::
 AmmoBar.tscn::PackedScene::-1::1690367481::0::1::::<><>::res://Assets/BasicSprites/shotgun-shell.png<>res://Player/UI/PlayerInfo/AmmoBar.gd<>res://MainMenu/Text/MenuCreditTheme.tres
 Healthbar.gd::GDScript::-1::1690367481::0::1::::<>Control<>::
 Healthbar.tscn::PackedScene::-1::1690367481::0::1::::<><>::res://Assets/BasicSprites/green16x16.png<>res://Player/UI/PlayerInfo/Healthbar.gd<>res://Assets/BasicSprites/red16x16.png
-MenuItemTheme.tres::Theme::9153217162050703302::1692608976::0::1::::<><>::res://MainMenu/Text/MenuItemFont.tres
 ::res://Player/UI/PlayerInteraction/::1690367406
 MouseUI.gd::GDScript::-1::1690367481::0::1::::<>Control<>::
 MouseUI.tscn::PackedScene::-1::1690367481::0::1::::<><>::res://Player/UI/PlayerInteraction/MouseUI.gd<>res://Assets/BasicSprites/white-loading-circle.png
@@ -134,10 +134,10 @@ EnemyWarning.gd::GDScript::-1::1690367481::0::1::::<>Control<>::
 EnemyWarning.tscn::PackedScene::-1::1690367481::0::1::::<><>::res://Player/UI/World/EnemyWarning.gd
 ::res://SaveLoad/::1690368012
 saveload.gd::GDScript::-1::1690368012::0::1::::<>Node<>::
-::res://Scenes/::1692609127
+::res://Scenes/::1692610111
 death_card.gd::GDScript::-1::1690367481::0::1::::<>Control<>::
 death_card.tscn::PackedScene::-1::1690367481::0::1::::<><>::res://MainMenu/Text/MenuTitleTheme.tres<>res://MainMenu/Text/MenuCreditTheme.tres<>res://Scenes/death_card.gd
-dungeon_scene.tscn::PackedScene::7355690775895695266::1692609127::0::1::::<><>::res://Generation/FloorGenerator.tscn<>uid://rk0qu4ev20vt::::res://Soundtrack/holy moley.wav<>res://Player/UI/GUI.tscn
+dungeon_scene.tscn::PackedScene::7355690775895695266::1692610111::0::1::::<><>::res://Generation/FloorGenerator.tscn<>uid://rk0qu4ev20vt::::res://Soundtrack/holy moley.wav<>res://Player/UI/GUI.tscn
 sample_scene.tscn::PackedScene::-1::1690367481::0::1::::<><>::res://Assets/BasicSprites/backgroundtile.png<>res://Assets/BasicSprites/forewall.png<>res://Player/Player.tscn<>res://Enemy/MeleeEnemy.tscn<>res://Player/UI/PlayerInfo/Healthbar.tscn<>res://Enemy/SingleShotEnemy.tscn<>res://Enemy/BurstShotEnemy.tscn
 ::res://Sound/::1690367496
 dean shotgun.wav::AudioStreamWAV::5693894202908271960::1672908853::1690367496::1::::<><>::

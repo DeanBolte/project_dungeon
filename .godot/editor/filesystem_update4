@@ -11,3 +11,6 @@ res://MainMenu/Text/MenuCreditFont.tres
 res://MainMenu/Text/MenuCreditTheme.tres
 res://MainMenu/Text/MenuTheme.tres
 res://Player/UI/Menu/PauseMenu.tscn
+res://Enemy/BurstShotEnemy.tscn
+res://Enemy/MeleeEnemy.tscn
+res://Enemy/SingleShotEnemy.tscn
