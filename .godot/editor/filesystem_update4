@@ -17,3 +17,6 @@ res://Enemy/SingleShotEnemy.tscn
 res://Weapons/Shotgun/Slug.tscn
 res://Weapons/Shotgun/Standard.tscn
 res://Enemy/Common/Shots/EnemyShot.tscn
+res://Generation/FloorGenerator.tscn
+res://Generation/FloorGenerator.gd
+res://Scenes/death_card.tscn

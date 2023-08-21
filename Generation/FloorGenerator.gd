@@ -38,7 +38,7 @@ func spawn_player(x, y):
 
 # room creation
 func create_room(x: float, y: float, enemies: bool):
-	var key = Vector2(x, y)
+	var key = Vector2(x, y) 
 	var room_inst = instantiate_room_inst(key)
 	
 	if room_inst:
