@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/dean shotgun.wav-b084fbf78bcf51bc84a5a32afc64639c.sample"
+type="AudioStreamWAV"
+uid="uid://cnefuud2557v5"
+path="res://.godot/imported/dean shotgun.wav-b084fbf78bcf51bc84a5a32afc64639c.sample"
 
 [deps]
 
 source_file="res://Sound/dean shotgun.wav"
-dest_files=[ "res://.import/dean shotgun.wav-b084fbf78bcf51bc84a5a32afc64639c.sample" ]
+dest_files=["res://.godot/imported/dean shotgun.wav-b084fbf78bcf51bc84a5a32afc64639c.sample"]
 
 [params]
 

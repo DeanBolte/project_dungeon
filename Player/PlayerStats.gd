@@ -10,18 +10,17 @@ signal ammo_count_changed(value)
 
 signal reloading(value)
 
-export(int) var max_health setget set_max_health
-var health = max_health setget set_health
+@export var max_health: int: set = set_max_health
+var health = max_health: set = set_health
 
-export(int) var max_clip setget set_max_clip
-var clip = max_clip setget set_clip
+@export var max_clip: int: set = set_max_clip
+var clip = max_clip: set = set_clip
 
 enum AmmoType {
 	STANDARD,
 	SLUG
 }
 var selected_shot_type = AmmoType.STANDARD
-var shot_types = 2
 var ammo_counts := Dictionary()
 
 func _ready():
@@ -86,9 +85,9 @@ func increment_ammo_count(ammo_type: int, value: int = 1):
 
 func set_ammo_type(type: int):
 	if type < 0:
-		selected_shot_type = 0
-	elif type > shot_types - 1:
-		selected_shot_type = shot_types - 1
+		selected_shot_type = AmmoType.get(0)
+	elif type > AmmoType.size() - 1:
+		selected_shot_type = AmmoType.get(AmmoType.size() - 1)
 	else:
 		selected_shot_type = type
 

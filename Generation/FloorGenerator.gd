@@ -1,10 +1,10 @@
 extends Node2D
 
-export var ROOM_DISTANCE = 640
-export var ROOM_LOAD_DISTANCE = 2400
+@export var ROOM_DISTANCE = 640
+@export var ROOM_LOAD_DISTANCE = 2400
 
-onready var RoomsActive = $RoomsActive
-onready var PlayerContainer = $PlayerActive
+@onready var RoomsActive = $RoomsActive
+@onready var PlayerContainer = $PlayerActive
 
 var BaseRoomScene = preload("res://Generation/RoomBase.tscn")
 var PlayerScene = preload("res://Player/Player.tscn")
@@ -20,7 +20,7 @@ func _ready():
 
 func _process(_delta):
 	for room in roomMap.keys():
-		if is_a_parent_of(roomMap[room]):
+		if is_ancestor_of(roomMap[room]):
 			if Player.global_position.distance_to(room * ROOM_DISTANCE) > ROOM_LOAD_DISTANCE:
 				RoomsActive.call_deferred("remove_child", roomMap[room])
 		else:
@@ -29,7 +29,7 @@ func _process(_delta):
 
 # instantiate packed player scene and add to heirarchy
 func spawn_player(x, y):
-	var playerInst = PlayerScene.instance()
+	var playerInst = PlayerScene.instantiate()
 	PlayerContainer.add_child(playerInst)
 	
 	playerInst.global_position = Vector2(x, y)
@@ -56,7 +56,7 @@ func create_room(x: float, y: float, enemies: bool):
 func instantiate_room_inst(key: Vector2):
 	if(not roomMap.has(key)):
 		# instantiate packed room scene
-		var roomInst = BaseRoomScene.instance()
+		var roomInst = BaseRoomScene.instantiate()
 		RoomsActive.add_child(roomInst)
 		
 		# set room location
@@ -64,7 +64,7 @@ func instantiate_room_inst(key: Vector2):
 		roomInst.MAP_LOCATION = key
 		
 		# connect generation trigger
-		roomInst.connect("first_entered", self, "generate_next")
+		roomInst.connect("first_entered", Callable(self, "generate_next"))
 		
 		return roomInst
 
@@ -73,7 +73,7 @@ func flush_room_map():
 
 func instanstiate_entity(room_inst, spawn_position, entity_scene):
 	# create instance
-	var entity: KinematicBody2D = entity_scene.instance()
+	var entity: CharacterBody2D = entity_scene.instantiate()
 	entity.global_position = spawn_position
 	room_inst.get_node("EnemiesActive").add_child(entity)
 	return entity

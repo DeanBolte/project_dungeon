@@ -1,7 +1,7 @@
 extends Area2D
 
-onready var timer = $Timer
-onready var collisionShape = $CollisionShape2D
+@onready var timer = $Timer
+@onready var collisionShape = $CollisionShape2D
 
 var invincible = false
 

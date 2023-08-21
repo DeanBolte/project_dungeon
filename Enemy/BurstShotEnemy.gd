@@ -29,4 +29,4 @@ func _on_HurtBox_body_entered(body):
 
 func _on_PlayerDetectionCycle_timeout():
 	if playerDetectionZone.can_see_player():
-		Agent.set_target_location(playerDetectionZone.player.global_position)
+		Agent.set_target_position(playerDetectionZone.player.global_position)

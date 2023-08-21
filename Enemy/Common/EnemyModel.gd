@@ -1,8 +1,8 @@
-extends KinematicBody2D
+extends CharacterBody2D
 
-onready var Agent: NavigationAgent2D = $NavigationAgent2D
-onready var DamageEffects: Particles2D = $DamageEffects
-onready var DamageAnimation := $DamageAnimation
+@onready var Agent: NavigationAgent2D = $NavigationAgent2D
+@onready var DamageEffects: GPUParticles2D = $DamageEffects
+@onready var DamageAnimation := $DamageAnimation
 
 var ammo_drop = preload("res://Enemy/Common/Drops/AmmoDrop.tscn")
 var health_drop = preload("res://Enemy/Common/Drops/HealthDrop.tscn")
@@ -37,7 +37,6 @@ var state = IDLE
 var stunned_timer: float = 0.0
 
 # member data
-var velocity = Vector2.ZERO
 var health = MAX_HEALTH
 var invincible = 0 # seconds of invunrability
 
@@ -63,13 +62,15 @@ func _physics_process(delta):
 		DEAD:
 			death()
 	
-	velocity = move_and_slide(velocity)
+	set_velocity(velocity)
+	move_and_slide()
+	velocity = velocity
 	
 	# check for wall slam
 	wall_slam()
 
 func wall_slam():
-	for i in range(get_slide_count()):
+	for i in range(get_slide_collision_count()):
 		var collision: KinematicCollision2D = get_slide_collision(i)
 		if velocity.length() > MAX_VELOCITY / 2 && state == STUNNED:
 			take_hit(WALL_SLAM_DAMAGE, velocity.normalized() + collision.normal)
@@ -91,7 +92,7 @@ func seek_player():
 		var vectorToPlayer = playerDetectionZone.player.global_position - global_position
 		if not test_move(global_transform, vectorToPlayer):
 			state = CHASE
-			Agent.set_target_location(playerDetectionZone.player.global_position)
+			Agent.set_target_position(playerDetectionZone.player.global_position)
 
 # WANDER
 func wander(delta):
@@ -105,7 +106,7 @@ func wander(delta):
 
 func update_wander():
 	state = pick_rand_state([IDLE, WANDER])
-	wandererController.start_wander_timer(rand_range(0, 1))
+	wandererController.start_wander_timer(randf_range(0, 1))
 
 # STUNNED
 func stunned(delta: float):
@@ -123,8 +124,8 @@ func chase_player(_delta):
 	var player = playerDetectionZone.player
 	if player:
 		# get close to player
-		Agent.set_target_location(player.position)
-		var direction = global_position.direction_to(Agent.get_next_location())
+		Agent.set_target_position(player.position)
+		var direction = global_position.direction_to(Agent.get_next_path_position())
 		velocity = velocity.move_toward(direction * MAX_VELOCITY, ACCELERATION)
 	else:
 		state = IDLE
@@ -163,7 +164,7 @@ func take_hit(damage: float, direction: Vector2):
 		stunned_timer = MAX_STUNNED_TIME
 		
 		# create blood effect
-		var material: ParticlesMaterial = DamageEffects.get_process_material()
+		var material: ParticleProcessMaterial = DamageEffects.get_process_material()
 		material.direction = Vector3(direction.x, direction.y, 0).normalized()
 		DamageEffects.restart()
 
@@ -190,10 +191,10 @@ func generate_drops():
 func spawn_drop(packed_drop):
 	var launch_vector = Vector2.ZERO
 	var max_speed = 500
-	launch_vector.x += rand_range(-max_speed,max_speed)
-	launch_vector.y += rand_range(-max_speed,max_speed)
+	launch_vector.x += randf_range(-max_speed,max_speed)
+	launch_vector.y += randf_range(-max_speed,max_speed)
 	
-	var dropInst = packed_drop.instance()
+	var dropInst = packed_drop.instantiate()
 	dropInst.global_position = global_position
 	dropInst.velocity = launch_vector
 	get_parent().add_child(dropInst)

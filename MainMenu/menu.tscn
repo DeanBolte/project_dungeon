@@ -1,155 +1,137 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=10 format=3 uid="uid://bwoipaqx31abc"]
 
-[ext_resource path="res://MainMenu/Text/MenuItemTheme.tres" type="Theme" id=1]
-[ext_resource path="res://MainMenu/Text/MenuTitleTheme.tres" type="Theme" id=2]
-[ext_resource path="res://MainMenu/Menu.gd" type="Script" id=3]
-[ext_resource path="res://MainMenu/Text/MenuCreditTheme.tres" type="Theme" id=4]
-[ext_resource path="res://MainMenu/VolumeMixer.gd" type="Script" id=5]
-[ext_resource path="res://Soundtrack/holy moley.wav" type="AudioStream" id=6]
-[ext_resource path="res://MainMenu/OptionMenu.gd" type="Script" id=7]
-[ext_resource path="res://MainMenu/TitleMenu.gd" type="Script" id=8]
-[ext_resource path="res://MainMenu/GUIStyles/ButtonMenu.tres" type="Theme" id=9]
+[ext_resource type="Theme" uid="uid://d3n5fcwlohxk5" path="res://MainMenu/Text/MenuItemTheme.tres" id="1"]
+[ext_resource type="Theme" uid="uid://owdoed1e38su" path="res://MainMenu/Text/MenuTitleTheme.tres" id="2"]
+[ext_resource type="Script" path="res://MainMenu/Menu.gd" id="3"]
+[ext_resource type="Theme" uid="uid://brv6tvljhxrhr" path="res://MainMenu/Text/MenuCreditTheme.tres" id="4"]
+[ext_resource type="Script" path="res://MainMenu/VolumeMixer.gd" id="5"]
+[ext_resource type="AudioStream" uid="uid://rk0qu4ev20vt" path="res://Soundtrack/holy moley.wav" id="6"]
+[ext_resource type="Script" path="res://MainMenu/OptionMenu.gd" id="7"]
+[ext_resource type="Script" path="res://MainMenu/TitleMenu.gd" id="8"]
+[ext_resource type="Theme" uid="uid://dxc3s5sdaxcmc" path="res://MainMenu/GUIStyles/ButtonMenu.tres" id="9"]
 
 [node name="Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -2.0
-margin_right = -2.0
-script = ExtResource( 3 )
+offset_left = -2.0
+offset_right = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3")
 
 [node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0.960784, 0.984314, 0.937255, 1 )
+color = Color(0.960784, 0.984314, 0.937255, 1)
 
 [node name="TitleMenu" type="VBoxContainer" parent="."]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 10.0
-margin_top = 5.0
-margin_right = -10.0
-margin_bottom = -5.0
-script = ExtResource( 8 )
+offset_left = 10.0
+offset_top = 5.0
+offset_right = -10.0
+offset_bottom = -5.0
+script = ExtResource("8")
 
 [node name="MenuItems" type="VBoxContainer" parent="TitleMenu"]
-margin_right = 620.0
-margin_bottom = 415.0
+layout_mode = 2
 size_flags_vertical = 3
 
 [node name="Title" type="Label" parent="TitleMenu/MenuItems"]
-margin_right = 620.0
-margin_bottom = 44.0
-theme = ExtResource( 2 )
-custom_colors/font_color = Color( 0.454902, 0.545098, 0.458824, 1 )
+layout_mode = 2
+theme = ExtResource("2")
+theme_override_colors/font_color = Color(0.454902, 0.545098, 0.458824, 1)
 text = "Project Dungeon"
 
 [node name="Options" type="VBoxContainer" parent="TitleMenu/MenuItems"]
-margin_top = 48.0
-margin_right = 620.0
-margin_bottom = 176.0
+layout_mode = 2
 
 [node name="Continue" type="Label" parent="TitleMenu/MenuItems/Options"]
-margin_right = 620.0
-margin_bottom = 29.0
+layout_mode = 2
 mouse_filter = 0
-theme = ExtResource( 1 )
-custom_colors/font_color = Color( 0.454902, 0.545098, 0.458824, 1 )
+theme = ExtResource("1")
+theme_override_colors/font_color = Color(0.454902, 0.545098, 0.458824, 1)
 text = "Continue"
 
 [node name="Play" type="Label" parent="TitleMenu/MenuItems/Options"]
-margin_top = 33.0
-margin_right = 620.0
-margin_bottom = 62.0
+layout_mode = 2
 mouse_filter = 0
-theme = ExtResource( 1 )
-custom_colors/font_color = Color( 0.454902, 0.545098, 0.458824, 1 )
+theme = ExtResource("1")
+theme_override_colors/font_color = Color(0.454902, 0.545098, 0.458824, 1)
 text = "Play"
 
 [node name="Options" type="Label" parent="TitleMenu/MenuItems/Options"]
-margin_top = 66.0
-margin_right = 620.0
-margin_bottom = 95.0
+layout_mode = 2
 mouse_filter = 0
-theme = ExtResource( 1 )
-custom_colors/font_color = Color( 0.454902, 0.545098, 0.458824, 1 )
+theme = ExtResource("1")
+theme_override_colors/font_color = Color(0.454902, 0.545098, 0.458824, 1)
 text = "Options"
 
 [node name="Exit" type="Label" parent="TitleMenu/MenuItems/Options"]
-margin_top = 99.0
-margin_right = 620.0
-margin_bottom = 128.0
+layout_mode = 2
 mouse_filter = 0
-theme = ExtResource( 1 )
-custom_colors/font_color = Color( 0.454902, 0.545098, 0.458824, 1 )
+theme = ExtResource("1")
+theme_override_colors/font_color = Color(0.454902, 0.545098, 0.458824, 1)
 text = "Exit"
 
 [node name="Credits" type="VBoxContainer" parent="TitleMenu"]
-margin_top = 419.0
-margin_right = 620.0
-margin_bottom = 470.0
+layout_mode = 2
 
 [node name="Label" type="Label" parent="TitleMenu/Credits"]
-margin_right = 620.0
-margin_bottom = 51.0
-theme = ExtResource( 4 )
-custom_colors/font_color = Color( 0.454902, 0.545098, 0.458824, 1 )
+layout_mode = 2
+theme = ExtResource("4")
+theme_override_colors/font_color = Color(0.454902, 0.545098, 0.458824, 1)
 text = "Programming - Dean Bolte
 Sound Track - Joshua Burt
 Sound Design - Morgan Gerlach"
-align = 2
 
 [node name="OptionMenu" type="VBoxContainer" parent="."]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 10.0
-margin_top = 5.0
-margin_right = -10.0
-margin_bottom = -5.0
-script = ExtResource( 7 )
+offset_left = 10.0
+offset_top = 5.0
+offset_right = -10.0
+offset_bottom = -5.0
+script = ExtResource("7")
 
 [node name="Title" type="Label" parent="OptionMenu"]
-margin_right = 620.0
-margin_bottom = 44.0
-theme = ExtResource( 2 )
-custom_colors/font_color = Color( 0.454902, 0.545098, 0.458824, 1 )
+layout_mode = 2
+theme = ExtResource("2")
+theme_override_colors/font_color = Color(0.454902, 0.545098, 0.458824, 1)
 text = "Options"
 
 [node name="Options" type="VBoxContainer" parent="OptionMenu"]
-margin_top = 48.0
-margin_right = 620.0
-margin_bottom = 122.0
+layout_mode = 2
 
 [node name="VolumeMixer" type="VBoxContainer" parent="OptionMenu/Options"]
-margin_right = 620.0
-margin_bottom = 55.0
-script = ExtResource( 5 )
+layout_mode = 2
+script = ExtResource("5")
 
 [node name="Title" type="Label" parent="OptionMenu/Options/VolumeMixer"]
-margin_right = 620.0
-margin_bottom = 15.0
-theme = ExtResource( 4 )
-custom_colors/font_color = Color( 0.454902, 0.545098, 0.458824, 1 )
+layout_mode = 2
+theme = ExtResource("1")
+theme_override_colors/font_color = Color(0.454902, 0.545098, 0.458824, 1)
 text = "Audio"
 
 [node name="SFX" type="HBoxContainer" parent="OptionMenu/Options/VolumeMixer"]
-margin_top = 19.0
-margin_right = 620.0
-margin_bottom = 35.0
+layout_mode = 2
 
 [node name="Title" type="Label" parent="OptionMenu/Options/VolumeMixer/SFX"]
-margin_right = 501.0
-margin_bottom = 15.0
+layout_mode = 2
 size_flags_horizontal = 3
-theme = ExtResource( 4 )
-custom_colors/font_color = Color( 0.454902, 0.545098, 0.458824, 1 )
+theme = ExtResource("1")
+theme_override_colors/font_color = Color(0.454902, 0.545098, 0.458824, 1)
 text = "SFX"
 
 [node name="SFXSlider" type="HSlider" parent="OptionMenu/Options/VolumeMixer/SFX"]
-margin_left = 505.0
-margin_right = 620.0
-margin_bottom = 16.0
-rect_min_size = Vector2( 115, 0 )
-rect_clip_content = true
+clip_contents = true
+custom_minimum_size = Vector2(115, 0)
+layout_mode = 2
 min_value = -30.0
 max_value = 0.0
 value = -10.0
@@ -157,24 +139,19 @@ tick_count = 10
 ticks_on_borders = true
 
 [node name="Music" type="HBoxContainer" parent="OptionMenu/Options/VolumeMixer"]
-margin_top = 39.0
-margin_right = 620.0
-margin_bottom = 55.0
+layout_mode = 2
 
 [node name="Title" type="Label" parent="OptionMenu/Options/VolumeMixer/Music"]
-margin_right = 501.0
-margin_bottom = 15.0
+layout_mode = 2
 size_flags_horizontal = 3
-theme = ExtResource( 4 )
-custom_colors/font_color = Color( 0.454902, 0.545098, 0.458824, 1 )
+theme = ExtResource("1")
+theme_override_colors/font_color = Color(0.454902, 0.545098, 0.458824, 1)
 text = "Music"
 
 [node name="MusicSlider" type="HSlider" parent="OptionMenu/Options/VolumeMixer/Music"]
-margin_left = 505.0
-margin_right = 620.0
-margin_bottom = 16.0
-rect_min_size = Vector2( 115, 0 )
-rect_clip_content = true
+clip_contents = true
+custom_minimum_size = Vector2(115, 0)
+layout_mode = 2
 min_value = -30.0
 max_value = 0.0
 value = -10.0
@@ -182,19 +159,17 @@ tick_count = 10
 ticks_on_borders = true
 
 [node name="ExitOptions" type="Button" parent="OptionMenu/Options"]
-margin_top = 59.0
-margin_right = 140.0
-margin_bottom = 74.0
-rect_min_size = Vector2( 140, 0 )
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
 size_flags_horizontal = 0
-theme = ExtResource( 9 )
+theme = ExtResource("9")
 text = "Back (esc)"
 
 [node name="MainMenuTheme" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 6 )
+stream = ExtResource("6")
 volume_db = -25.0
 autoplay = true
-bus = "Music"
+bus = &"Music"
 
 [connection signal="mouse_entered" from="TitleMenu/MenuItems/Options/Continue" to="TitleMenu" method="_on_Continue_mouse_entered"]
 [connection signal="mouse_entered" from="TitleMenu/MenuItems/Options/Play" to="TitleMenu" method="_on_Play_mouse_entered"]

@@ -1,15 +1,15 @@
-extends KinematicBody2D
+extends CharacterBody2D
 
 # accessed member nodes
-onready var animationPlayer := $StateAnimationPlayer
-onready var shotgunAnimationPlayer := $ShotgunAnimationPlayer
-onready var punchAnimationPlayer := $PunchAnimationPlayer
-onready var hurtBox := $HurtBox
-onready var shotgunSprite := $ShotgunSprite
+@onready var animationPlayer := $StateAnimationPlayer
+@onready var shotgunAnimationPlayer := $ShotgunAnimationPlayer
+@onready var punchAnimationPlayer := $PunchAnimationPlayer
+@onready var hurtBox := $HurtBox
+@onready var shotgunSprite := $ShotgunSprite
 
 # sound effects
-onready var SFX := $SFX
-onready var shotgunBlastSFX := $SFX/ShotgunBlast
+@onready var SFX := $SFX
+@onready var shotgunBlastSFX := $SFX/ShotgunBlast
 
 # preloaded objects
 var StandardShot = preload("res://Weapons/Shotgun/Standard.tscn")
@@ -19,26 +19,26 @@ var ShotgunShell = preload("res://Weapons/Shotgun/Animations/ShotgunShell.tscn")
 var DeathCardScene = "res://Scenes/death_card.tscn"
 
 # member constants
-export var ACCELERATION = 10000
-export var MAX_VELOCITY = 400
-export var FRICTION = 0.1
-export var MIN_VELOCITY = 20
+@export var ACCELERATION = 10000
+@export var MAX_VELOCITY = 400
+@export var FRICTION = 0.1
+@export var MIN_VELOCITY = 20
 
-export var DODGE_VELOCITY = 800
-export var INVINCIBILE_TIME = 0.2
+@export var DODGE_VELOCITY = 800
+@export var INVINCIBILE_TIME = 0.2
 
-export var DAMAGE_INVINC_TIME = 0.3
+@export var DAMAGE_INVINC_TIME = 0.3
 
-export var RELOAD_TIME = 0.8
-export var MINIMUM_RELOAD_TIME = 0.1
-export var SHOT_TIME = 0.2
-export var SHOT_COUNT = 5
-export var CLIP_SIZE = 2
+@export var RELOAD_TIME = 0.8
+@export var MINIMUM_RELOAD_TIME = 0.1
+@export var SHOT_TIME = 0.2
+@export var SHOT_COUNT = 5
+@export var CLIP_SIZE = 2
 
-export var ACCURATE_SHOT_FREQUENCY = 2
-export var ACCURATE_SHOT_BOOST = 4
-export var SHOT_CREATION_PLAYER_OFFSET = 40
-export var SHELL_EJECTION_VELOCITY = -150
+@export var ACCURATE_SHOT_FREQUENCY = 2
+@export var ACCURATE_SHOT_BOOST = 4
+@export var SHOT_CREATION_PLAYER_OFFSET = 40
+@export var SHELL_EJECTION_VELOCITY = -150
 
 # enums
 enum {
@@ -53,13 +53,12 @@ var loaded_shot_type = AmmoType.STANDARD
 # member variables
 var damage_cooldown = DAMAGE_INVINC_TIME
 
-var velocity := Vector2.ZERO
 var aimingNormalVector := Vector2.ZERO
 
 var shootCoolDown = 0
 var reloading = false
 var reload_time: float = 0
-var clip: int = CLIP_SIZE setget set_clip
+var clip: int = CLIP_SIZE: set = set_clip
 
 # member variable setters and getters
 func set_clip(value: int):
@@ -70,7 +69,7 @@ func _ready():
 	randomize()
 	Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
 	
-	var _playerStatsError = PlayerStats.connect("no_health", self, "player_death")
+	var _playerStatsError = PlayerStats.connect("no_health", Callable(self, "player_death"))
 
 func _physics_process(delta):
 	# aim shotgun
@@ -101,7 +100,9 @@ func _physics_process(delta):
 		DODGE:
 			calculate_dodge(delta)
 	
-	velocity = move_and_slide(velocity)
+	set_velocity(velocity)
+	move_and_slide()
+	velocity = velocity
 
 # take player input and compute velocity
 func calculate_movement(delta):
@@ -147,9 +148,9 @@ func calculate_shotgun(delta):
 			match loaded_shot_type:
 				AmmoType.STANDARD:
 					for index in range(SHOT_COUNT):
-						create_shot(StandardShot.instance(), index)
+						create_shot(StandardShot.instantiate(), index)
 				AmmoType.SLUG:
-					create_shot(SlugShot.instance())
+					create_shot(SlugShot.instantiate())
 			
 			if clip > 0:
 				shootCoolDown = SHOT_TIME
@@ -161,8 +162,8 @@ func calculate_shotgun(delta):
 		shootCoolDown -= delta
 
 func create_shell():
-	var shellInst = ShotgunShell.instance()
-	var noiseVector = Vector2(rand_range(-1, 1), rand_range(-1, 1)).normalized()
+	var shellInst = ShotgunShell.instantiate()
+	var noiseVector = Vector2(randf_range(-1, 1), randf_range(-1, 1)).normalized()
 	shellInst.velocity = (aimingNormalVector + noiseVector) * SHELL_EJECTION_VELOCITY
 	shellInst.global_position = global_position + aimingNormalVector * 36
 	get_parent().add_child(shellInst)
@@ -172,8 +173,8 @@ func create_shot(shotInst: Node, shotIndex: int = 0):
 		shotInst.ACCURACY = shotInst.ACCURACY / ACCURATE_SHOT_BOOST
 	
 	var shootDirection = get_local_mouse_position().normalized()
-	shootDirection.x += rand_range(-shotInst.ACCURACY, shotInst.ACCURACY)
-	shootDirection.y += rand_range(-shotInst.ACCURACY, shotInst.ACCURACY)
+	shootDirection.x += randf_range(-shotInst.ACCURACY, shotInst.ACCURACY)
+	shootDirection.y += randf_range(-shotInst.ACCURACY, shotInst.ACCURACY)
 	
 	shotInst.global_position = global_position + aimingNormalVector * SHOT_CREATION_PLAYER_OFFSET
 	shotInst.direction = shootDirection
@@ -205,7 +206,7 @@ func dodge_ended():
 
 func player_death():
 # warning-ignore:return_value_discarded
-	get_tree().change_scene(DeathCardScene)
+	get_tree().change_scene_to_file(DeathCardScene)
 
 func _on_HurtBox_area_entered(_area):
 	if damage_cooldown <= 0:

@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/holy moley.wav-b6bb3aaf35465493c204fe092e9be352.sample"
+type="AudioStreamWAV"
+uid="uid://rk0qu4ev20vt"
+path="res://.godot/imported/holy moley.wav-b6bb3aaf35465493c204fe092e9be352.sample"
 
 [deps]
 
 source_file="res://Soundtrack/holy moley.wav"
-dest_files=[ "res://.import/holy moley.wav-b6bb3aaf35465493c204fe092e9be352.sample" ]
+dest_files=["res://.godot/imported/holy moley.wav-b6bb3aaf35465493c204fe092e9be352.sample"]
 
 [params]
 

@@ -1,6 +1,6 @@
 extends StaticBody2D
 
-onready var ShrubCollision = $CollisionShape2D
+@onready var ShrubCollision = $CollisionShape2D
 
 var broken = false
 

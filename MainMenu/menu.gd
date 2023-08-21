@@ -1,13 +1,13 @@
 extends Control
 
-onready var TitleMenu = $TitleMenu
-onready var OptionMenu = $OptionMenu
+@onready var TitleMenu = $TitleMenu
+@onready var OptionMenu = $OptionMenu
 
 enum {
 	MAINMENU,
 	OPTIONS
 }
-var active_menu: int = MAINMENU setget set_active_menu
+var active_menu: int = MAINMENU: set = set_active_menu
 
 func _ready():
 	remove_child(TitleMenu)
@@ -17,7 +17,7 @@ func _ready():
 func set_active_menu(menu_enum: int):
 	# disable current active menu
 	var active = menu_id_to_inst(active_menu)
-	if is_a_parent_of(active):
+	if is_ancestor_of(active):
 		remove_child(active)
 	
 	# activate new menu

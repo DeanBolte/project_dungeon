@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/wallImpact.wav-e99a98936dc8920b36d6fb9f0620277b.sample"
+type="AudioStreamWAV"
+uid="uid://fxauv68eqp41"
+path="res://.godot/imported/wallImpact.wav-e99a98936dc8920b36d6fb9f0620277b.sample"
 
 [deps]
 
 source_file="res://Sound/wallImpact.wav"
-dest_files=[ "res://.import/wallImpact.wav-e99a98936dc8920b36d6fb9f0620277b.sample" ]
+dest_files=["res://.godot/imported/wallImpact.wav-e99a98936dc8920b36d6fb9f0620277b.sample"]
 
 [params]
 

@@ -1,7 +1,7 @@
 extends VBoxContainer
 
-onready var Menu = get_parent()
-onready var Options = $MenuItems/Options
+@onready var Menu = get_parent()
+@onready var Options = $MenuItems/Options
 
 enum {
 	CONTINUE,
@@ -9,7 +9,7 @@ enum {
 	OPTIONS,
 	EXIT
 }
-var selection setget set_selection
+var selection : set = set_selection
 var max_options = 3
 
 func _ready():
@@ -50,16 +50,16 @@ func select():
 
 func update():
 	for o in Options.get_children():
-		o.margin_left = 0
+		o.offset_left = 0
 	match selection:
 		CONTINUE:
-			Options.get_node("Continue").margin_left = 20
+			Options.get_node("Continue").offset_left = 20
 		PLAY:
-			Options.get_node("Play").margin_left = 20
+			Options.get_node("Play").offset_left = 20
 		OPTIONS:
-			Options.get_node("Options").margin_left = 20
+			Options.get_node("Options").offset_left = 20
 		EXIT:
-			Options.get_node("Exit").margin_left = 20
+			Options.get_node("Exit").offset_left = 20
 
 func _on_Continue_mouse_entered():
 	self.selection = CONTINUE

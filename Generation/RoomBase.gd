@@ -1,8 +1,8 @@
 extends Node2D
 
-onready var EnemiesActive: Node = $EnemiesActive
-onready var FlowerTileMap: TileMap = $FlowerTileMap
-onready var WallTileMap: TileMap = $WallTileMap
+@onready var EnemiesActive: Node = $EnemiesActive
+@onready var FlowerTileMap: TileMap = $FlowerTileMap
+@onready var WallTileMap: TileMap = $WallTileMap
 
 var BoxPileScene = preload("res://Generation/Obstacles/BoxPile.tscn")
 var ShrubScene = preload("res://Generation/Obstacles/Shrub.tscn")
@@ -20,17 +20,17 @@ var enemy_types = 3
 
 signal first_entered(location)
 
-export (Vector2) var MAP_LOCATION
-export var ROOM_CENTRE = Vector2(320, 320)
-export var SPAWN_SPREAD = 200
-export var FLOWER_TILE_COUNT = 40
-export var TILES_TO_CENTRE = 10
-export var TILE_SPREAD = 10
+@export var MAP_LOCATION: Vector2
+@export var ROOM_CENTRE = Vector2(320, 320)
+@export var SPAWN_SPREAD = 200
+@export var FLOWER_TILE_COUNT = 40
+@export var TILES_TO_CENTRE = 10
+@export var TILE_SPREAD = 10
 
-export var MAX_SHRUB_COUNT = 8
-export var MAX_BOX_COUNT = 6
-export var ENTITY_SPAWN_ROTATION = 2 * PI
-export var MAX_SPAWN_ATTEMPTS = 5
+@export var MAX_SHRUB_COUNT = 8
+@export var MAX_BOX_COUNT = 6
+@export var ENTITY_SPAWN_ROTATION = 2 * PI
+@export var MAX_SPAWN_ATTEMPTS = 5
 
 
 var spawnEnemies = true
@@ -49,7 +49,7 @@ func generate_objects():
 func create_given_tiles(topLeft: Vector2, bottomRight: Vector2, tileMap: TileMap):
 	for x in range (bottomRight.x - topLeft.x + 1):
 		for y in range (bottomRight.y - topLeft.y + 1):
-			tileMap.set_cell(int(topLeft.x + x), int(topLeft.y + y), 0)
+			tileMap.set_cell(0, Vector2i(int(topLeft.x + x), int(topLeft.y + y)))
 
 func generate_walls(wall_rand: int):
 	if(wall_rand < 15):
@@ -73,22 +73,20 @@ func generate_obstacles():
 func generate_flowers():
 	for _i in range(FLOWER_TILE_COUNT):
 		FlowerTileMap.set_cell(
-			TILES_TO_CENTRE + rand_range(-TILE_SPREAD,TILE_SPREAD), 
-			TILES_TO_CENTRE + rand_range(-TILE_SPREAD,TILE_SPREAD), 
 			0, 
-			false, 
-			false, 
-			false, 
-			get_subtile_without_priority(0, FlowerTileMap)
+			Vector2i(TILES_TO_CENTRE + randf_range(-TILE_SPREAD,TILE_SPREAD), TILES_TO_CENTRE + randf_range(-TILE_SPREAD,TILE_SPREAD)), 
+			-1, 
+			Vector2i(-1,-1), 
+			# get_subtile_without_priority(0, FlowerTileMap)
+			0
 		)
 
+# ---------------- might have broken this one woops ----------------------
 func get_subtile_without_priority(id, tilemap: TileMap):
-	var tiles = tilemap.tile_set
-	var rect = tilemap.tile_set.tile_get_region(id)
-	var size_x: int = rect.size.x / tiles.autotile_get_size(id).x
-	var size_y: int = rect.size.y / tiles.autotile_get_size(id).y
-	var rand_x = randi() % size_x 
-	var rand_y = randi() % size_y
+	var tiles := tilemap.tile_set
+	var rect := tiles.tile_size
+	var rand_x = randi() % rect.x
+	var rand_y = randi() % rect.y
 	return Vector2(rand_x, rand_y)
 
 func generate_enemies(maxEnemies: int = 3):
@@ -107,13 +105,13 @@ func get_random_enemy_type():
 			return MeleeEnemyScene
 
 func instance_kinematic(scene):
-	var entity: KinematicBody2D = scene.instance()
+	var entity: CharacterBody2D = scene.instantiate()
 	spawn_entity(entity, entity.shape_owner_get_shape(0,0), "EnemiesActive") # will need to add a more general spawn node
 
 func instance_room_object(scene, spawnRotation: int):
-	var entity: CollisionObject2D = scene.instance()
+	var entity: CollisionObject2D = scene.instantiate()
 	entity.rotate(spawnRotation)
-	spawn_entity(entity, entity.find_node("SpawnCollision").shape_owner_get_shape(0,0), "EnemiesActive") # will need to add a more general spawn node
+	spawn_entity(entity, entity.find_child("SpawnCollision").shape_owner_get_shape(0,0), "EnemiesActive") # will need to add a more general spawn node
 
 func spawn_entity(instance: Node2D, shape: Shape2D, spawnNode: String, attempt: int = 0):
 	# too many tries for finding safe position
@@ -121,11 +119,11 @@ func spawn_entity(instance: Node2D, shape: Shape2D, spawnNode: String, attempt: 
 		return
 	
 	# generate spawn location
-	var random_position = global_position + Vector2(320, 320) + Vector2(rand_range(-SPAWN_SPREAD, SPAWN_SPREAD), rand_range(-SPAWN_SPREAD, SPAWN_SPREAD))
+	var random_position = global_position + Vector2(320, 320) + Vector2(randf_range(-SPAWN_SPREAD, SPAWN_SPREAD), randf_range(-SPAWN_SPREAD, SPAWN_SPREAD))
 	instance.global_position = random_position
 	
 	# query spawn location
-	var query = Physics2DShapeQueryParameters.new()
+	var query = PhysicsShapeQueryParameters2D.new()
 	query.set_transform(instance.global_transform)
 	query.set_shape(shape)
 	
@@ -147,6 +145,6 @@ func _on_RoomArea_body_entered(_body):
 		emit_signal("first_entered", MAP_LOCATION)
 		visited = true
 
-func _on_EnemyDetectionArea_body_entered(body: KinematicBody2D):
-	if not EnemiesActive.is_a_parent_of(body):
+func _on_EnemyDetectionArea_body_entered(body: CharacterBody2D):
+	if not EnemiesActive.is_ancestor_of(body):
 		call_deferred("migrate_enemy", body)
