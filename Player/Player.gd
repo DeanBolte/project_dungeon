@@ -63,6 +63,7 @@ var clip: int = CLIP_SIZE: set = set_clip
 # member variable setters and getters
 func set_clip(value: int):
 	PlayerStats.set_clip(value)
+	clip = value
 
 # built in runtime functions
 func _ready():
@@ -138,7 +139,6 @@ func calculate_punch(_delta: float):
 
 func calculate_shotgun(delta):
 	PlayerStats.set_clip(clip)
-	
 	if not reloading:
 		if Input.is_action_just_pressed("player_shoot") && shootCoolDown <= 0 && clip > 0:
 			PlayerStats.update_ammo_ui()
@@ -155,7 +155,7 @@ func calculate_shotgun(delta):
 			
 			if clip > 0:
 				shootCoolDown = SHOT_TIME
-				clip -= 1
+				clip = clip - 1
 			else:
 				pass # no ammo
 	
