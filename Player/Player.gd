@@ -138,9 +138,10 @@ func calculate_punch(_delta: float):
 
 func calculate_shotgun(delta):
 	PlayerStats.set_clip(clip)
-	PlayerStats.update_ammo_ui()
+	
 	if not reloading:
 		if Input.is_action_just_pressed("player_shoot") && shootCoolDown <= 0 && clip > 0:
+			PlayerStats.update_ammo_ui()
 			# shot sfx
 			shotgunBlastSFX.play()
 			

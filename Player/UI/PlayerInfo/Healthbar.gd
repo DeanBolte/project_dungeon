@@ -2,8 +2,8 @@ extends Control
 
 const HEARTWIDTH = 8
 
-@onready var HealthBackground = $HealthBackground
-@onready var HealthForeground = $HealthForeground
+@onready var HealthBackground: TextureRect = $HealthBackground
+@onready var HealthForeground: TextureRect = $HealthForeground
 
 var hearts = 3: set = set_hearts
 var max_hearts = 4: set = set_max_hearts
@@ -26,6 +26,6 @@ func _ready():
 	
 	# connect singals
 # warning-ignore:return_value_discarded
-	PlayerStats.connect("health_changed", Callable(self, "set_hearts"))
+	PlayerStats.health_changed.connect(set_hearts)
 # warning-ignore:return_value_discarded
-	PlayerStats.connect("max_health_changed", Callable(self, "set_max_hearts"))
+	PlayerStats.max_health_changed.connect(set_max_hearts)

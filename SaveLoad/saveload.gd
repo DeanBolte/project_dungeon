@@ -88,7 +88,7 @@ func load_data():
 	file.close()
 
 func load_player_stats(player_stats):
-	PlayerStats.max_health = player_stats.max_health
+	PlayerStats.maxd_health = player_stats.max_health
 	PlayerStats.health = player_stats.health
 	PlayerStats.max_clip = player_stats.max_clip
 	PlayerStats.clip = player_stats.clip

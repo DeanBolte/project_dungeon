@@ -36,13 +36,13 @@ func initialise():
 func set_max_health(value):
 	max_health = value
 	self.health = min(health, max_health)
-	emit_signal("max_health_changed", max_health)
+	max_health_changed.emit(max_health)
 
 func set_health(value):
 	health = value
-	emit_signal("health_changed", health)
+	health_changed.emit(health)
 	if(health <= 0):
-		emit_signal("no_health")
+		no_health.emit()
 
 func decrement_health(value = 1):
 	set_health(self.health - value)
@@ -55,18 +55,18 @@ func increment_health(value: int = 1):
 func set_max_clip(value):
 	max_clip = value
 	self.clip = min(clip, max_clip)
-	emit_signal("max_clip_changed", max_clip)
+	max_clip_changed.emit(max_clip)
 
 func set_clip(value):
 	clip = value
-	emit_signal("clip_changed", clip)
+	clip_changed.emit(clip)
 
 func decrement_clip(value = 1):
 	set_clip(self.clip - value)
 
 func update_ammo_ui():
 	if ammo_counts.has(selected_shot_type):
-		emit_signal("ammo_count_changed", ammo_counts[selected_shot_type])
+		ammo_count_changed.emit(ammo_counts[selected_shot_type])
 
 func set_ammo_count(ammo_type: int, value: int):
 	ammo_counts[ammo_type] = value
@@ -98,4 +98,4 @@ func decrement_ammo_type(value: int = 1):
 	set_ammo_type(selected_shot_type - value)
 
 func reload(duration: float, reload_speed: float):
-	emit_signal("reloading", duration, reload_speed)
+	reloading.emit(duration, reload_speed)
