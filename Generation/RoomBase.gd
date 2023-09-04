@@ -30,7 +30,7 @@ signal first_entered(location)
 @export var MAX_SHRUB_COUNT = 8
 @export var MAX_BOX_COUNT = 6
 @export var ENTITY_SPAWN_ROTATION = 2 * PI
-@export var MAX_SPAWN_ATTEMPTS = 5
+@export var MAX_SPAWN_ATTEMPTS = 3
 
 
 var spawnEnemies = true
@@ -74,7 +74,7 @@ func generate_flowers():
 	for _i in range(FLOWER_TILE_COUNT):
 		FlowerTileMap.set_cell(
 			0, 
-			Vector2i(TILES_TO_CENTRE + randf_range(-TILE_SPREAD,TILE_SPREAD), TILES_TO_CENTRE + randf_range(-TILE_SPREAD,TILE_SPREAD)), 
+			Vector2i(TILES_TO_CENTRE + randi_range(-TILE_SPREAD,TILE_SPREAD), TILES_TO_CENTRE + randi_range(-TILE_SPREAD,TILE_SPREAD)), 
 			-1, 
 			Vector2i(-1,-1), 
 			# get_subtile_without_priority(0, FlowerTileMap)
@@ -82,7 +82,7 @@ func generate_flowers():
 		)
 
 # ---------------- might have broken this one woops ----------------------
-func get_subtile_without_priority(id, tilemap: TileMap):
+func get_subtile_without_priority(tilemap: TileMap):
 	var tiles := tilemap.tile_set
 	var rect := tiles.tile_size
 	var rand_x = randi() % rect.x
@@ -114,10 +114,6 @@ func instance_room_object(scene, spawnRotation: int):
 	spawn_entity(entity, entity.find_child("SpawnCollision").shape_owner_get_shape(0,0), "EnemiesActive") # will need to add a more general spawn node
 
 func spawn_entity(instance: Node2D, shape: Shape2D, spawnNode: String, attempt: int = 0):
-	# too many tries for finding safe position
-	if attempt > MAX_SPAWN_ATTEMPTS:
-		return
-	
 	# generate spawn location
 	var random_position = global_position + Vector2(320, 320) + Vector2(randf_range(-SPAWN_SPREAD, SPAWN_SPREAD), randf_range(-SPAWN_SPREAD, SPAWN_SPREAD))
 	instance.global_position = random_position
@@ -131,7 +127,7 @@ func spawn_entity(instance: Node2D, shape: Shape2D, spawnNode: String, attempt: 
 	var result = space_state.get_rest_info(query) 
 	
 	# if query result exists than spawn is unsafe
-	if not result:
+	if not result || attempt > MAX_SPAWN_ATTEMPTS:
 		get_node(spawnNode).add_child(instance)
 	else:
 		spawn_entity(instance, shape, spawnNode, attempt + 1)

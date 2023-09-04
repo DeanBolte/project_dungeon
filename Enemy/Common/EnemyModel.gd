@@ -72,7 +72,7 @@ func _physics_process(delta):
 func wall_slam():
 	for i in range(get_slide_collision_count()):
 		var collision: KinematicCollision2D = get_slide_collision(i)
-		if velocity.length() > MAX_VELOCITY / 2 && state == STUNNED:
+		if velocity.length() > MAX_VELOCITY * 0.5 && state == STUNNED:
 			take_hit(WALL_SLAM_DAMAGE, velocity.normalized() + collision.normal)
 
 # --- States ---
@@ -158,19 +158,19 @@ func take_hit(damage: float, direction: Vector2):
 		DamageAnimation.play("TakesDamage")
 		
 		# take damage and add invicibility frames
-		decrement_health(damage)
+		decrement_health(int(damage))
 		invincible = INVINCIBLE_TIME
 		state = STUNNED
 		stunned_timer = MAX_STUNNED_TIME
 		
 		# create blood effect
-		var material: ParticleProcessMaterial = DamageEffects.get_process_material()
+		material = DamageEffects.get_process_material()
 		material.direction = Vector3(direction.x, direction.y, 0).normalized()
 		DamageEffects.restart()
 
 func death():
 	# slow down
-	velocity = velocity.move_toward(Vector2.ZERO, FRICTION/2)
+	velocity = velocity.move_toward(Vector2.ZERO, FRICTION * 0.5)
 	
 	# destroy
 	if DamageEffects and not DamageEffects.is_emitting():
