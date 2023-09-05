@@ -3,6 +3,7 @@ extends "res://Enemy/Common/EnemyModel.gd"
 @export var FIRE_RATE = 0.1
 @export var CLIP_SIZE = 5
 @export var RELOAD_TIME = 2
+@export var SHOT_RECOIL = 1
 
 var fire_cooldown = FIRE_RATE
 var clip_size = CLIP_SIZE
@@ -44,7 +45,7 @@ func calculate_attack(player, delta):
 		fire_cooldown -= delta
 
 func create_shot(player):
-	var shootDirection = player.global_position - global_position
+	var shootDirection: Vector2 = player.global_position - global_position
 	
 	shootDirection = shootDirection.normalized()
 	shootDirection.x += randf_range(-0.2,0.2)
@@ -55,4 +56,4 @@ func create_shot(player):
 	shotInst.direction = shootDirection
 	get_parent().add_child(shotInst)
 	
-	recoil(shootDirection, RECOIL)
+	recoil(shootDirection.normalized(), SHOT_RECOIL)

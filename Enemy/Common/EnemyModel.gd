@@ -14,7 +14,7 @@ var MAX_VELOCITY = 300
 var FRICTION = 200
 var MAX_HEALTH = 1
 var INVINCIBLE_TIME = 0.05
-var RECOIL = 40
+var RECOIL = 200
 var MOVE_TO_PLAYER = 210
 var MOVE_AWAY_PLAYER = 190
 var MAX_DROPS = 3
@@ -62,9 +62,7 @@ func _physics_process(delta):
 		DEAD:
 			death()
 	
-	set_velocity(velocity)
 	move_and_slide()
-	velocity = velocity
 	
 	# check for wall slam
 	wall_slam()
@@ -73,7 +71,7 @@ func wall_slam():
 	for i in range(get_slide_collision_count()):
 		var collision: KinematicCollision2D = get_slide_collision(i)
 		if velocity.length() > MAX_VELOCITY * 0.5 && state == STUNNED:
-			take_hit(WALL_SLAM_DAMAGE, velocity.normalized() + collision.normal)
+			take_hit(WALL_SLAM_DAMAGE, velocity.normalized() + collision.get_normal())
 
 # --- States ---
 # IDLE
@@ -111,7 +109,7 @@ func update_wander():
 # STUNNED
 func stunned(delta: float):
 	# slow down
-	velocity = velocity.move_toward(Vector2.ZERO, 50)
+	velocity = velocity.move_toward(Vector2.ZERO, FRICTION * 0.1)
 	
 	# stunned timer
 	if stunned_timer > 0:
@@ -146,7 +144,7 @@ func decrement_health(value = 1):
 	set_health(health - value)
 
 func recoil(dir: Vector2, value: float):
-	velocity -= dir * (min(value, 6 * RECOIL))
+	velocity = velocity - dir * value * RECOIL
 
 func take_hit(damage: float, direction: Vector2):
 	# check if enemy can take damage
@@ -170,7 +168,7 @@ func take_hit(damage: float, direction: Vector2):
 
 func death():
 	# slow down
-	velocity = velocity.move_toward(Vector2.ZERO, FRICTION * 0.5)
+	velocity = velocity.move_toward(Vector2.ZERO, FRICTION * 0.05)
 	
 	# destroy
 	if DamageEffects and not DamageEffects.is_emitting():

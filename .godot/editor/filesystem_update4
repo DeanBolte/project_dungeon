@@ -7,5 +7,8 @@ res://Player/Player.tscn
 res://Player/UI/PlayerInfo/Healthbar.tscn
 res://Player/UI/PlayerInfo/AmmoBar.tscn
 res://Enemy/MeleeEnemy.tscn
-res://Generation/RoomBase.gd
 res://Enemy/Common/EnemyModel.gd
+res://Enemy/Common/RangedEnemyModel.gd
+res://Enemy/MeleeEnemy.gd
+res://Enemy/BurstShotEnemy.gd
+res://Enemy/SingleShotEnemy.gd

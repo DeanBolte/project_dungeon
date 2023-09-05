@@ -1678,9 +1678,9 @@ sources/0 = SubResource("TileSetAtlasSource_vwxc5")
 size = Vector2(608, 608)
 
 [sub_resource type="NavigationPolygon" id="6"]
-vertices = PackedVector2Array(280, 88, 280, 2, 360, 2, 360, 88, 552, 88, 552, 280, 640, 280, 640, 360, 552, 360, 552, 552, 360, 552, 88, 280, 360, 640, 280, 640, 280, 552, 88, 552, 88, 360, 2, 360, 2, 280, 88, 88)
+vertices = PackedVector2Array(280, 88, 280, 0, 360, 0, 360, 88, 552, 88, 552, 280, 640, 280, 640, 360, 552, 360, 552, 552, 360, 552, 88, 280, 360, 640, 280, 640, 280, 552, 88, 552, 88, 360, 0, 360, 0, 280, 88, 88)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(3, 4, 5), PackedInt32Array(5, 6, 7, 8), PackedInt32Array(8, 9, 10, 11), PackedInt32Array(10, 12, 13, 14), PackedInt32Array(14, 15, 16), PackedInt32Array(16, 17, 18, 11), PackedInt32Array(11, 19, 0, 5, 8), PackedInt32Array(0, 3, 5), PackedInt32Array(11, 10, 14, 16)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(280, 2, 360, 2, 360, 88, 552, 88, 552, 280, 640, 280, 640, 360, 552, 360, 552, 552, 360, 552, 360, 640, 280, 640, 280, 552, 88, 552, 88, 360, 2, 360, 2, 280, 88, 280, 88, 88, 280, 88)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(280, 0, 360, 0, 360, 88, 552, 88, 552, 280, 640, 280, 640, 360, 552, 360, 552, 552, 360, 552, 360, 640, 280, 640, 280, 552, 88, 552, 88, 360, 0, 360, 0, 280, 88, 280, 88, 88, 280, 88)])
 
 [sub_resource type="RectangleShape2D" id="7"]
 size = Vector2(600, 600)
