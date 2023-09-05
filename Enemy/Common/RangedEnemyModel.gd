@@ -54,6 +54,6 @@ func create_shot(player):
 	var shotInst = shot.instantiate()
 	shotInst.global_position = global_position
 	shotInst.direction = shootDirection
-	get_parent().add_child(shotInst)
+	get_node('../../Bullets').add_child(shotInst)
 	
 	recoil(shootDirection.normalized(), SHOT_RECOIL)

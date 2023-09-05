@@ -12,3 +12,6 @@ res://Enemy/Common/RangedEnemyModel.gd
 res://Enemy/MeleeEnemy.gd
 res://Enemy/BurstShotEnemy.gd
 res://Enemy/SingleShotEnemy.gd
+res://SaveLoad/saveload.gd
+res://Generation/FloorGenerator.gd
+res://Generation/RoomBase.gd

@@ -15,7 +15,7 @@ var Player
 # initialise first room and player
 func _ready():
 	randomize()
-	create_room(0, 0, false)
+	create_room(0, 0, false, false)
 	Player = spawn_player(320, 320)
 
 func _process(_delta):
@@ -37,13 +37,14 @@ func spawn_player(x, y):
 	return playerInst
 
 # room creation
-func create_room(x: float, y: float, enemies: bool):
+func create_room(x: float, y: float, enemies: bool, objects: bool):
 	var key = Vector2(x, y) 
 	var room_inst = instantiate_room_inst(key)
 	
 	if room_inst:
 		# cosntruct room state
 		room_inst.spawnEnemies = enemies
+		room_inst.spawnObjects = objects
 		
 		# procedural calls
 		room_inst.generate_objects()
@@ -71,10 +72,10 @@ func instantiate_room_inst(key: Vector2):
 func flush_room_map():
 	roomMap = Dictionary()
 
-func instanstiate_entity(room_inst, spawn_position, entity_scene):
+func instanstiate_entity(room_inst, spawn_transform: Transform2D, entity_scene):
 	# create instance
-	var entity: CharacterBody2D = entity_scene.instantiate()
-	entity.global_position = spawn_position
+	var entity = entity_scene.instantiate()
+	entity.global_transform = spawn_transform
 	room_inst.get_node("EnemiesActive").add_child(entity)
 	return entity
 
@@ -89,12 +90,12 @@ func instanstiate_entity(room_inst, spawn_position, entity_scene):
 
 # generate all adjacent rooms
 func generate_next(location):
-	call_deferred("create_room", location.x+1, location.y, true)
-	call_deferred("create_room", location.x-1, location.y, true)
-	call_deferred("create_room", location.x, location.y+1, true)
-	call_deferred("create_room", location.x, location.y-1, true)
-	call_deferred("create_room", location.x+1, location.y+1, true)
-	call_deferred("create_room", location.x+1, location.y-1, true)
-	call_deferred("create_room", location.x-1, location.y+1, true)
-	call_deferred("create_room", location.x-1, location.y-1, true)
+	call_deferred("create_room", location.x+1, location.y, true, true)
+	call_deferred("create_room", location.x-1, location.y, true, true)
+	call_deferred("create_room", location.x, location.y+1, true, true)
+	call_deferred("create_room", location.x, location.y-1, true, true)
+	call_deferred("create_room", location.x+1, location.y+1, true, true)
+	call_deferred("create_room", location.x+1, location.y-1, true, true)
+	call_deferred("create_room", location.x-1, location.y+1, true, true)
+	call_deferred("create_room", location.x-1, location.y-1, true, true)
 	

@@ -26,6 +26,7 @@ signal first_entered(location)
 @export var FLOWER_TILE_COUNT = 40
 @export var TILES_TO_CENTRE = 10
 @export var TILE_SPREAD = 10
+@export var WALL_CHANCE_STEP = 15
 
 @export var MAX_SHRUB_COUNT = 8
 @export var MAX_BOX_COUNT = 6
@@ -34,13 +35,15 @@ signal first_entered(location)
 
 
 var spawnEnemies = true
+var spawnObjects = true
 var visited = false
 
 func generate_objects():
 	# walls and obstacles
-	generate_walls(randi() % 100)
-	generate_flowers()
-	generate_obstacles()
+	if spawnObjects:
+		generate_walls(randi() % 100)
+		generate_flowers()
+		generate_obstacles()
 	
 	# generate enemies and items
 	if spawnEnemies:
@@ -52,13 +55,13 @@ func create_given_tiles(topLeft: Vector2, bottomRight: Vector2, tileMap: TileMap
 			tileMap.set_cell(0, Vector2i(int(topLeft.x + x), int(topLeft.y + y)))
 
 func generate_walls(wall_rand: int):
-	if(wall_rand < 15):
+	if(wall_rand < WALL_CHANCE_STEP):
 		create_given_tiles(Vector2(-2,8), Vector2(1,11), WallTileMap)
-	elif(wall_rand < 30):
+	elif(wall_rand < WALL_CHANCE_STEP * 2):
 		create_given_tiles(Vector2(8,-2), Vector2(11,1), WallTileMap)
-	elif(wall_rand < 45):
+	elif(wall_rand < WALL_CHANCE_STEP * 3):
 		create_given_tiles(Vector2(18,8), Vector2(21,11), WallTileMap)
-	elif(wall_rand < 60):
+	elif(wall_rand < WALL_CHANCE_STEP * 4):
 		create_given_tiles(Vector2(8,18), Vector2(11,21), WallTileMap)
 
 func generate_obstacles():
@@ -111,7 +114,7 @@ func instance_kinematic(scene):
 func instance_room_object(scene, spawnRotation: int):
 	var entity: CollisionObject2D = scene.instantiate()
 	entity.rotate(spawnRotation)
-	spawn_entity(entity, entity.find_child("SpawnCollision").shape_owner_get_shape(0,0), "EnemiesActive") # will need to add a more general spawn node
+	spawn_entity(entity, entity.find_child("SpawnCollision").shape_owner_get_shape(0,0), "Objects") # will need to add a more general spawn node
 
 func spawn_entity(instance: Node2D, shape: Shape2D, spawnNode: String, attempt: int = 0):
 	# generate spawn location

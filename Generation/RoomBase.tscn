@@ -1725,6 +1725,10 @@ navigation_polygon = SubResource("6")
 
 [node name="EnemiesActive" type="Node" parent="."]
 
+[node name="Bullets" type="Node" parent="."]
+
+[node name="Objects" type="Node" parent="."]
+
 [node name="EnemyDetectionArea" type="Area2D" parent="."]
 visible = false
 position = Vector2(320, 320)

@@ -26,7 +26,6 @@ func save_player_stats():
 		"max_clip" : PlayerStats.max_clip,
 		"clip" : PlayerStats.clip,
 		"selected_shot_type" : PlayerStats.selected_shot_type,
-		"shot_types" : PlayerStats.shot_types,
 		"ammo_counts" : PlayerStats.ammo_counts
 	}
 	return player_stats
@@ -57,6 +56,7 @@ func save_room(room_inst):
 		"x" : room_inst.MAP_LOCATION.x,
 		"y" : room_inst.MAP_LOCATION.y,
 		"visited" : room_inst.visited,
+		"entities" : save_entities(room_inst),
 		"enemies" : save_enemies(room_inst)
 	}
 	return room
@@ -65,19 +65,27 @@ func save_enemies(room_inst: Node2D):
 	var enemies_active := room_inst.find_child("EnemiesActive").get_children()
 	var enemies = Dictionary()
 	for e in enemies_active:
-		if e.has_method("set_health"):
-			enemies[e.get_index()] = {
-				"enemy_type" : e.get_scene_file_path(),
-				"position" : e.global_position,
-				"health" : e.health
-			}
+		enemies[e.get_index()] = {
+			"entity_type" : e.get_scene_file_path(),
+			"transform" : e.global_transform
+		}
 	return enemies
+	
+func save_entities(room_inst: Node2D):
+	var entities_active := room_inst.find_child("Objects").get_children()
+	var entities = Dictionary()
+	for e in entities_active:
+		if not e.has_method("set_health"):
+			entities[e.get_index()] = {
+				"entity_type" : e.get_scene_file_path(),
+				"transform" : e.global_transform,
+			}
+	return entities
 
 func load_data():
 	if not FileAccess.file_exists(SAVE_FILE_PATH):
 		return # no save file to load
 	
-# warning-ignore:return_value_discarded
 	var file := FileAccess.open(SAVE_FILE_PATH, FileAccess.READ)
 	
 	# load player data
@@ -88,12 +96,11 @@ func load_data():
 	file.close()
 
 func load_player_stats(player_stats):
-	PlayerStats.maxd_health = player_stats.max_health
+	PlayerStats.max_health = player_stats.max_health
 	PlayerStats.health = player_stats.health
 	PlayerStats.max_clip = player_stats.max_clip
 	PlayerStats.clip = player_stats.clip
 	PlayerStats.selected_shot_type = player_stats.selected_shot_type
-	PlayerStats.shot_types = player_stats.shot_types
 	PlayerStats.ammo_counts = player_stats.ammo_counts
 
 func load_player_position(player_position):
@@ -105,7 +112,7 @@ func load_player_position(player_position):
 	var camera = player.find_child("Camera2D")
 	camera.set_position_smoothing_enabled(false)
 	camera.global_position = player.global_position
-	await get_tree().idle_frame
+	await get_tree().process_frame
 	camera.set_position_smoothing_enabled(true)
 
 # place holder function for when the world gets more complex
@@ -119,13 +126,18 @@ func load_room_map(room_map):
 		load_room(room_map[room], floor_generator)
 
 func load_room(room_data, floor_generator):
-	var room_inst = floor_generator.create_room(room_data.x, room_data.y, false)
+	var room_inst = floor_generator.create_room(room_data.x, room_data.y, false, false)
 	room_inst.visited = room_data.visited
 	load_enemies(room_inst, room_data.enemies, floor_generator)
+	load_entities(room_inst, room_data.entities, floor_generator)
 
 func load_enemies(room_inst, enemies, floor_generator):
 	for e in enemies:
-		floor_generator.instanstiate_entity(room_inst, enemies[e].position, load(enemies[e].enemy_type))
+		floor_generator.instanstiate_entity(room_inst, enemies[e].transform, load(enemies[e].entity_type))
+
+func load_entities(room_inst, entities, floor_generator):
+	for e in entities:
+		floor_generator.instanstiate_entity(room_inst, entities[e].transform, load(entities[e].entity_type))
 
 func continue_save():
 	init_game()
