@@ -15,3 +15,5 @@ res://Enemy/SingleShotEnemy.gd
 res://SaveLoad/saveload.gd
 res://Generation/FloorGenerator.gd
 res://Generation/RoomBase.gd
+res://Player/Player.gd
+res://Player/PlayerStats.gd

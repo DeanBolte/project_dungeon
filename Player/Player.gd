@@ -131,7 +131,7 @@ func calculate_dodge(_delta):
 
 func calculate_punch(_delta: float):
 	# perform punch
-	if Input.is_action_just_pressed("player_punch"):
+	if Input.is_action_just_pressed("player_punch") && not reloading:
 		punchAnimationPlayer.play("Punch")
 	
 	# aim punch
@@ -141,7 +141,6 @@ func calculate_shotgun(delta):
 	PlayerStats.set_clip(clip)
 	if not reloading:
 		if Input.is_action_just_pressed("player_shoot") && shootCoolDown <= 0 && clip > 0:
-			PlayerStats.update_ammo_ui()
 			# shot sfx
 			shotgunBlastSFX.play()
 			

@@ -60,6 +60,7 @@ func set_max_clip(value):
 func set_clip(value):
 	clip = value
 	clip_changed.emit(clip)
+	update_ammo_ui()
 
 func decrement_clip(value = 1):
 	set_clip(self.clip - value)
