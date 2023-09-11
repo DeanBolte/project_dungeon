@@ -8,3 +8,4 @@ res://Player/Player.tscn
 res://Player/UI/PlayerInfo/Healthbar.tscn
 res://Player/UI/PlayerInfo/AmmoBar.tscn
 res://Enemy/MeleeEnemy.tscn
+res://Player/PunchBox.gd
