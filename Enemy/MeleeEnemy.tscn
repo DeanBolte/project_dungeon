@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://Enemy/MeleeEnemy.gd" id="2"]
 [ext_resource type="Script" path="res://Enemy/Common/PlayerDetectionZone.gd" id="3"]
 [ext_resource type="Script" path="res://Enemy/Common/WandererController.gd" id="4"]
-[ext_resource type="PackedScene" path="res://Special Effects/DamageEffects.tscn" id="5"]
+[ext_resource type="PackedScene" uid="uid://dyh2bfnrybrq8" path="res://Special Effects/DamageEffects.tscn" id="5"]
 [ext_resource type="AudioStream" uid="uid://cgpl5vjgrcdfn" path="res://Sound/enemyImpact.wav" id="6"]
 
 [sub_resource type="RectangleShape2D" id="1"]
