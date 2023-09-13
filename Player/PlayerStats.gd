@@ -10,6 +10,13 @@ signal ammo_count_changed(value)
 
 signal reloading(value)
 
+var ENEMY_DEAFEAT_POINTS = 1
+
+# player scores
+var score: int = 0
+var start_time: int = 0
+var kills: int = 0
+
 @export var max_health: int: set = set_max_health
 var health = max_health: set = set_health
 
@@ -29,6 +36,8 @@ func _ready():
 func initialise():
 	self.health = max_health
 	self.clip = max_clip
+	self.score = 0
+	self.start_time = Time.get_ticks_msec()
 	
 	set_ammo_count(AmmoType.STANDARD, 100)
 
@@ -100,3 +109,14 @@ func decrement_ammo_type(value: int = 1):
 
 func reload(duration: float, reload_speed: float):
 	reloading.emit(duration, reload_speed)
+
+func increment_score(value: int = 1):
+	score += value
+
+func increment_kills(value: int = 1):
+	kills += value
+
+func enemy_defeated():
+	increment_score(ENEMY_DEAFEAT_POINTS)
+	increment_kills()
+	

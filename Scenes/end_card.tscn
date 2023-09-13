@@ -1,0 +1,44 @@
+[gd_scene load_steps=4 format=3 uid="uid://dlctcqeiv6xvt"]
+
+[ext_resource type="Script" path="res://Scenes/end_card.gd" id="1_cjl41"]
+[ext_resource type="Theme" uid="uid://owdoed1e38su" path="res://MainMenu/Text/MenuTitleTheme.tres" id="2_s2nln"]
+[ext_resource type="Theme" uid="uid://brv6tvljhxrhr" path="res://MainMenu/Text/MenuCreditTheme.tres" id="3_x8jmx"]
+
+[node name="EndCard" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_cjl41")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 640.0
+offset_bottom = 480.0
+color = Color(0.145098, 0.172549, 0.145098, 1)
+
+[node name="Main" type="VBoxContainer" parent="."]
+layout_mode = 1
+offset_right = 640.0
+offset_bottom = 480.0
+alignment = 1
+
+[node name="Title" type="Label" parent="Main"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("2_s2nln")
+text = "Thank you for playing"
+
+[node name="SubTextContainer" type="VBoxContainer" parent="Main"]
+layout_mode = 2
+
+[node name="ScoreText" type="Label" parent="Main/SubTextContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("3_x8jmx")
+text = "Loading scores..."
+horizontal_alignment = 1
+
+[node name="PressAny" type="Label" parent="Main/SubTextContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("3_x8jmx")
+text = "Press any key to return to the main menu."

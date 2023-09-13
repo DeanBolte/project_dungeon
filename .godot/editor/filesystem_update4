@@ -1,11 +1,13 @@
 res://default_env.tres
-res://Special Effects/DamageEffects.tscn
+res://Generation/RoomBase.tscn
+res://MainMenu/Text/MenuTitleFont.tres
 res://MainMenu/Text/MenuCreditFont.tres
 res://MainMenu/Text/MenuCreditTheme.tres
-res://Generation/RoomBase.tscn
 res://Generation/FloorGenerator.tscn
-res://Player/Player.tscn
-res://Player/UI/PlayerInfo/Healthbar.tscn
-res://Player/UI/PlayerInfo/AmmoBar.tscn
+res://Generation/Interactables/Goal.tscn
 res://Enemy/MeleeEnemy.tscn
-res://Player/PunchBox.gd
+res://Scenes/end_card.tscn
+res://Generation/RoomBase.gd
+res://Player/PlayerStats.gd
+res://Enemy/Common/EnemyModel.gd
+res://Scenes/end_card.gd

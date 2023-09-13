@@ -6,6 +6,7 @@ extends Node2D
 
 var BoxPileScene = preload("res://Generation/Obstacles/BoxPile.tscn")
 var ShrubScene = preload("res://Generation/Obstacles/Shrub.tscn")
+var EndScene = preload("res://Generation/Interactables/Goal.tscn")
 
 var MeleeEnemyScene = preload("res://Enemy/MeleeEnemy.tscn")
 var SingleShotEnemyScene = preload("res://Enemy/SingleShotEnemy.tscn")
@@ -28,6 +29,10 @@ signal first_entered(location)
 @export var TILE_SPREAD = 10
 @export var WALL_CHANCE_STEP = 15
 
+@export var MIN_END_SPAWN = 4
+@export var MAX_END_SPAWN_RATE = 8
+@export var SPAWN_END = 100
+
 @export var MAX_SHRUB_COUNT = 8
 @export var MAX_BOX_COUNT = 6
 @export var ENTITY_SPAWN_ROTATION = 2 * PI
@@ -39,15 +44,23 @@ var spawnObjects = true
 var visited = false
 
 func generate_objects():
-	# walls and obstacles
-	if spawnObjects:
-		generate_walls(randi() % 100)
+	if (MAP_LOCATION.length() - MIN_END_SPAWN) * (randi() % MAX_END_SPAWN_RATE) >= SPAWN_END:
+		# generate pretty flowers
 		generate_flowers()
-		generate_obstacles()
-	
-	# generate enemies and items
-	if spawnEnemies:
-		generate_enemies()
+		
+		# generate the end
+		var endInstance = EndScene.instantiate()
+		spawn_entity(endInstance, null, "Objects", false)
+	else:
+		# walls and obstacles
+		if spawnObjects:
+			generate_walls(randi() % 100)
+			generate_flowers()
+			generate_obstacles()
+		
+		# generate enemies and items
+		if spawnEnemies:
+			generate_enemies()
 
 func create_given_tiles(topLeft: Vector2, bottomRight: Vector2, tileMap: TileMap):
 	for x in range (bottomRight.x - topLeft.x + 1):
@@ -116,24 +129,27 @@ func instance_room_object(scene, spawnRotation: int):
 	entity.rotate(spawnRotation)
 	spawn_entity(entity, entity.find_child("SpawnCollision").shape_owner_get_shape(0,0), "Objects") # will need to add a more general spawn node
 
-func spawn_entity(instance: Node2D, shape: Shape2D, spawnNode: String, attempt: int = 0):
+func spawn_entity(instance: Node2D, shape: Shape2D, spawnNode: String, collision: bool = true, attempt: int = 0):
 	# generate spawn location
 	var random_position = global_position + Vector2(320, 320) + Vector2(randf_range(-SPAWN_SPREAD, SPAWN_SPREAD), randf_range(-SPAWN_SPREAD, SPAWN_SPREAD))
 	instance.global_position = random_position
 	
-	# query spawn location
-	var query = PhysicsShapeQueryParameters2D.new()
-	query.set_transform(instance.global_transform)
-	query.set_shape(shape)
-	
-	var space_state = get_world_2d().get_direct_space_state()
-	var result = space_state.get_rest_info(query) 
-	
-	# if query result exists than spawn is unsafe
-	if not result || attempt > MAX_SPAWN_ATTEMPTS:
-		get_node(spawnNode).add_child(instance)
+	if collision: 
+		# query spawn location
+		var query = PhysicsShapeQueryParameters2D.new()
+		query.set_transform(instance.global_transform)
+		query.set_shape(shape)
+		
+		var space_state = get_world_2d().get_direct_space_state()
+		var result = space_state.get_rest_info(query) 
+		
+		# if query result exists than spawn is unsafe
+		if not result || attempt > MAX_SPAWN_ATTEMPTS:
+			get_node(spawnNode).add_child(instance)
+		else:
+			spawn_entity(instance, shape, spawnNode, collision, attempt + 1)
 	else:
-		spawn_entity(instance, shape, spawnNode, attempt + 1)
+		get_node(spawnNode).add_child(instance)
 
 func migrate_enemy(enemy):
 	enemy.get_parent().remove_child(enemy)

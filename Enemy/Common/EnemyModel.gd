@@ -174,6 +174,7 @@ func death():
 	if DamageEffects and not DamageEffects.is_emitting():
 		# spawn loot
 		generate_drops()
+		PlayerStats.enemy_defeated()
 		
 		# delete enemy instance
 		queue_free()

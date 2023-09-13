@@ -1,0 +1,72 @@
+[gd_scene load_steps=7 format=3 uid="uid://dlqb4vrprrhnw"]
+
+[ext_resource type="Texture2D" uid="uid://c4n0ixiwwrum0" path="res://Assets/BasicSprites/turqoise16x16.png" id="1_nif8o"]
+[ext_resource type="Script" path="res://Generation/Interactables/Goal.gd" id="1_tvadh"]
+
+[sub_resource type="Animation" id="Animation_ddrc2"]
+resource_name = "oscilate"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(5, 0.5, 0.5),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_hutqg"]
+_data = {
+"oscilate": SubResource("Animation_ddrc2")
+}
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_uku5o"]
+particle_flag_disable_z = true
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 100.0
+initial_velocity_max = 100.0
+angular_velocity_min = 10.0
+angular_velocity_max = 30.0
+orbit_velocity_min = 0.5
+orbit_velocity_max = 0.5
+linear_accel_min = 20.0
+linear_accel_max = 20.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7plb6"]
+radius = 20.0
+
+[node name="Goal" type="Node2D"]
+script = ExtResource("1_tvadh")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+self_modulate = Color(1, 1, 1, 0.756787)
+scale = Vector2(2, 2)
+texture = ExtResource("1_nif8o")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_hutqg")
+}
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+amount = 32
+process_material = SubResource("ParticleProcessMaterial_uku5o")
+texture = ExtResource("1_nif8o")
+lifetime = 2.1
+explosiveness = 1.0
+interpolate = false
+trail_enabled = true
+
+[node name="PlayerDetection" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetection"]
+shape = SubResource("CircleShape2D_7plb6")
+
+[connection signal="body_entered" from="PlayerDetection" to="." method="_on_player_detection_body_entered"]
