@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://boun8xhn5r2m1"]
+
+[ext_resource type="Texture2D" uid="uid://c4j47g0fd6fmm" path="res://Assets/BasicSprites/red16x16.png" id="1_r1fcd"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_6ryie"]
+emission_shape = 1
+emission_sphere_radius = 32.0
+particle_flag_disable_z = true
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 10.0
+initial_velocity_max = 10.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 0.2
+scale_max = 0.6
+
+[node name="BleedEffects" type="GPUParticles2D"]
+process_material = SubResource("ParticleProcessMaterial_6ryie")
+texture = ExtResource("1_r1fcd")
+lifetime = 3.0
