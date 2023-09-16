@@ -23,6 +23,8 @@ var MAX_STUNNED_TIME = 0.8
 var WALL_SLAM_DAMAGE = 2
 var LOW_HEALTH_MODE = 2
 
+var SCREEN_STAGGER_MODIFIER = 50
+
 # important nodes
 var playerDetectionZone
 var wandererController
@@ -154,6 +156,7 @@ func take_hit(damage: float, direction: Vector2):
 	if invincible <= 0:
 		# recoil enemy
 		recoil(-direction, damage)
+		PlayerStats.trigger_camera_stagger(-direction * SCREEN_STAGGER_MODIFIER)
 		
 		# play damage animation
 		DamageAnimation.play("TakesDamage")

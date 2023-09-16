@@ -24,7 +24,10 @@ func getScores():
 		Time: " + calcTime() + "
 		Kills: " + str(PlayerStats.kills) + "
 		Hits Taken: " + str(PlayerStats.hits_taken) + "
-		Overall score: " + str(PlayerStats.score)
+		Overall score: " + getOverallScore()
+
+func getOverallScore():
+	return str(PlayerStats.score - PlayerStats.hits_taken) 
 
 func calcTime() -> String:
 	var seconds = (Time.get_ticks_msec() - PlayerStats.start_time) / 1000

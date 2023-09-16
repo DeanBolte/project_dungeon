@@ -1,5 +1,7 @@
 extends Node
 
+signal camera_stagger(value: Vector2)
+
 signal no_health
 signal health_changed(value)
 signal max_health_changed(value)
@@ -125,3 +127,6 @@ func enemy_defeated():
 
 func increment_hits_taken():
 	self.hits_taken += 1
+
+func trigger_camera_stagger(staggerVector: Vector2):
+	camera_stagger.emit(staggerVector)

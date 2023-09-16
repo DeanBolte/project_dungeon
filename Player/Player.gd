@@ -6,6 +6,7 @@ extends CharacterBody2D
 @onready var punchAnimationPlayer := $PunchAnimationPlayer
 @onready var hurtBox := $HurtBox
 @onready var shotgunSprite := $ShotgunSprite
+@onready var camera := $Camera2D
 
 # sound effects
 @onready var SFX := $SFX
@@ -208,7 +209,8 @@ func player_death():
 # warning-ignore:return_value_discarded
 	get_tree().change_scene_to_file(DeathCardScene)
 
-func _on_HurtBox_area_entered(_area):
+func _on_HurtBox_area_entered(area):
 	if damage_cooldown <= 0:
+		camera.moveShakeOffsetVector((global_position - area.global_position) * 4)
 		PlayerStats.decrement_health()
 		damage_cooldown = DAMAGE_INVINC_TIME

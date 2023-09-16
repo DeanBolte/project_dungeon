@@ -17,3 +17,5 @@ res://Generation/Interactables/Goal.gd
 res://Enemy/Common/EnemyModel.gd
 res://Scenes/end_card.gd
 res://Player/PlayerStats.gd
+res://Player/Camera2D.gd
+res://Player/Player.gd
