@@ -23,6 +23,7 @@ func getScores():
 	ScoreTextLabel.text = "
 		Time: " + calcTime() + "
 		Kills: " + str(PlayerStats.kills) + "
+		Hits Taken: " + str(PlayerStats.hits_taken) + "
 		Overall score: " + str(PlayerStats.score)
 
 func calcTime() -> String:

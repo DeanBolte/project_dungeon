@@ -16,6 +16,7 @@ var ENEMY_DEAFEAT_POINTS = 1
 var score: int = 0
 var start_time: int = 0
 var kills: int = 0
+var hits_taken: int = 0
 
 @export var max_health: int: set = set_max_health
 var health = max_health: set = set_health
@@ -38,6 +39,7 @@ func initialise():
 	self.clip = max_clip
 	self.score = 0
 	self.start_time = Time.get_ticks_msec()
+	self.hits_taken = 0
 	
 	set_ammo_count(AmmoType.STANDARD, 100)
 
@@ -55,6 +57,7 @@ func set_health(value):
 
 func decrement_health(value = 1):
 	set_health(self.health - value)
+	increment_hits_taken()
 
 func increment_health(value: int = 1):
 	if health < max_health:
@@ -119,4 +122,6 @@ func increment_kills(value: int = 1):
 func enemy_defeated():
 	increment_score(ENEMY_DEAFEAT_POINTS)
 	increment_kills()
-	
+
+func increment_hits_taken():
+	self.hits_taken += 1

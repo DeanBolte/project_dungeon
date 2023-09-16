@@ -15,3 +15,5 @@ res://Enemy/BurstShotEnemy.tscn
 res://Enemy/SingleShotEnemy.tscn
 res://Generation/Interactables/Goal.gd
 res://Enemy/Common/EnemyModel.gd
+res://Scenes/end_card.gd
+res://Player/PlayerStats.gd
