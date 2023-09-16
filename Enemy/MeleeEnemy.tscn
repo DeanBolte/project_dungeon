@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://cwt8ca7xmn0u0"]
+[gd_scene load_steps=14 format=3 uid="uid://cwt8ca7xmn0u0"]
 
 [ext_resource type="Texture2D" uid="uid://bxdgkw1qfgskw" path="res://Assets/BasicSprites/enemy.png" id="1"]
 [ext_resource type="Script" path="res://Enemy/MeleeEnemy.gd" id="2"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://Enemy/Common/WandererController.gd" id="4"]
 [ext_resource type="PackedScene" uid="uid://dyh2bfnrybrq8" path="res://Enemy/Common/Effects/DamageEffects.tscn" id="5"]
 [ext_resource type="AudioStream" uid="uid://cgpl5vjgrcdfn" path="res://Sound/enemyImpact.wav" id="6"]
+[ext_resource type="PackedScene" uid="uid://boun8xhn5r2m1" path="res://Enemy/Common/Effects/BleedEffects.tscn" id="6_1slqj"]
 
 [sub_resource type="RectangleShape2D" id="1"]
 size = Vector2(30, 30)
@@ -106,6 +107,8 @@ autostart = true
 
 [node name="DamageEffects" parent="." instance=ExtResource("5")]
 visibility_rect = Rect2(-500, -500, 1000, 1000)
+
+[node name="BleedEffects" parent="." instance=ExtResource("6_1slqj")]
 
 [node name="SFX" type="Node" parent="."]
 

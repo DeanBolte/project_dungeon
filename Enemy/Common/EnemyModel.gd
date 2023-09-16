@@ -2,6 +2,7 @@ extends CharacterBody2D
 
 @onready var Agent: NavigationAgent2D = $NavigationAgent2D
 @onready var DamageEffects: GPUParticles2D = $DamageEffects
+@onready var BleedEffects: GPUParticles2D = $BleedEffects
 @onready var DamageAnimation := $DamageAnimation
 
 var ammo_drop = preload("res://Enemy/Common/Drops/AmmoDrop.tscn")
@@ -20,6 +21,7 @@ var MOVE_AWAY_PLAYER = 190
 var MAX_DROPS = 3
 var MAX_STUNNED_TIME = 0.8
 var WALL_SLAM_DAMAGE = 2
+var LOW_HEALTH_MODE = 2
 
 # important nodes
 var playerDetectionZone
@@ -47,6 +49,7 @@ func _physics_process(delta):
 		invincible -= delta
 	
 	# check health
+	BleedEffects.emitting = health < LOW_HEALTH_MODE
 	if health <= 0:
 		state = DEAD
 	

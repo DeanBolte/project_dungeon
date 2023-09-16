@@ -10,5 +10,5 @@ func _ready():
 func _process(delta):
 	rotate(PI * delta)
 
-func _on_player_detection_body_entered(body):
+func _on_player_detection_body_entered(_body):
 	get_tree().change_scene_to_file(EndCard)
