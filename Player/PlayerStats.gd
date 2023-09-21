@@ -12,11 +12,10 @@ signal ammo_count_changed(value)
 
 signal reloading(value)
 
-var ENEMY_DEAFEAT_POINTS = 1
-
 # player scores
 var score: int = 0
 var start_time: int = 0
+var time_since_damaged: int = 0
 var kills: int = 0
 var hits_taken: int = 0
 
@@ -121,12 +120,16 @@ func increment_score(value: int = 1):
 func increment_kills(value: int = 1):
 	kills += value
 
-func enemy_defeated():
-	increment_score(ENEMY_DEAFEAT_POINTS)
+func enemy_defeated(score: int):
+	increment_score(score + time_score_value())
 	increment_kills()
+
+func time_score_value() -> int:
+	return int(time_since_damaged / 1000)
 
 func increment_hits_taken():
 	self.hits_taken += 1
+	self.time_since_damaged = Time.get_ticks_msec() - start_time
 
 func trigger_camera_stagger(staggerVector: Vector2):
 	camera_stagger.emit(staggerVector)

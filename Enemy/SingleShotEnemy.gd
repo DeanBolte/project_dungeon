@@ -10,6 +10,7 @@ func _ready():
 	MAX_VELOCITY = 200
 	FRICTION = 200
 	MAX_HEALTH = 3
+	PLAYER_SCORE_VALUE = 2
 	set_health(MAX_HEALTH)
 	
 	MOVE_TO_PLAYER = 210

@@ -10,6 +10,7 @@ func _ready():
 	MAX_VELOCITY = 300
 	FRICTION = 200
 	MAX_HEALTH = 1
+	PLAYER_SCORE_VALUE = 1
 	set_health(MAX_HEALTH)
 	
 	MAX_DROPS = 2

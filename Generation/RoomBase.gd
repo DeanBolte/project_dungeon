@@ -30,7 +30,7 @@ signal first_entered(location)
 @export var WALL_CHANCE_STEP = 15
 
 @export var MIN_END_SPAWN = 4
-@export var MAX_END_SPAWN_RATE = 8
+@export var MAX_END_SPAWN_RATE = 50
 @export var SPAWN_END = 100
 
 @export var MAX_SHRUB_COUNT = 8

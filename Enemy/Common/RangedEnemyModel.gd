@@ -3,7 +3,7 @@ extends "res://Enemy/Common/EnemyModel.gd"
 @export var FIRE_RATE = 0.1
 @export var CLIP_SIZE = 5
 @export var RELOAD_TIME = 2
-@export var SHOT_RECOIL = 1
+var SHOOT_RECOIL = 2
 
 var fire_cooldown = FIRE_RATE
 var clip_size = CLIP_SIZE
@@ -56,4 +56,4 @@ func create_shot(player):
 	shotInst.direction = shootDirection
 	get_node('../../Bullets').add_child(shotInst)
 	
-	recoil(shootDirection.normalized(), SHOT_RECOIL)
+	recoil(shootDirection.normalized(), SHOOT_RECOIL)

@@ -23,7 +23,8 @@ func getScores():
 	ScoreTextLabel.text = "
 		Time: " + calcTime() + "
 		Kills: " + str(PlayerStats.kills) + "
-		Hits Taken: " + str(PlayerStats.hits_taken) + "
+		Hits Taken: " + str(PlayerStats.hits_taken) + "\n
+		" + getChallengesAchieved() + "
 		Overall score: " + getOverallScore()
 
 func getOverallScore():
@@ -33,6 +34,14 @@ func calcTime() -> String:
 	var seconds = (Time.get_ticks_msec() - PlayerStats.start_time) / 1000
 	var minutes = int(seconds / 60)
 	return str(minutes) + " minutes " + str(seconds % 60) + " seconds"
+
+func getChallengesAchieved() -> String:
+	var challengeText = ""
+	if PlayerStats.hits_taken <= 0:
+		challengeText += "Challenge: No Damage Taken\n"
+	if PlayerStats.kills <= 0:
+		challengeText += "Challenge: Pacifist Run\n"
+	return challengeText
 
 func _input(event: InputEvent) -> void:
 	if actionDelay <= 0:

@@ -22,6 +22,7 @@ var MAX_DROPS = 3
 var MAX_STUNNED_TIME = 0.8
 var WALL_SLAM_DAMAGE = 2
 var LOW_HEALTH_MODE = 2
+var PLAYER_SCORE_VALUE = 1
 
 var SCREEN_STAGGER_MODIFIER = 50
 
@@ -180,7 +181,7 @@ func death():
 	if DamageEffects and not DamageEffects.is_emitting():
 		# spawn loot
 		generate_drops()
-		PlayerStats.enemy_defeated()
+		PlayerStats.enemy_defeated(PLAYER_SCORE_VALUE)
 		
 		# delete enemy instance
 		queue_free()
