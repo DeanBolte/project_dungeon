@@ -125,7 +125,7 @@ func reload(duration: float, reload_speed: float):
 	reloading.emit(duration, reload_speed)
 
 func reload_clip():
-	var newClip := decrement_ammo_count(max_clip)
+	var newClip := decrement_ammo_count(max_clip - clip)
 	set_clip(newClip)
 	
 
