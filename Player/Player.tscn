@@ -182,13 +182,13 @@ autostart = true
 position = Vector2(0, -32)
 collision_layer = 0
 collision_mask = 64
-monitoring = false
 script = ExtResource("5")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PunchBox"]
 shape = SubResource("8")
 
 [node name="MeleeSprite" type="Node2D" parent="PunchBox"]
+visible = false
 
 [node name="Sprite2D3" type="Sprite2D" parent="PunchBox/MeleeSprite"]
 position = Vector2(23, -12)

@@ -86,18 +86,23 @@ func update_ammo_ui():
 
 func set_ammo_count(ammo_type: int, value: int):
 	ammo_counts[ammo_type] = value
+	update_ammo_ui()
 
-func decrement_ammo_count(consumedShots: int = 1):
+func decrement_ammo_count(consumedShots: int = 1) -> int:
 	if ammo_counts.has(selected_shot_type):
 		var leftoverAmmo: int = ammo_counts[selected_shot_type] - consumedShots
 		set_ammo_count(selected_shot_type, int(max(leftoverAmmo, 0)))
-		return max_clip - min(leftoverAmmo, 0)
-	else:
-		return 0
+		return  max_clip + min(leftoverAmmo, 0)
+	return 0
 
 func increment_ammo_count(ammo_type: int, value: int = 1):
 	if ammo_counts.has(ammo_type):
 		ammo_counts[ammo_type] += value
+
+func get_ammo_count():
+	if has_ammo():
+		return ammo_counts[selected_shot_type]
+	return 0
 
 func set_ammo_type(type: int):
 	if type < 0:
@@ -113,8 +118,16 @@ func increment_ammo_type(value: int = 1):
 func decrement_ammo_type(value: int = 1):
 	set_ammo_type(selected_shot_type - value)
 
+func has_ammo() -> bool:
+	return ammo_counts.has(selected_shot_type) && ammo_counts[selected_shot_type] > 0
+
 func reload(duration: float, reload_speed: float):
 	reloading.emit(duration, reload_speed)
+
+func reload_clip():
+	var newClip := decrement_ammo_count(max_clip)
+	set_clip(newClip)
+	
 
 func increment_score(value: int = 1):
 	score += value

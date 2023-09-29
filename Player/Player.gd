@@ -62,12 +62,6 @@ var shootCoolDown = 0
 var dodgeCoolDown = 0
 var reloading = false
 var reload_time: float = 0
-var clip: int = CLIP_SIZE: set = set_clip
-
-# member variable setters and getters
-func set_clip(value: int):
-	PlayerStats.set_clip(value)
-	clip = value
 
 # built in runtime functions
 func _ready():
@@ -92,7 +86,7 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("toggle_shot"):
 		PlayerStats.increment_ammo_type()
 	
-	if Input.is_action_just_pressed("player_reload") || clip <= 0:
+	if Input.is_action_just_pressed("player_reload") || PlayerStats.clip <= 0:
 		reload()
 	
 	# attack
@@ -146,9 +140,8 @@ func calculate_punch(_delta: float):
 	$PunchBox.position = aimingNormalVector * 32
 
 func calculate_shotgun(delta):
-	PlayerStats.set_clip(clip)
 	if not reloading:
-		if Input.is_action_just_pressed("player_shoot") && shootCoolDown <= 0 && clip > 0:
+		if Input.is_action_just_pressed("player_shoot") && shootCoolDown <= 0 && PlayerStats.clip > 0:
 			# shot sfx
 			shotgunBlastSFX.play()
 			
@@ -160,11 +153,8 @@ func calculate_shotgun(delta):
 				AmmoType.SLUG:
 					create_shot(SlugShot.instantiate())
 			
-			if clip > 0:
-				shootCoolDown = SHOT_TIME
-				clip = clip - 1
-			else:
-				pass # no ammo
+			shootCoolDown = SHOT_TIME
+			PlayerStats.decrement_clip()
 	
 	if shootCoolDown > 0:
 		shootCoolDown -= delta
@@ -189,11 +179,11 @@ func create_shot(shotInst: Node, shotIndex: int = 0):
 	get_parent().get_parent().add_child(shotInst)
 
 func reload():
-	if not reloading && clip < CLIP_SIZE:
+	if not reloading && PlayerStats.clip < CLIP_SIZE && PlayerStats.has_ammo():
 		# initiate reload
 		reloading = true
 		# reload time is based on the clip size
-		reload_time = RELOAD_TIME - (RELOAD_TIME / CLIP_SIZE) * clip
+		reload_time = RELOAD_TIME - (RELOAD_TIME / CLIP_SIZE) * PlayerStats.clip
 		
 		# run animations
 		var reload_speed: float = 1/max(reload_time, MINIMUM_RELOAD_TIME)
@@ -207,7 +197,7 @@ func reload_ended():
 	# update shot type
 	loaded_shot_type = PlayerStats.selected_shot_type
 	# reset clip
-	clip = PlayerStats.decrement_ammo_count(PlayerStats.max_clip - clip)
+	PlayerStats.reload_clip()
 
 func dodge_ended():
 	state = MOVE
