@@ -20,3 +20,4 @@ res://Player/Player.gd
 res://Player/PlayerStats.gd
 res://Player/UI/PlayerInfo/AmmoBar.tscn
 res://Player/UI/PlayerInfo/AmmoBar.gd
+res://SaveLoad/saveload.gd

@@ -135,8 +135,8 @@ func increment_score(value: int = 1):
 func increment_kills(value: int = 1):
 	kills += value
 
-func enemy_defeated(score: int):
-	increment_score(score + time_score_value())
+func enemy_defeated(value: int):
+	increment_score(value + time_score_value())
 	increment_kills()
 
 func time_score_value() -> int:

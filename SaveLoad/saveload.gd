@@ -109,11 +109,8 @@ func load_player_position(player_position):
 	player.global_position.y = player_position.y
 	
 	# update camera position
-	var camera = player.find_child("Camera2D")
-	camera.set_position_smoothing_enabled(false)
-	camera.global_position = player.global_position
-	await get_tree().process_frame
-	camera.set_position_smoothing_enabled(true)
+	var camera: Camera2D = player.find_child("Camera2D")
+	camera.reset_smoothing()
 
 # place holder function for when the world gets more complex
 func load_world(world_data):
