@@ -10,9 +10,8 @@ func _ready():
 	MAX_VELOCITY = 300
 	FRICTION = 200
 	MAX_HEALTH = 1
+	PLAYER_SCORE_VALUE = 1
 	set_health(MAX_HEALTH)
-	
-	RECOIL = 300
 	
 	MAX_DROPS = 2
 	
@@ -23,4 +22,4 @@ func _on_HurtBox_body_entered(body):
 
 func _on_PlayerDetectionCycle_timeout():
 	if playerDetectionZone.can_see_player():
-		Agent.set_target_location(playerDetectionZone.player.global_position)
+		Agent.set_target_position(playerDetectionZone.player.global_position)

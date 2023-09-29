@@ -1,8 +1,9 @@
 extends "res://Enemy/Common/EnemyModel.gd"
 
-export var FIRE_RATE = 0.1
-export var CLIP_SIZE = 5
-export var RELOAD_TIME = 2
+@export var FIRE_RATE = 0.1
+@export var CLIP_SIZE = 5
+@export var RELOAD_TIME = 2
+var SHOOT_RECOIL = 2
 
 var fire_cooldown = FIRE_RATE
 var clip_size = CLIP_SIZE
@@ -16,7 +17,7 @@ func chase_player(delta):
 	if player:
 		# get close to player
 		if not Agent.is_target_reached():
-			var direction = global_position.direction_to(Agent.get_next_location())
+			var direction = global_position.direction_to(Agent.get_next_path_position())
 			if global_position.distance_to(player.global_position) > MOVE_TO_PLAYER:
 				velocity = velocity.move_toward(direction * MAX_VELOCITY, ACCELERATION)
 			elif global_position.distance_to(player.global_position) < MOVE_AWAY_PLAYER:
@@ -44,15 +45,15 @@ func calculate_attack(player, delta):
 		fire_cooldown -= delta
 
 func create_shot(player):
-	var shootDirection = player.global_position - global_position
+	var shootDirection: Vector2 = player.global_position - global_position
 	
 	shootDirection = shootDirection.normalized()
-	shootDirection.x += rand_range(-0.2,0.2)
-	shootDirection.y += rand_range(-0.2,0.2)
+	shootDirection.x += randf_range(-0.2,0.2)
+	shootDirection.y += randf_range(-0.2,0.2)
 	
-	var shotInst = shot.instance()
+	var shotInst = shot.instantiate()
 	shotInst.global_position = global_position
 	shotInst.direction = shootDirection
-	get_parent().add_child(shotInst)
+	get_node('../../Bullets').add_child(shotInst)
 	
-	recoil(shootDirection, RECOIL)
+	recoil(shootDirection.normalized(), SHOOT_RECOIL)

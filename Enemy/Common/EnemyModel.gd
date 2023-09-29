@@ -1,7 +1,9 @@
-extends KinematicBody2D
+extends CharacterBody2D
 
-onready var Agent: NavigationAgent2D = $NavigationAgent2D
-onready var DamageEffects: Particles2D = $DamageEffects
+@onready var Agent: NavigationAgent2D = $NavigationAgent2D
+@onready var DamageEffects: GPUParticles2D = $DamageEffects
+@onready var BleedEffects: GPUParticles2D = $BleedEffects
+@onready var DamageAnimation := $DamageAnimation
 
 var ammo_drop = preload("res://Enemy/Common/Drops/AmmoDrop.tscn")
 var health_drop = preload("res://Enemy/Common/Drops/HealthDrop.tscn")
@@ -13,12 +15,16 @@ var MAX_VELOCITY = 300
 var FRICTION = 200
 var MAX_HEALTH = 1
 var INVINCIBLE_TIME = 0.05
-var RECOIL = 40
+var RECOIL = 200
 var MOVE_TO_PLAYER = 210
 var MOVE_AWAY_PLAYER = 190
 var MAX_DROPS = 3
 var MAX_STUNNED_TIME = 0.8
 var WALL_SLAM_DAMAGE = 2
+var LOW_HEALTH_MODE = 2
+var PLAYER_SCORE_VALUE = 1
+
+var SCREEN_STAGGER_MODIFIER = 50
 
 # important nodes
 var playerDetectionZone
@@ -36,7 +42,6 @@ var state = IDLE
 var stunned_timer: float = 0.0
 
 # member data
-var velocity = Vector2.ZERO
 var health = MAX_HEALTH
 var invincible = 0 # seconds of invunrability
 
@@ -47,6 +52,7 @@ func _physics_process(delta):
 		invincible -= delta
 	
 	# check health
+	BleedEffects.emitting = health < LOW_HEALTH_MODE
 	if health <= 0:
 		state = DEAD
 	
@@ -62,16 +68,16 @@ func _physics_process(delta):
 		DEAD:
 			death()
 	
-	velocity = move_and_slide(velocity)
+	move_and_slide()
 	
 	# check for wall slam
 	wall_slam()
 
 func wall_slam():
-	for i in range(get_slide_count()):
+	for i in range(get_slide_collision_count()):
 		var collision: KinematicCollision2D = get_slide_collision(i)
-		if velocity.length() > MAX_VELOCITY / 2 && state == STUNNED:
-			take_hit(WALL_SLAM_DAMAGE, velocity.normalized() + collision.normal)
+		if velocity.length() > MAX_VELOCITY * 0.5 && state == STUNNED:
+			take_hit(WALL_SLAM_DAMAGE, velocity.normalized() + collision.get_normal())
 
 # --- States ---
 # IDLE
@@ -87,9 +93,10 @@ func idle(_delta):
 # a generic player seeking function
 func seek_player():
 	if playerDetectionZone.can_see_player():
-		state = CHASE
-		
-		Agent.set_target_location(playerDetectionZone.player.global_position)
+		var vectorToPlayer = playerDetectionZone.player.global_position - global_position
+		if not test_move(global_transform, vectorToPlayer):
+			state = CHASE
+			Agent.set_target_position(playerDetectionZone.player.global_position)
 
 # WANDER
 func wander(delta):
@@ -103,12 +110,12 @@ func wander(delta):
 
 func update_wander():
 	state = pick_rand_state([IDLE, WANDER])
-	wandererController.start_wander_timer(rand_range(0, 1))
+	wandererController.start_wander_timer(randf_range(0, 1))
 
 # STUNNED
 func stunned(delta: float):
 	# slow down
-	velocity = velocity.move_toward(Vector2.ZERO, 50)
+	velocity = velocity.move_toward(Vector2.ZERO, FRICTION * 0.1)
 	
 	# stunned timer
 	if stunned_timer > 0:
@@ -121,8 +128,8 @@ func chase_player(_delta):
 	var player = playerDetectionZone.player
 	if player:
 		# get close to player
-		Agent.set_target_location(player.position)
-		var direction = global_position.direction_to(Agent.get_next_location())
+		Agent.set_target_position(player.position)
+		var direction = global_position.direction_to(Agent.get_next_path_position())
 		velocity = velocity.move_toward(direction * MAX_VELOCITY, ACCELERATION)
 	else:
 		state = IDLE
@@ -136,40 +143,45 @@ func pick_rand_state(state_list):
 	state_list.shuffle()
 	return state_list.pop_front()
 
-func recoil(dir: Vector2, value: float):
-	velocity -= dir * value
-
 func set_health(value):
 	health = clamp(value, 0, MAX_HEALTH)
 
 func decrement_health(value = 1):
 	set_health(health - value)
 
+func recoil(dir: Vector2, value: float):
+	velocity = velocity - dir * value * RECOIL
+
 func take_hit(damage: float, direction: Vector2):
 	# check if enemy can take damage
 	if invincible <= 0:
 		# recoil enemy
-		recoil(-direction, min(damage, 6) * RECOIL)
+		recoil(-direction, damage)
+		PlayerStats.trigger_camera_stagger(-direction * SCREEN_STAGGER_MODIFIER)
+		
+		# play damage animation
+		DamageAnimation.play("TakesDamage")
 		
 		# take damage and add invicibility frames
-		decrement_health(damage)
+		decrement_health(int(damage))
 		invincible = INVINCIBLE_TIME
 		state = STUNNED
 		stunned_timer = MAX_STUNNED_TIME
 		
 		# create blood effect
-		var material: ParticlesMaterial = DamageEffects.get_process_material()
+		material = DamageEffects.get_process_material()
 		material.direction = Vector3(direction.x, direction.y, 0).normalized()
 		DamageEffects.restart()
 
 func death():
 	# slow down
-	velocity = velocity.move_toward(Vector2.ZERO, FRICTION/2)
+	velocity = velocity.move_toward(Vector2.ZERO, FRICTION * 0.05)
 	
 	# destroy
 	if DamageEffects and not DamageEffects.is_emitting():
 		# spawn loot
 		generate_drops()
+		PlayerStats.enemy_defeated(PLAYER_SCORE_VALUE)
 		
 		# delete enemy instance
 		queue_free()
@@ -185,10 +197,10 @@ func generate_drops():
 func spawn_drop(packed_drop):
 	var launch_vector = Vector2.ZERO
 	var max_speed = 500
-	launch_vector.x += rand_range(-max_speed,max_speed)
-	launch_vector.y += rand_range(-max_speed,max_speed)
+	launch_vector.x += randf_range(-max_speed,max_speed)
+	launch_vector.y += randf_range(-max_speed,max_speed)
 	
-	var dropInst = packed_drop.instance()
+	var dropInst = packed_drop.instantiate()
 	dropInst.global_position = global_position
 	dropInst.velocity = launch_vector
 	get_parent().add_child(dropInst)

@@ -9,9 +9,8 @@ func _ready():
 	pass
 
 func save_data():
-	var file := File.new()
 # warning-ignore:return_value_discarded
-	file.open(SAVE_FILE_PATH, File.WRITE)
+	var file := FileAccess.open(SAVE_FILE_PATH, FileAccess.WRITE)
 	
 	# save player details
 	file.store_var(save_player_stats())
@@ -27,13 +26,12 @@ func save_player_stats():
 		"max_clip" : PlayerStats.max_clip,
 		"clip" : PlayerStats.clip,
 		"selected_shot_type" : PlayerStats.selected_shot_type,
-		"shot_types" : PlayerStats.shot_types,
 		"ammo_counts" : PlayerStats.ammo_counts
 	}
 	return player_stats
 
 func save_player_position():
-	var player = get_tree().root.find_node("Player", true, false)
+	var player = get_tree().root.find_child("Player", true, false)
 	var player_position = {
 		"x" : player.global_position.x,
 		"y" : player.global_position.y
@@ -47,7 +45,7 @@ func save_world():
 	return world_data
 
 func save_room_map():
-	var floor_generator = get_tree().root.find_node("FloorGenerator", true, false)
+	var floor_generator = get_tree().root.find_child("FloorGenerator", true, false)
 	var room_map := Dictionary()
 	for room in floor_generator.roomMap:
 		room_map[room] = save_room(floor_generator.roomMap[room])
@@ -58,29 +56,37 @@ func save_room(room_inst):
 		"x" : room_inst.MAP_LOCATION.x,
 		"y" : room_inst.MAP_LOCATION.y,
 		"visited" : room_inst.visited,
+		"entities" : save_entities(room_inst),
 		"enemies" : save_enemies(room_inst)
 	}
 	return room
 
 func save_enemies(room_inst: Node2D):
-	var enemies_active := room_inst.find_node("EnemiesActive").get_children()
+	var enemies_active := room_inst.find_child("EnemiesActive").get_children()
 	var enemies = Dictionary()
 	for e in enemies_active:
-		if e.has_method("set_health"):
-			enemies[e.get_index()] = {
-				"enemy_type" : e.get_filename(),
-				"position" : e.global_position,
-				"health" : e.health
-			}
+		enemies[e.get_index()] = {
+			"entity_type" : e.get_scene_file_path(),
+			"transform" : e.global_transform
+		}
 	return enemies
+	
+func save_entities(room_inst: Node2D):
+	var entities_active := room_inst.find_child("Objects").get_children()
+	var entities = Dictionary()
+	for e in entities_active:
+		if not e.has_method("set_health"):
+			entities[e.get_index()] = {
+				"entity_type" : e.get_scene_file_path(),
+				"transform" : e.global_transform,
+			}
+	return entities
 
 func load_data():
-	var file := File.new()
-	if not file.file_exists(SAVE_FILE_PATH):
+	if not FileAccess.file_exists(SAVE_FILE_PATH):
 		return # no save file to load
 	
-# warning-ignore:return_value_discarded
-	file.open(SAVE_FILE_PATH, File.READ)
+	var file := FileAccess.open(SAVE_FILE_PATH, FileAccess.READ)
 	
 	# load player data
 	load_player_stats(file.get_var())
@@ -95,39 +101,40 @@ func load_player_stats(player_stats):
 	PlayerStats.max_clip = player_stats.max_clip
 	PlayerStats.clip = player_stats.clip
 	PlayerStats.selected_shot_type = player_stats.selected_shot_type
-	PlayerStats.shot_types = player_stats.shot_types
 	PlayerStats.ammo_counts = player_stats.ammo_counts
 
 func load_player_position(player_position):
-	var player = get_tree().root.find_node("Player", true, false)
+	var player = get_tree().root.find_child("Player", true, false)
 	player.global_position.x = player_position.x
 	player.global_position.y = player_position.y
 	
 	# update camera position
-	var camera = player.find_node("Camera2D")
-	camera.set_enable_follow_smoothing(false)
-	camera.global_position = player.global_position
-	yield(get_tree(), "idle_frame")
-	camera.set_enable_follow_smoothing(true)
+	var camera: Camera2D = player.find_child("Camera2D")
+	camera.reset_smoothing()
 
 # place holder function for when the world gets more complex
 func load_world(world_data):
 	load_room_map(world_data.room_map)
 
 func load_room_map(room_map):
-	var floor_generator = get_tree().root.find_node("FloorGenerator", true, false)
+	var floor_generator = get_tree().root.find_child("FloorGenerator", true, false)
 	floor_generator.flush_room_map()
 	for room in room_map:
 		load_room(room_map[room], floor_generator)
 
 func load_room(room_data, floor_generator):
-	var room_inst = floor_generator.create_room(room_data.x, room_data.y, false)
+	var room_inst = floor_generator.create_room(room_data.x, room_data.y, false, false)
 	room_inst.visited = room_data.visited
 	load_enemies(room_inst, room_data.enemies, floor_generator)
+	load_entities(room_inst, room_data.entities, floor_generator)
 
 func load_enemies(room_inst, enemies, floor_generator):
 	for e in enemies:
-		floor_generator.instanstiate_enemy(room_inst, enemies[e].position, load(enemies[e].enemy_type))
+		floor_generator.instanstiate_entity(room_inst, enemies[e].transform, load(enemies[e].entity_type))
+
+func load_entities(room_inst, entities, floor_generator):
+	for e in entities:
+		floor_generator.instanstiate_entity(room_inst, entities[e].transform, load(entities[e].entity_type))
 
 func continue_save():
 	init_game()
@@ -135,9 +142,8 @@ func continue_save():
 
 func init_game():
 # warning-ignore:return_value_discarded
-	get_tree().change_scene("res://Scenes/dungeon_scene.tscn")
+	get_tree().change_scene_to_file("res://Scenes/dungeon_scene.tscn")
 	PlayerStats.initialise()
 
 func save_exists():
-	var file := File.new()
-	return file.file_exists(SAVE_FILE_PATH)
+	return FileAccess.file_exists(SAVE_FILE_PATH)

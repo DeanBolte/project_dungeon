@@ -1,12 +1,16 @@
-extends KinematicBody2D
+extends CharacterBody2D
 
-var velocity = Vector2.ZERO
+@export var MINIMUM_VELOCITY = 5
+@export var VELOCITY_DECAY = 8
+@export var ROTATION_SPEED = PI/4
 
 func _physics_process(_delta):
-	velocity = velocity.move_toward(Vector2.ZERO, 10)
-	if velocity.length() <= 10:
+	velocity = velocity.move_toward(Vector2.ZERO, VELOCITY_DECAY)
+	if velocity.length() <= MINIMUM_VELOCITY:
 		queue_free()
 	
-	rotate(rand_range(0, PI/4))
+	rotate(randf_range(0, ROTATION_SPEED))
 	
-	velocity = move_and_slide(velocity)
+	set_velocity(velocity)
+	move_and_slide()
+	velocity = velocity

@@ -1,12 +1,11 @@
-extends KinematicBody2D
+extends CharacterBody2D
 
-export var MAX_VELOCITY = 400
-export var ACCELERATION = 100
-export var SPIN_DECAY = PI/128
-export var VELOCITY_DECAY = 10
+@export var MAX_VELOCITY = 800
+@export var ACCELERATION = 100
+@export var SPIN_DECAY = PI/128
+@export var VELOCITY_DECAY = 10
 
-var velocity = Vector2.ZERO
-var spin: float = rand_range(0, PI/16)
+var spin: float = randf_range(0, PI/16)
 var min_spin = PI/64
 
 var Player = null
@@ -24,4 +23,6 @@ func _physics_process(delta: float):
 	if spin > min_spin:
 		spin -= SPIN_DECAY * delta
 	
-	velocity = move_and_slide(velocity)
+	set_velocity(velocity)
+	move_and_slide()
+	velocity = velocity

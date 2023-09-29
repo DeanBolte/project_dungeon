@@ -1,6 +1,6 @@
 extends "res://Enemy/Common/Drops/Drop.gd"
 
-export var AMMO_TYPE = PlayerStats.AmmoType.STANDARD
+@export var AMMO_TYPE = PlayerStats.AmmoType.STANDARD
 
 func _on_PlayerDetectionArea_body_entered(body):
 	Player = body

@@ -1,7 +1,10 @@
-extends KinematicBody2D
+extends CharacterBody2D
 
-var ACCURACY = 0.2
-var SPEED = rand_range(1000, 1500)
+
+var DestructionSoundPlayer = preload("res://Weapons/Shotgun/Animations/DestructionSoundPlayer.tscn")
+
+var ACCURACY = 0.15
+var SPEED = randf_range(1000, 1500)
 var MAX_DAMAGE = 1
 var MIN_DAMAGE = 1
 var DAMAGE_LOSS = 1 # damage loss per second
@@ -32,9 +35,12 @@ func _physics_process(delta):
 		damage = max(damage - delta * DAMAGE_LOSS, MIN_DAMAGE)
 	
 	# move bullet and check for collisions
-	var _velocity = move_and_slide(direction * SPEED)
-	if get_slide_count() > 0:
+	set_velocity(direction * SPEED)
+	move_and_slide()
+	var _velocity = velocity
+	if get_slide_collision_count() > 0:
 		collision_event()
 
 func collision_event():
+	get_parent().add_child(DestructionSoundPlayer.instantiate())
 	queue_free()

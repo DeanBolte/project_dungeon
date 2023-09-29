@@ -1,0 +1,71 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Assets/Environment/Obstacles/box.png" type="Texture2D" id=1]
+[ext_resource path="res://Assets/BasicSprites/forewall.png" type="Texture2D" id=2]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 50.0
+
+[node name="BoxPile" type="StaticBody2D"]
+z_index = 1
+collision_mask = 0
+
+[node name="Crate1" type="Sprite2D" parent="."]
+position = Vector2( 7, -10 )
+rotation = 0.0499746
+texture = ExtResource( 1 )
+
+[node name="CrateShadow1" type="Sprite2D" parent="Crate1"]
+modulate = Color( 1, 1, 1, 0.470588 )
+position = Vector2( 2.24728, 4.89385 )
+rotation = 0.036091
+scale = Vector2( 1, 1 )
+z_index = -20
+texture = ExtResource( 2 )
+
+[node name="Crate2" type="Sprite2D" parent="."]
+position = Vector2( -29, 5 )
+rotation = -0.313249
+texture = ExtResource( 1 )
+
+[node name="CrateShadow4" type="Sprite2D" parent="Crate2"]
+modulate = Color( 1, 1, 1, 0.470588 )
+position = Vector2( -1.2326, 3.80535 )
+rotation = 0.023951
+scale = Vector2( 1, 1 )
+z_index = -20
+texture = ExtResource( 2 )
+
+[node name="Crate3" type="Sprite2D" parent="."]
+position = Vector2( 8, 23 )
+rotation = 0.427964
+texture = ExtResource( 1 )
+
+[node name="CrateShadow3" type="Sprite2D" parent="Crate3"]
+modulate = Color( 1, 1, 1, 0.470588 )
+position = Vector2( 2.56989, 3.22423 )
+rotation = -0.038969
+z_index = -20
+texture = ExtResource( 2 )
+
+[node name="Crate4" type="Sprite2D" parent="."]
+position = Vector2( -6, 7 )
+rotation = 0.0860656
+texture = ExtResource( 1 )
+
+[node name="CrateShadow4" type="Sprite2D" parent="Crate4"]
+modulate = Color( 1, 1, 1, 0.470588 )
+position = Vector2( 5.32533, 3.5554 )
+scale = Vector2( 1, 1 )
+z_index = -20
+texture = ExtResource( 2 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2( -6, 6 )
+polygon = PackedVector2Array( -2, -33, 30, -31, 28, 1, 35, 9, 22, 38, -7, 25, -20, 15, -33, 19, -43, -11, -13, -21, -3, -21 )
+
+[node name="SpawnCollision" type="StaticBody2D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SpawnCollision"]
+shape = SubResource( 1 )
