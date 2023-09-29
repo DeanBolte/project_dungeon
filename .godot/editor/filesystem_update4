@@ -24,3 +24,4 @@ res://SaveLoad/saveload.gd
 res://Generation/RoomBase.gd
 res://Enemy/Common/Drops/AmmoDrop.tscn
 res://Enemy/Common/Drops/Drop.gd
+res://Player/UI/PlayerInfo/Healthbar.gd

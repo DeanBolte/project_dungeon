@@ -1,6 +1,6 @@
 extends Control
 
-const HEARTWIDTH = 8
+const HEARTWIDTH = 16
 
 @onready var HealthBackground: TextureRect = $HealthBackground
 @onready var HealthForeground: TextureRect = $HealthForeground
