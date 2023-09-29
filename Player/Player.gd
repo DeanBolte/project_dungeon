@@ -26,9 +26,9 @@ var DeathCardScene = "res://Scenes/death_card.tscn"
 @export var FRICTION = 0.1
 @export var MIN_VELOCITY = 20
 
-@export var DODGE_VELOCITY = 800
+@export var DODGE_VELOCITY = 700
 @export var DODGE_COOLDOWN = 0.4
-@export var INVINCIBILE_TIME = 0.2
+@export var INVINCIBILE_TIME = 0.3
 
 @export var DAMAGE_INVINC_TIME = 0.3
 
@@ -71,12 +71,6 @@ func _ready():
 	var _playerStatsError = PlayerStats.connect("no_health", Callable(self, "player_death"))
 
 func _physics_process(delta):
-	# aim shotgun
-	aimingNormalVector = get_global_mouse_position() - global_position
-	aimingNormalVector = aimingNormalVector.normalized()
-	shotgunSprite.position = aimingNormalVector * 32
-	shotgunSprite.rotation = aimingNormalVector.angle() + PI/2
-	meleeSprite.rotation = aimingNormalVector.angle() + PI/2
 	
 	# decrement i frame time
 	if damage_cooldown > 0:
@@ -105,8 +99,17 @@ func _physics_process(delta):
 	move_and_slide()
 	velocity = velocity
 
+func aim_shotgun(delta: float):
+	aimingNormalVector = get_global_mouse_position() - global_position
+	aimingNormalVector = aimingNormalVector.normalized()
+	shotgunSprite.position = lerp(shotgunSprite.position, aimingNormalVector * 32, delta * 10)
+	shotgunSprite.rotation = lerp_angle(shotgunSprite.rotation, aimingNormalVector.angle() + PI/2, delta * 10)
+	meleeSprite.rotation = lerp_angle(meleeSprite.rotation, aimingNormalVector.angle() + PI/2, delta * 10)
+
 # take player input and compute velocity
 func calculate_movement(delta):
+	aim_shotgun(delta)
+	
 	# get input from player
 	var hmove = Input.get_action_strength("player_right") - Input.get_action_strength("player_left")
 	var vmove = Input.get_action_strength("player_down") - Input.get_action_strength("player_up")

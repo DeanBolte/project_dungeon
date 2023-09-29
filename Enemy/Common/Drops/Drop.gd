@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-@export var MAX_VELOCITY = 400
+@export var MAX_VELOCITY = 800
 @export var ACCELERATION = 100
 @export var SPIN_DECAY = PI/128
 @export var VELOCITY_DECAY = 10
