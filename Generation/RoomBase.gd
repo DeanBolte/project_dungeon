@@ -12,6 +12,8 @@ var MeleeEnemyScene = preload("res://Enemy/MeleeEnemy.tscn")
 var SingleShotEnemyScene = preload("res://Enemy/SingleShotEnemy.tscn")
 var BurstShotEnemyScene = preload("res://Enemy/BurstShotEnemy.tscn")
 
+const BLOCK_WALL: Array[Vector2i] = [Vector2i(0, 0), Vector2i(0, 1), Vector2i(0, 2), Vector2i(0, 3), Vector2i(1, 0), Vector2i(1, 1), Vector2i(1, 2), Vector2i(1, 3)]
+
 enum {
 	SINGLESHOT,
 	BURSTSHOT,
@@ -27,7 +29,7 @@ signal first_entered(location)
 @export var FLOWER_TILE_COUNT = 40
 @export var TILES_TO_CENTRE = 10
 @export var TILE_SPREAD = 10
-@export var WALL_CHANCE_STEP = 15
+@export var WALL_CHANCE_STEP = 30
 
 @export var MIN_END_SPAWN = 4
 @export var MAX_END_SPAWN_RATE = 20
@@ -62,20 +64,22 @@ func generate_objects():
 		if spawnEnemies:
 			generate_enemies()
 
-func create_given_tiles(topLeft: Vector2, bottomRight: Vector2, tileMap: TileMap):
-	for x in range (bottomRight.x - topLeft.x + 1):
-		for y in range (bottomRight.y - topLeft.y + 1):
-			tileMap.set_cell(0, Vector2i(int(topLeft.x + x), int(topLeft.y + y)))
+func create_given_tiles(position: Vector2i, tileMap: TileMap, pattern: TileMapPattern):
+	tileMap.set_pattern(1, position, pattern)
 
 func generate_walls(wall_rand: int):
 	if(wall_rand < WALL_CHANCE_STEP):
-		create_given_tiles(Vector2(-2,8), Vector2(1,11), WallTileMap)
+		create_given_tiles(Vector2(-2,8), WallTileMap, WallTileMap.get_pattern(0, BLOCK_WALL))
+		create_given_tiles(Vector2(0,8), WallTileMap, WallTileMap.get_pattern(0, BLOCK_WALL))
 	elif(wall_rand < WALL_CHANCE_STEP * 2):
-		create_given_tiles(Vector2(8,-2), Vector2(11,1), WallTileMap)
+		create_given_tiles(Vector2(8,-2), WallTileMap, WallTileMap.get_pattern(0, BLOCK_WALL))
+		create_given_tiles(Vector2(10,-2), WallTileMap, WallTileMap.get_pattern(0, BLOCK_WALL))
 	elif(wall_rand < WALL_CHANCE_STEP * 3):
-		create_given_tiles(Vector2(18,8), Vector2(21,11), WallTileMap)
+		create_given_tiles(Vector2(18,8), WallTileMap, WallTileMap.get_pattern(0, BLOCK_WALL))
+		create_given_tiles(Vector2(20,8), WallTileMap, WallTileMap.get_pattern(0, BLOCK_WALL))
 	elif(wall_rand < WALL_CHANCE_STEP * 4):
-		create_given_tiles(Vector2(8,18), Vector2(11,21), WallTileMap)
+		create_given_tiles(Vector2(8,18), WallTileMap, WallTileMap.get_pattern(0, BLOCK_WALL))
+		create_given_tiles(Vector2(10,18), WallTileMap, WallTileMap.get_pattern(0, BLOCK_WALL))
 
 func generate_obstacles():
 	# crates
