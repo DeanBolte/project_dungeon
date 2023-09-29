@@ -10,6 +10,7 @@ var MainMenuScene = "res://MainMenu/Menu.tscn"
 var actionDelay = ACTION_DELAY_SECONDS
 
 func _ready() -> void:
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	SubTextVBox.visible = false
 	getScores()
 

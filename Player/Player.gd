@@ -6,6 +6,7 @@ extends CharacterBody2D
 @onready var punchAnimationPlayer := $PunchAnimationPlayer
 @onready var hurtBox := $HurtBox
 @onready var shotgunSprite := $ShotgunSprite
+@onready var meleeSprite := $PunchBox/MeleeSprite
 @onready var camera := $Camera2D
 
 # sound effects
@@ -20,12 +21,13 @@ var ShotgunShell = preload("res://Weapons/Shotgun/Animations/ShotgunShell.tscn")
 var DeathCardScene = "res://Scenes/death_card.tscn"
 
 # member constants
-@export var ACCELERATION = 10000
-@export var MAX_VELOCITY = 400
+@export var ACCELERATION = 8000
+@export var MAX_VELOCITY = 600
 @export var FRICTION = 0.1
 @export var MIN_VELOCITY = 20
 
 @export var DODGE_VELOCITY = 800
+@export var DODGE_COOLDOWN = 0.4
 @export var INVINCIBILE_TIME = 0.2
 
 @export var DAMAGE_INVINC_TIME = 0.3
@@ -57,6 +59,7 @@ var damage_cooldown = DAMAGE_INVINC_TIME
 var aimingNormalVector := Vector2.ZERO
 
 var shootCoolDown = 0
+var dodgeCoolDown = 0
 var reloading = false
 var reload_time: float = 0
 var clip: int = CLIP_SIZE: set = set_clip
@@ -79,6 +82,7 @@ func _physics_process(delta):
 	aimingNormalVector = aimingNormalVector.normalized()
 	shotgunSprite.position = aimingNormalVector * 32
 	shotgunSprite.rotation = aimingNormalVector.angle() + PI/2
+	meleeSprite.rotation = aimingNormalVector.angle() + PI/2
 	
 	# decrement i frame time
 	if damage_cooldown > 0:
@@ -92,8 +96,9 @@ func _physics_process(delta):
 		reload()
 	
 	# attack
-	calculate_shotgun(delta)
-	calculate_punch(delta)
+	if state != DODGE:
+		calculate_shotgun(delta)
+		calculate_punch(delta)
 	
 	match state:
 		MOVE:
@@ -112,9 +117,10 @@ func calculate_movement(delta):
 	var hmove = Input.get_action_strength("player_right") - Input.get_action_strength("player_left")
 	var vmove = Input.get_action_strength("player_down") - Input.get_action_strength("player_up")
 	
-	if Input.is_action_just_pressed("player_dodge"):
+	if Input.is_action_just_pressed("player_dodge") && dodgeCoolDown <= 0:
 		state = DODGE
-		hurtBox.start_invincibility(INVINCIBILE_TIME)
+	elif dodgeCoolDown > 0:
+		dodgeCoolDown -= delta
 	
 	# compute controlled player movement
 	velocity.x += hmove * ACCELERATION * delta
@@ -128,7 +134,8 @@ func calculate_movement(delta):
 
 func calculate_dodge(_delta):
 	velocity = velocity.normalized() * DODGE_VELOCITY
-	animationPlayer.play("Dodge")
+	hurtBox.start_invincibility(INVINCIBILE_TIME)
+	animationPlayer.play("Dodge", -1, 1/INVINCIBILE_TIME)
 
 func calculate_punch(_delta: float):
 	# perform punch
@@ -204,6 +211,7 @@ func reload_ended():
 
 func dodge_ended():
 	state = MOVE
+	dodgeCoolDown = DODGE_COOLDOWN
 
 func player_death():
 # warning-ignore:return_value_discarded

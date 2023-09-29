@@ -1,7 +1,8 @@
+Node2D
+Node
+Sprite2D
 GPUParticles2D
 VBoxContainer
 CollisionShape2D
 Area2D
 AnimationPlayer
-Sprite2D
-Node

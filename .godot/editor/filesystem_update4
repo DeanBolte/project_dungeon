@@ -13,9 +13,6 @@ res://Player/Player.tscn
 res://Enemy/SingleShotEnemy.tscn
 res://Enemy/MeleeEnemy.tscn
 res://Enemy/BurstShotEnemy.tscn
-res://Enemy/MeleeEnemy.gd
-res://Enemy/Common/EnemyModel.gd
-res://Enemy/Common/RangedEnemyModel.gd
-res://Player/PlayerStats.gd
+res://Player/PlayerStats.tscn
+res://Scenes/death_card.gd
 res://Scenes/end_card.gd
-res://Generation/RoomBase.gd

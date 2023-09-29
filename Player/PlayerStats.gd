@@ -12,6 +12,8 @@ signal ammo_count_changed(value)
 
 signal reloading(value)
 
+@export var STARTING_AMMO = 5
+
 # player scores
 var score: int = 0
 var start_time: int = 0
@@ -42,7 +44,7 @@ func initialise():
 	self.start_time = Time.get_ticks_msec()
 	self.hits_taken = 0
 	
-	set_ammo_count(AmmoType.STANDARD, 100)
+	set_ammo_count(AmmoType.STANDARD, STARTING_AMMO)
 
 # health related calls
 func set_max_health(value):

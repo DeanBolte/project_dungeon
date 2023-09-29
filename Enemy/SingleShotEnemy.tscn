@@ -62,7 +62,6 @@ script = ExtResource("4")
 FIRE_RATE = null
 CLIP_SIZE = null
 RELOAD_TIME = null
-SHOT_RECOIL = null
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1")
