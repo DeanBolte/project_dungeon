@@ -1,14 +1,15 @@
-[gd_scene load_steps=10 format=3 uid="uid://bwoipaqx31abc"]
+[gd_scene load_steps=11 format=3 uid="uid://bwoipaqx31abc"]
 
-[ext_resource type="Theme" uid="uid://d3n5fcwlohxk5" path="res://MainMenu/Text/MenuItemTheme.tres" id="1"]
-[ext_resource type="Theme" uid="uid://owdoed1e38su" path="res://MainMenu/Text/MenuTitleTheme.tres" id="2"]
-[ext_resource type="Script" path="res://MainMenu/Menu.gd" id="3"]
-[ext_resource type="Theme" uid="uid://brv6tvljhxrhr" path="res://MainMenu/Text/MenuCreditTheme.tres" id="4"]
-[ext_resource type="Script" path="res://MainMenu/VolumeMixer.gd" id="5"]
-[ext_resource type="AudioStream" uid="uid://rk0qu4ev20vt" path="res://Soundtrack/holy moley.wav" id="6"]
-[ext_resource type="Script" path="res://MainMenu/OptionMenu.gd" id="7"]
-[ext_resource type="Script" path="res://MainMenu/TitleMenu.gd" id="8"]
-[ext_resource type="Theme" uid="uid://dxc3s5sdaxcmc" path="res://MainMenu/GUIStyles/ButtonMenu.tres" id="9"]
+[ext_resource type="Script" path="res://MainMenu/Menu.gd" id="1_ciayu"]
+[ext_resource type="Script" path="res://MainMenu/TitleMenu.gd" id="2_slic8"]
+[ext_resource type="Theme" uid="uid://owdoed1e38su" path="res://MainMenu/Text/MenuTitleTheme.tres" id="3_20d0v"]
+[ext_resource type="Theme" uid="uid://d3n5fcwlohxk5" path="res://MainMenu/Text/MenuItemTheme.tres" id="4_p07p2"]
+[ext_resource type="Theme" uid="uid://brv6tvljhxrhr" path="res://MainMenu/Text/MenuCreditTheme.tres" id="5_cdhhq"]
+[ext_resource type="Script" path="res://MainMenu/OptionMenu.gd" id="6_03w1c"]
+[ext_resource type="Script" path="res://MainMenu/VolumeMixer.gd" id="7_pi6yv"]
+[ext_resource type="Theme" uid="uid://bygfir1ht7nh4" path="res://MainMenu/GUIStyles/SliderMenu.tres" id="8_132ix"]
+[ext_resource type="Theme" uid="uid://dxc3s5sdaxcmc" path="res://MainMenu/GUIStyles/ButtonMenu.tres" id="8_oac8j"]
+[ext_resource type="AudioStream" uid="uid://rk0qu4ev20vt" path="res://Soundtrack/holy moley.wav" id="9_08k12"]
 
 [node name="Menu" type="Control"]
 layout_mode = 3
@@ -19,13 +20,16 @@ offset_left = -2.0
 offset_right = -2.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("3")
+script = ExtResource("1_ciayu")
 
 [node name="ColorRect" type="ColorRect" parent="."]
-layout_mode = 0
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color(0.960784, 0.984314, 0.937255, 1)
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.858824, 0.858824, 0.858824, 1)
 
 [node name="TitleMenu" type="VBoxContainer" parent="."]
 layout_mode = 0
@@ -35,7 +39,7 @@ offset_left = 10.0
 offset_top = 5.0
 offset_right = -10.0
 offset_bottom = -5.0
-script = ExtResource("8")
+script = ExtResource("2_slic8")
 
 [node name="MenuItems" type="VBoxContainer" parent="TitleMenu"]
 layout_mode = 2
@@ -43,8 +47,8 @@ size_flags_vertical = 3
 
 [node name="Title" type="Label" parent="TitleMenu/MenuItems"]
 layout_mode = 2
-theme = ExtResource("2")
-theme_override_colors/font_color = Color(0.454902, 0.545098, 0.458824, 1)
+theme = ExtResource("3_20d0v")
+theme_override_colors/font_color = Color(0.439216, 0.435294, 0.435294, 1)
 text = "Project Dungeon"
 
 [node name="Options" type="VBoxContainer" parent="TitleMenu/MenuItems"]
@@ -53,29 +57,29 @@ layout_mode = 2
 [node name="Continue" type="Label" parent="TitleMenu/MenuItems/Options"]
 layout_mode = 2
 mouse_filter = 0
-theme = ExtResource("1")
-theme_override_colors/font_color = Color(0.454902, 0.545098, 0.458824, 1)
+theme = ExtResource("4_p07p2")
+theme_override_colors/font_color = Color(0.439216, 0.435294, 0.435294, 1)
 text = "Continue"
 
 [node name="Play" type="Label" parent="TitleMenu/MenuItems/Options"]
 layout_mode = 2
 mouse_filter = 0
-theme = ExtResource("1")
-theme_override_colors/font_color = Color(0.454902, 0.545098, 0.458824, 1)
+theme = ExtResource("4_p07p2")
+theme_override_colors/font_color = Color(0.439216, 0.435294, 0.435294, 1)
 text = "Play"
 
 [node name="Options" type="Label" parent="TitleMenu/MenuItems/Options"]
 layout_mode = 2
 mouse_filter = 0
-theme = ExtResource("1")
-theme_override_colors/font_color = Color(0.454902, 0.545098, 0.458824, 1)
+theme = ExtResource("4_p07p2")
+theme_override_colors/font_color = Color(0.439216, 0.435294, 0.435294, 1)
 text = "Options"
 
 [node name="Exit" type="Label" parent="TitleMenu/MenuItems/Options"]
 layout_mode = 2
 mouse_filter = 0
-theme = ExtResource("1")
-theme_override_colors/font_color = Color(0.454902, 0.545098, 0.458824, 1)
+theme = ExtResource("4_p07p2")
+theme_override_colors/font_color = Color(0.439216, 0.435294, 0.435294, 1)
 text = "Exit"
 
 [node name="Credits" type="VBoxContainer" parent="TitleMenu"]
@@ -83,11 +87,10 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="TitleMenu/Credits"]
 layout_mode = 2
-theme = ExtResource("4")
-theme_override_colors/font_color = Color(0.454902, 0.545098, 0.458824, 1)
-text = "Programming - Dean Bolte
-Sound Track - Joshua Burt
-Sound Design - Morgan Gerlach"
+theme = ExtResource("5_cdhhq")
+theme_override_colors/font_color = Color(0.439216, 0.435294, 0.435294, 1)
+text = "Lead Developer - Dean Bolte
+Audio - Joshua Burt, Morgan Gerlach"
 
 [node name="OptionMenu" type="VBoxContainer" parent="."]
 layout_mode = 0
@@ -97,12 +100,12 @@ offset_left = 10.0
 offset_top = 5.0
 offset_right = -10.0
 offset_bottom = -5.0
-script = ExtResource("7")
+script = ExtResource("6_03w1c")
 
 [node name="Title" type="Label" parent="OptionMenu"]
 layout_mode = 2
-theme = ExtResource("2")
-theme_override_colors/font_color = Color(0.454902, 0.545098, 0.458824, 1)
+theme = ExtResource("3_20d0v")
+theme_override_colors/font_color = Color(0.439216, 0.435294, 0.435294, 1)
 text = "Options"
 
 [node name="Options" type="VBoxContainer" parent="OptionMenu"]
@@ -110,12 +113,12 @@ layout_mode = 2
 
 [node name="VolumeMixer" type="VBoxContainer" parent="OptionMenu/Options"]
 layout_mode = 2
-script = ExtResource("5")
+script = ExtResource("7_pi6yv")
 
 [node name="Title" type="Label" parent="OptionMenu/Options/VolumeMixer"]
 layout_mode = 2
-theme = ExtResource("1")
-theme_override_colors/font_color = Color(0.454902, 0.545098, 0.458824, 1)
+theme = ExtResource("4_p07p2")
+theme_override_colors/font_color = Color(0.439216, 0.435294, 0.435294, 1)
 text = "Audio"
 
 [node name="SFX" type="HBoxContainer" parent="OptionMenu/Options/VolumeMixer"]
@@ -124,14 +127,17 @@ layout_mode = 2
 [node name="Title" type="Label" parent="OptionMenu/Options/VolumeMixer/SFX"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme = ExtResource("1")
-theme_override_colors/font_color = Color(0.454902, 0.545098, 0.458824, 1)
+theme = ExtResource("4_p07p2")
+theme_override_colors/font_color = Color(0.439216, 0.435294, 0.435294, 1)
 text = "SFX"
 
 [node name="SFXSlider" type="HSlider" parent="OptionMenu/Options/VolumeMixer/SFX"]
 clip_contents = true
 custom_minimum_size = Vector2(115, 0)
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme = ExtResource("8_132ix")
 min_value = -30.0
 max_value = 0.0
 value = -10.0
@@ -144,14 +150,16 @@ layout_mode = 2
 [node name="Title" type="Label" parent="OptionMenu/Options/VolumeMixer/Music"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme = ExtResource("1")
-theme_override_colors/font_color = Color(0.454902, 0.545098, 0.458824, 1)
+theme = ExtResource("4_p07p2")
+theme_override_colors/font_color = Color(0.439216, 0.435294, 0.435294, 1)
 text = "Music"
 
 [node name="MusicSlider" type="HSlider" parent="OptionMenu/Options/VolumeMixer/Music"]
 clip_contents = true
 custom_minimum_size = Vector2(115, 0)
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
 min_value = -30.0
 max_value = 0.0
 value = -10.0
@@ -159,14 +167,14 @@ tick_count = 10
 ticks_on_borders = true
 
 [node name="ExitOptions" type="Button" parent="OptionMenu/Options"]
-custom_minimum_size = Vector2(140, 0)
+custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 size_flags_horizontal = 0
-theme = ExtResource("9")
+theme = ExtResource("8_oac8j")
 text = "Back (esc)"
 
 [node name="MainMenuTheme" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("6")
+stream = ExtResource("9_08k12")
 volume_db = -25.0
 autoplay = true
 bus = &"Music"

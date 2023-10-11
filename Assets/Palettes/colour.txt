@@ -1,0 +1,4 @@
+#DBDBDB - Platinum
+#B0B5B3 - Silver
+#706F6F - Dim Gray
+#001011 - Rich Black

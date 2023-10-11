@@ -37,28 +37,32 @@ theme = ExtResource("2_pb5m0")
 text = "Paused"
 
 [node name="ResumeButton" type="Button" parent="CenterContainer/VBoxContainer"]
-custom_minimum_size = Vector2(256, 32)
+custom_minimum_size = Vector2(640, 0)
 layout_mode = 2
+size_flags_stretch_ratio = 0.0
 mouse_filter = 1
 theme = ExtResource("2_pb5m0")
 text = "Resume Game"
 
 [node name="SaveButton" type="Button" parent="CenterContainer/VBoxContainer"]
-custom_minimum_size = Vector2(256, 32)
+custom_minimum_size = Vector2(640, 0)
 layout_mode = 2
+size_flags_stretch_ratio = 0.0
 mouse_filter = 1
 theme = ExtResource("2_pb5m0")
 text = "Save Game"
 
 [node name="MenuButton" type="Button" parent="CenterContainer/VBoxContainer"]
-custom_minimum_size = Vector2(256, 32)
+custom_minimum_size = Vector2(640, 0)
 layout_mode = 2
+size_flags_stretch_ratio = 0.0
 theme = ExtResource("2_pb5m0")
 text = "Quit To Main Menu"
 
 [node name="QuitButton" type="Button" parent="CenterContainer/VBoxContainer"]
-custom_minimum_size = Vector2(256, 32)
+custom_minimum_size = Vector2(640, 0)
 layout_mode = 2
+size_flags_stretch_ratio = 0.0
 mouse_filter = 1
 theme = ExtResource("2_pb5m0")
 text = "Quit To Desktop"

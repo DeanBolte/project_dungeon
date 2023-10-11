@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dli7lempx2dq8"
-path="res://.godot/imported/spikey_edge.png-15a742c8fa12d3f03ae01c4e0839639b.ctex"
+uid="uid://dke346eqnc50s"
+path="res://.godot/imported/spikey_top.png-39ce2710638843bd1c104f5041536196.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Environment/Walls/spikey_edge.png"
-dest_files=["res://.godot/imported/spikey_edge.png-15a742c8fa12d3f03ae01c4e0839639b.ctex"]
+source_file="res://Assets/Environment/Walls/tiles-v1/spikey_top.png"
+dest_files=["res://.godot/imported/spikey_top.png-39ce2710638843bd1c104f5041536196.ctex"]
 
 [params]
 

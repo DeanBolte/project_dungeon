@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dh4n222cohocq"
-path="res://.godot/imported/flower7.png-a6a7adb4f0a88415d9788abd6805c787.ctex"
+uid="uid://d2mk171ewfedu"
+path="res://.godot/imported/platinum_block.png-9e6d8d39e65396aeb55a0f50e8ac6ee5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Environment/Walls/flower7.png"
-dest_files=["res://.godot/imported/flower7.png-a6a7adb4f0a88415d9788abd6805c787.ctex"]
+source_file="res://Assets/Environment/Walls/tiles-v2/platinum_block.png"
+dest_files=["res://.godot/imported/platinum_block.png-9e6d8d39e65396aeb55a0f50e8ac6ee5.ctex"]
 
 [params]
 
