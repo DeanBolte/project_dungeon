@@ -30,6 +30,10 @@ window/size/window_height_override=1080
 window/stretch/mode="viewport"
 window/stretch/scale=2.0
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/FMOD/plugin.cfg")
+
 [fmod]
 
 settings/banks_path="res://Banks"
