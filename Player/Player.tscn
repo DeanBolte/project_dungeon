@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://drfkwup562keq"]
+[gd_scene load_steps=21 format=3 uid="uid://drfkwup562keq"]
 
 [ext_resource type="Texture2D" uid="uid://bfs1un3eutsdy" path="res://Assets/BasicSprites/player.png" id="1"]
 [ext_resource type="Script" path="res://Player/Player.gd" id="2"]
@@ -8,6 +8,8 @@
 [ext_resource type="Texture2D" uid="uid://bdbs8w6bbuq0r" path="res://Assets/BasicSprites/backgroundtile.png" id="6"]
 [ext_resource type="Script" path="res://Player/Camera2D.gd" id="7"]
 [ext_resource type="AudioStream" uid="uid://bae8e4qnk6kcl" path="res://Sound/woosh.wav" id="8"]
+[ext_resource type="BankAsset" uid="uid://csk6h878a8orb" path="res://addons/FMOD/editor/resources/banks/{30148d21-e2b3-402f-a696-5d98569952ce}.tres" id="9_grg7v"]
+[ext_resource type="EventAsset" uid="uid://d07aygbpx144d" path="res://addons/FMOD/editor/resources/events/{07746e34-e9ad-4a22-aa5c-62bdf3dd76d0}.tres" id="10_oppor"]
 
 [sub_resource type="RectangleShape2D" id="3"]
 size = Vector2(30, 30)
@@ -36,7 +38,7 @@ tracks/0/keys = {
 }
 tracks/1/type = "value"
 tracks/1/imported = false
-tracks/1/enabled = true
+tracks/1/enabled = false
 tracks/1/path = NodePath("SFX/Dodge:playing")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
@@ -145,8 +147,10 @@ _data = {
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 2
 script = ExtResource("2")
+Event = ExtResource("10_oppor")
 
 [node name="BodySprite" type="Sprite2D" parent="."]
+modulate = Color(0.501961, 0.403922, 0.0313726, 1)
 texture_filter = 1
 texture = ExtResource("1")
 
@@ -169,6 +173,7 @@ script = ExtResource("7")
 visible = false
 collision_layer = 8
 collision_mask = 32
+monitoring = false
 script = ExtResource("3")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
@@ -182,14 +187,12 @@ autostart = true
 position = Vector2(0, -32)
 collision_layer = 0
 collision_mask = 64
-monitoring = false
 script = ExtResource("5")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PunchBox"]
 shape = SubResource("8")
 
 [node name="MeleeSprite" type="Node2D" parent="PunchBox"]
-visible = false
 
 [node name="Sprite2D3" type="Sprite2D" parent="PunchBox/MeleeSprite"]
 position = Vector2(23, -12)
@@ -234,6 +237,16 @@ bus = &"SFX"
 stream = ExtResource("8")
 volume_db = -5.0
 bus = &"SFX"
+
+[node name="StudioListener2D" type="StudioListener2D" parent="SFX" node_paths=PackedStringArray("rigidbody")]
+rigidbody = NodePath("../..")
+
+[node name="StudioBankLoader" type="StudioBankLoader" parent="SFX"]
+load_on = 1
+unload_on = 3
+preload_sample_data = true
+num_banks = 1
+bank_0 = ExtResource("9_grg7v")
 
 [connection signal="area_entered" from="HurtBox" to="." method="_on_HurtBox_area_entered"]
 [connection signal="timeout" from="HurtBox/Timer" to="HurtBox" method="_on_Timer_timeout"]

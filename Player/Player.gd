@@ -13,6 +13,8 @@ extends CharacterBody2D
 @onready var SFX := $SFX
 @onready var shotgunBlastSFX := $SFX/ShotgunBlast
 
+@export var Event: EventAsset
+
 # preloaded objects
 var StandardShot = preload("res://Weapons/Shotgun/Standard.tscn")
 var SlugShot = preload("res://Weapons/Shotgun/Slug.tscn")
@@ -137,6 +139,7 @@ func calculate_dodge(_delta):
 func calculate_punch(_delta: float):
 	# perform punch
 	if Input.is_action_just_pressed("player_punch") && not reloading:
+		FMODRuntime.play_one_shot(Event, self)
 		punchAnimationPlayer.play("Punch")
 	
 	# aim punch
