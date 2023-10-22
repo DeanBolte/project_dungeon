@@ -1,13 +1,15 @@
 extends CharacterBody2D
 
+signal spell_casted
+
 # accessed member nodes
-@onready var animationPlayer := $StateAnimationPlayer
-@onready var shotgunAnimationPlayer := $ShotgunAnimationPlayer
-@onready var punchAnimationPlayer := $PunchAnimationPlayer
-@onready var hurtBox := $HurtBox
-@onready var shotgunSprite := $ShotgunSprite
-@onready var meleeSprite := $PunchBox/MeleeSprite
-@onready var camera := $Camera2D
+@onready var StateAnimationPlayer := $StateAnimationPlayer
+@onready var ShotgunAnimationPlayer := $ShotgunAnimationPlayer
+@onready var PunchAnimationPlayer := $PunchAnimationPlayer
+@onready var HurtBox := $HurtBox
+@onready var PlayerSprite := $PlayerSprite
+@onready var MeleeSprite := $PunchBox/MeleeSprite
+@onready var Camera := $Camera2D
 
 # sound effects
 @onready var SFX := $SFX
@@ -58,12 +60,12 @@ var loaded_shot_type = AmmoType.STANDARD
 # member variables
 var damage_cooldown = DAMAGE_INVINC_TIME
 
-var aimingNormalVector := Vector2.ZERO
-
 var shootCoolDown = 0
 var dodgeCoolDown = 0
 var reloading = false
 var reload_time: float = 0
+
+var aimingNormalVector := Vector2.ZERO
 
 # built in runtime functions
 func _ready():
@@ -101,16 +103,10 @@ func _physics_process(delta):
 	move_and_slide()
 	velocity = velocity
 
-func aim_shotgun(delta: float):
-	aimingNormalVector = get_global_mouse_position() - global_position
-	aimingNormalVector = aimingNormalVector.normalized()
-	shotgunSprite.position = lerp(shotgunSprite.position, aimingNormalVector * 32, delta * 10)
-	shotgunSprite.rotation = lerp_angle(shotgunSprite.rotation, aimingNormalVector.angle() + PI/2, delta * 10)
-	meleeSprite.rotation = lerp_angle(meleeSprite.rotation, aimingNormalVector.angle() + PI/2, delta * 10)
-
 # take player input and compute velocity
 func calculate_movement(delta):
-	aim_shotgun(delta)
+	aimingNormalVector = get_global_mouse_position() - global_position
+	aimingNormalVector = aimingNormalVector.normalized()
 	
 	# get input from player
 	var hmove = Input.get_action_strength("player_right") - Input.get_action_strength("player_left")
@@ -133,14 +129,14 @@ func calculate_movement(delta):
 
 func calculate_dodge(_delta):
 	velocity = velocity.normalized() * DODGE_VELOCITY
-	hurtBox.start_invincibility(INVINCIBILE_TIME)
-	animationPlayer.play("Dodge", -1, 1/INVINCIBILE_TIME)
+	HurtBox.start_invincibility(INVINCIBILE_TIME)
+	StateAnimationPlayer.play("Dodge", -1, 1/INVINCIBILE_TIME)
 
 func calculate_punch(_delta: float):
 	# perform punch
 	if Input.is_action_just_pressed("player_punch") && not reloading:
 		FMODRuntime.play_one_shot(Event, self)
-		punchAnimationPlayer.play("Punch")
+		PunchAnimationPlayer.play("Punch")
 	
 	# aim punch
 	$PunchBox.position = aimingNormalVector * 32
@@ -148,6 +144,7 @@ func calculate_punch(_delta: float):
 func calculate_shotgun(delta):
 	if not reloading:
 		if Input.is_action_just_pressed("player_shoot") && shootCoolDown <= 0 && PlayerStats.clip > 0:
+			PlayerSprite.on_spell_cast()
 			# shot sfx
 			shotgunBlastSFX.play()
 			
@@ -194,7 +191,7 @@ func reload():
 		# run animations
 		var reload_speed: float = 1/max(reload_time, MINIMUM_RELOAD_TIME)
 		PlayerStats.reload(reload_time, reload_speed)
-		shotgunAnimationPlayer.play("Reload", 0.0, reload_speed)
+		ShotgunAnimationPlayer.play("Reload", 0.0, reload_speed)
 
 func reload_ended():
 	# finalise reload
@@ -215,6 +212,6 @@ func player_death():
 
 func _on_HurtBox_area_entered(area):
 	if damage_cooldown <= 0:
-		camera.moveShakeOffsetVector((global_position - area.global_position) * 4)
+		Camera.moveShakeOffsetVector((global_position - area.global_position) * 4)
 		PlayerStats.decrement_health()
 		damage_cooldown = DAMAGE_INVINC_TIME
