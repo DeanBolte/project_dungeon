@@ -3,6 +3,9 @@ extends VBoxContainer
 @onready var Menu = get_parent()
 @onready var Options = $MenuItems/Options
 
+@export var MoveSelection: EventAsset
+@export var AcceptSelection: EventAsset
+
 enum {
 	CONTINUE,
 	PLAY,
@@ -19,6 +22,7 @@ func _ready():
 func _physics_process(_delta):
 	# Player inputs
 	if Input.is_action_just_pressed("ui_accept"):
+		FMODRuntime.play_one_shot(AcceptSelection, self)
 		select()
 	
 	if Input.is_action_just_pressed("ui_down"):
@@ -34,6 +38,7 @@ func move_selection(value: int):
 		self.selection = max_options
 
 func set_selection(value: int):
+	FMODRuntime.play_one_shot(MoveSelection, self)
 	selection = value
 	update()
 

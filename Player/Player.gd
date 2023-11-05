@@ -15,7 +15,7 @@ signal spell_casted
 @onready var SFX := $SFX
 @onready var shotgunBlastSFX := $SFX/ShotgunBlast
 
-@export var Event: EventAsset
+@export var GunShot: EventAsset
 
 # preloaded objects
 var StandardShot = preload("res://Weapons/Shotgun/Standard.tscn")
@@ -135,7 +135,7 @@ func calculate_dodge(_delta):
 func calculate_punch(_delta: float):
 	# perform punch
 	if Input.is_action_just_pressed("player_punch") && not reloading:
-		FMODRuntime.play_one_shot(Event, self)
+		FMODRuntime.play_one_shot(GunShot, self)
 		PunchAnimationPlayer.play("Punch")
 	
 	# aim punch

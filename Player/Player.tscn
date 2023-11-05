@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://drfkwup562keq"]
+[gd_scene load_steps=23 format=3 uid="uid://drfkwup562keq"]
 
 [ext_resource type="Script" path="res://Player/Player.gd" id="2"]
 [ext_resource type="Script" path="res://Player/HurtBox.gd" id="3"]
@@ -8,7 +8,35 @@
 [ext_resource type="Script" path="res://Player/Camera2D.gd" id="7"]
 [ext_resource type="AudioStream" uid="uid://bae8e4qnk6kcl" path="res://Sound/woosh.wav" id="8"]
 [ext_resource type="BankAsset" uid="uid://csk6h878a8orb" path="res://addons/FMOD/editor/resources/banks/{30148d21-e2b3-402f-a696-5d98569952ce}.tres" id="9_grg7v"]
-[ext_resource type="EventAsset" uid="uid://d07aygbpx144d" path="res://addons/FMOD/editor/resources/events/{07746e34-e9ad-4a22-aa5c-62bdf3dd76d0}.tres" id="10_oppor"]
+
+[sub_resource type="FMOD_STUDIO_PARAMETER_ID" id="FMOD_STUDIO_PARAMETER_ID_cy7hv"]
+data1 = 2245242631
+data2 = 3073418308
+
+[sub_resource type="FMOD_STUDIO_PARAMETER_DESCRIPTION" id="FMOD_STUDIO_PARAMETER_DESCRIPTION_f4vpg"]
+name = "Object Impact"
+id = SubResource("FMOD_STUDIO_PARAMETER_ID_cy7hv")
+maximum = 5.0
+flags = 24
+guid = "{ed861679-36b8-451a-a79f-f78e4721474e}"
+
+[sub_resource type="ParameterAsset" id="ParameterAsset_g4ni0"]
+parameter_description = SubResource("FMOD_STUDIO_PARAMETER_DESCRIPTION_f4vpg")
+labels = ["None", "Wood", "Metal", "Rock", "Plant", "Stone"]
+path = "parameter:/Object Impact"
+guid = "{ed861679-36b8-451a-a79f-f78e4721474e}"
+name = "Object Impact"
+
+[sub_resource type="EventAsset" id="EventAsset_qc3a6"]
+is_oneshot = true
+min_distance = 1.0
+max_distance = 20.0
+parameters = {
+"{ed861679-36b8-451a-a79f-f78e4721474e}": SubResource("ParameterAsset_g4ni0")
+}
+path = "event:/gunshots/gunshot"
+guid = "{48be0502-8dd8-4e35-9a4e-3cd8d4b66426}"
+name = "gunshot"
 
 [sub_resource type="RectangleShape2D" id="3"]
 size = Vector2(30, 30)
@@ -134,7 +162,7 @@ _data = {
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 2
 script = ExtResource("2")
-Event = ExtResource("10_oppor")
+GunShot = SubResource("EventAsset_qc3a6")
 
 [node name="PlayerSprite" parent="." node_paths=PackedStringArray("Player") instance=ExtResource("3_gqmgu")]
 Player = NodePath("..")

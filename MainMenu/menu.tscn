@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bwoipaqx31abc"]
+[gd_scene load_steps=14 format=3 uid="uid://bwoipaqx31abc"]
 
 [ext_resource type="Script" path="res://MainMenu/Menu.gd" id="1_ciayu"]
 [ext_resource type="Script" path="res://MainMenu/TitleMenu.gd" id="2_slic8"]
@@ -10,6 +10,29 @@
 [ext_resource type="Theme" uid="uid://bygfir1ht7nh4" path="res://MainMenu/GUIStyles/SliderMenu.tres" id="8_132ix"]
 [ext_resource type="Theme" uid="uid://dxc3s5sdaxcmc" path="res://MainMenu/GUIStyles/ButtonMenu.tres" id="8_oac8j"]
 [ext_resource type="AudioStream" uid="uid://rk0qu4ev20vt" path="res://Soundtrack/holy moley.wav" id="9_08k12"]
+
+[sub_resource type="EventAsset" id="EventAsset_1xe4g"]
+is_oneshot = true
+min_distance = 1.0
+max_distance = 20.0
+path = "event:/menu/menuMove"
+guid = "{55c7c675-2fc3-4852-bdef-c751f4a96a00}"
+name = "menuMove"
+
+[sub_resource type="EventAsset" id="EventAsset_pa66l"]
+is_oneshot = true
+min_distance = 1.0
+max_distance = 20.0
+path = "event:/menu/menuSelect"
+guid = "{a54a43a5-715a-4cd9-929f-a89b25c9f2fe}"
+name = "menuSelect"
+
+[sub_resource type="BankAsset" id="BankAsset_cik52"]
+file_path = "res://Banks/Desktop/Menu.bank"
+modified_time = 1699149673
+path = "bank:/Menu"
+guid = "{eb19afe0-f69a-41cf-b7da-0874e5b43f52}"
+name = "Menu"
 
 [node name="Menu" type="Control"]
 layout_mode = 3
@@ -40,6 +63,8 @@ offset_top = 5.0
 offset_right = -10.0
 offset_bottom = -5.0
 script = ExtResource("2_slic8")
+MoveSelection = SubResource("EventAsset_1xe4g")
+AcceptSelection = SubResource("EventAsset_pa66l")
 
 [node name="MenuItems" type="VBoxContainer" parent="TitleMenu"]
 layout_mode = 2
@@ -178,6 +203,14 @@ stream = ExtResource("9_08k12")
 volume_db = -25.0
 autoplay = true
 bus = &"Music"
+
+[node name="StudioListener2D" type="StudioListener2D" parent="."]
+
+[node name="StudioBankLoader" type="StudioBankLoader" parent="."]
+load_on = 1
+unload_on = 3
+num_banks = 1
+bank_0 = SubResource("BankAsset_cik52")
 
 [connection signal="mouse_entered" from="TitleMenu/MenuItems/Options/Continue" to="TitleMenu" method="_on_Continue_mouse_entered"]
 [connection signal="mouse_entered" from="TitleMenu/MenuItems/Options/Play" to="TitleMenu" method="_on_Play_mouse_entered"]
